@@ -12,4 +12,4 @@ ryan shultz
 
 - phillip chang
 - damon nitsavong
-- carlos garcia alvarez
+- carlos garcia alavez
