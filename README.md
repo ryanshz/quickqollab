@@ -71,7 +71,7 @@ _Assume you are at the root of the project directory._
    git clone https://github.com/ryanshz/project4
    ```
    ```sh
-   cd project4
+   cd quickqollab
    ```
 2. Install NPM packages.
    ```sh
