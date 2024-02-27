@@ -14,21 +14,21 @@ function Home() {
           </div>
         </div>
       </section>
-      
-      <section className='w-2/3 flex flex-row'>
-        <section className="w-2/3 card bg-base-100 shadow-xl mb-10 ml-24 opacity-90">
+
+      <section className='w-2/3 flex lg:flex-row flex-col'>
+        <section className="lg:w-2/3 w-full card bg-base-100 shadow-xl mb-10 ml-24 opacity-90">
           <div className="card-body flex-1">
             <h2 className="card-title pb-5">want to know more about quickqollab? check our about page!</h2>
             <div className="card-actions">
-              <Link className="btn btn-blcok bg-primary">about us</Link>
+              <Link className="btn btn-block bg-primary">about us</Link>
             </div>
           </div>
         </section>
-        <section className="w-fit card bg-base-100 shadow-xl mb-10 ml-24 opacity-90">
+        <section className="lg:w-fit w-full card bg-base-100 shadow-xl mb-10 ml-24 opacity-90">
           <div className="card-body flex-1">
             <h2 className="card-title pb-5">returning?</h2>
             <div className="card-actions">
-              <Link className="btn btn-blcok bg-primary">go to dashboard</Link>
+              <Link className="btn btn-block bg-primary">dashboard</Link>
             </div>
           </div>
         </section>
