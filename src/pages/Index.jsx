@@ -10,7 +10,7 @@ function Home() {
           <p className="text-2xl pb-10">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           <Link className="link link-hover text-primary">learn more</Link>
           <div className="card-actions justify-left">
-            <Link className="btn btn-ghost bg-primary">sign up</Link>
+            <Link className="btn btn-ghost bg-primary" to='/signup/'>sign up</Link>
           </div>
         </div>
       </section>
@@ -28,7 +28,7 @@ function Home() {
           <div className="card-body flex-1">
             <h2 className="card-title pb-5">returning?</h2>
             <div className="card-actions">
-              <Link className="btn btn-block bg-primary">dashboard</Link>
+              <Link className="btn btn-block bg-primary" to='/dashboard/'>dashboard</Link>
             </div>
           </div>
         </section>

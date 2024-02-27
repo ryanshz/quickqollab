@@ -16,9 +16,9 @@ const Navbar = () => {
 					<div className="drawer-side z-50">
 						<label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
 						<ul className="menu p-10 w-80 min-h-full bg-primary">
-							<li><Link to="/">Profile</Link></li>
-							<li><Link to="/">Customize</Link></li>
-							<li><Link to="/">Settings</Link></li>
+							<li><Link to="/" className='card-title'>Profile</Link></li>
+							<li><Link to="/" className='card-title'>Customize</Link></li>
+							<li><Link to="/" className='card-title'>Settings</Link></li>
 						</ul>
 					</div>
 				</div>
@@ -29,7 +29,7 @@ const Navbar = () => {
 				</Link>
 			</section>
 			<section className="flex-none mr-24">
-				<ul className="menu menu-horizontal ">
+				<ul className="menu menu-horizontal">
 					<li><Link to='/'>about</Link></li>
 					<li><Link to='/canvas/'>canvas</Link></li>
 					<li><Link to='/dashboard/'>dashboard</Link></li>
