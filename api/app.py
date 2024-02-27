@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
+import os 
 from routes import canvas_route as cr, dashboard_route as dr, auth
 from flask_cors import CORS
 import datetime
