@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
 	return (
-		<footer className='footer items-center p-4'>
-			<aside className='items-center grid-flow-col'>
+		<footer className='footer items-center p-4 bg-base-100'>
+			<aside className='items-center grid-flow-col ml-24'>
 				<p>&copy;quickqollab 2024 - All rights reserved</p>
 			</aside>
-			<nav className='grid-flow-col gap-4 md:place-self-center md:justify-self-end'>
+			<nav className='grid-flow-col gap-4 md:place-self-center md:justify-self-end mr-24'>
 				<Link to='/'>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'

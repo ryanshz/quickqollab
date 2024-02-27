@@ -4,16 +4,16 @@ import logo from '../../assets/logo.png';
 
 const Navbar = () => {
 	return (
-		<nav className="navbar">
+		<nav className="navbar bg-base-100">
 			<section className='flex-none'>
 				<div className="drawer">
 					<input id="my-drawer" type="checkbox" className="drawer-toggle" />
 					<div className="drawer-content">
-						<label htmlFor="my-drawer" className="btn btn-primary drawer-button">
+						<label htmlFor="my-drawer" className="btn btn-square btn-primary drawer-button ml-24">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
 						</label>
 					</div>
-					<div className="drawer-side">
+					<div className="drawer-side z-50">
 						<label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
 						<ul className="menu p-4 w-80 min-h-full bg-primary">
 							<li><Link to="/">Profile</Link></li>
@@ -28,8 +28,9 @@ const Navbar = () => {
 					<img src={logo} alt="logo" className="w-48" />
 				</Link>
 			</section>
-			<section className="flex-none">
-				<ul className="menu menu-horizontal px-1">
+			<section className="flex-none mr-24">
+				<ul className="menu menu-horizontal ">
+				<li><Link to='/'>about</Link></li>
 					<li><Link to='/canvas/'>canvas</Link></li>
 					<li><Link to='/dashboard/'>dashboard</Link></li>
 				</ul>
