@@ -71,7 +71,7 @@ _Assume you are at the root of the project directory._
    git clone https://github.com/ryanshz/project4
    ```
    ```sh
-   cd project4
+   cd quickqollab
    ```
 2. Install NPM packages.
    ```sh
@@ -103,6 +103,7 @@ _Assume you are at the root of the project directory._
    ```sh
    npm start
    ```
+   * The project starts using React first. So a new tab will open in the browser with ip `localhost:3000`; not `127:0.0.1:5000`
 
 <!-- LICENSE -->
 ## License
