@@ -16,7 +16,7 @@
 	},
 	"scripts": {
 		"start-react": "react-scripts start",
-		"start-flask": "cd api && flask run",
+		"start-flask": "cd api && flask run --debug",
 		"start": "concurrently \"npm run start-react\" \"npm run start-flask\""
 	},
 	"eslintConfig": {
