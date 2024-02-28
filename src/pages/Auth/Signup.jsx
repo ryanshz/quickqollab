@@ -2,10 +2,10 @@ import React from 'react';
 
 const Signup = () => {
   return (
-    <div className="min-h-screen py-40" style={{ backgroundImage: 'linear-gradient(115deg, #6EE7B7, #3BCB6D)' }}>
+    <div className="min-h-screen py-40" style={{ backgroundImage: 'linear-gradient(115deg, #6EE7B7, #3BCB6D)' }}> //needs to be changed to tailwind from 'style'
       <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
-          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center" style={{ backgroundImage: "url('https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg')" }}>
+          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center" style={{ backgroundImage: "url('https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg')" }}> //needs to be changed to tailwind from 'style'
             <h1 className="text-white text-3xl mb-3">Welcome</h1>
             <div>
               <p className="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean suspendisse aliquam varius rutrum purus maecenas ac <a href="#" className="text-green-500 font-semibold">Learn more</a></p>
@@ -14,7 +14,7 @@ const Signup = () => {
           <div className="w-full lg:w-1/2 py-16 px-12">
             <h2 className="text-3xl mb-4 text-black">Register</h2>
             <p className="mb-4 text-black">
-              Create your account. It’s free and only take a minute
+              Create your account. It's free and only takes a minute.
             </p>
             <form action="#">
               <div className="grid grid-cols-2 gap-5">
