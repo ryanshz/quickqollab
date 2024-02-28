@@ -43,8 +43,8 @@ function Canvas() {
 	};
 
 	return (
-		<main className='flex flex-row items-center justify-center h-screen w-screen p-4 flex-grow'>
-			<div className='h-full w-3/4 flex flex-col items-center justify-start gap-2'>
+		<main className='flex flex-row items-center justify-center h-screen w-screen p-4 flex-grow bg-base-300'>
+			<div className='h-full w-3/4 flex flex-col items-center justify-start gap-2 bg-base-300'>
 				<canvas
 					ref={canvasRef}
 					className='w-5/6 h-5/6 bg-neutral-700 border-2 border-neutral-700 rounded-md'
