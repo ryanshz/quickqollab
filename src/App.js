@@ -8,7 +8,7 @@ import Dashboard from './pages/Dashboard';
 import Footer from './components/ui/Footer';
 import Signup from './pages/Auth/Signup';
 import Profile from './pages/Profile';
-
+import Test from './pages/Test';
 
 function App() {
 	return (
@@ -21,6 +21,7 @@ function App() {
 					<Route path='/dashboard' element={<Dashboard />} />
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/profile' element={<Profile />} />
+					<Route path='/test' element={<Test />} />
 				</Routes>
 				<Footer></Footer>
 			</div>
