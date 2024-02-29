@@ -5,9 +5,8 @@ import os
 from routes import canvas_route as cr, dashboard_route as dr, auth
 from routes.test import test_route as test
 from flask_cors import CORS
-from models.Client import db    
-import datetime
-x = datetime.datetime.now()
+from models.Client import db   
+from models.Chat import socketio 
 
 load_dotenv()
 app = Flask(__name__, template_folder='views')
@@ -26,6 +25,7 @@ app.register_blueprint(test.test_blueprint)
 # Setup
 db.init_app(app)
 CORS(app)
+socketio.init_app(app, cors_allowed_origins="*")
 
-if __name__ == "__main__":
-    app.run()
+if __name__ == '__main__':
+    socketio.run(app, debug=True)
