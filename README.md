@@ -9,7 +9,7 @@
 </div>
 <br>
 
-# [Sprint Details](https://shared-potato-9a8.notion.site/Sprint-1-bfdaf195d5dd491d968609e97acdaf0a?pvs=73)
+# <a href="https://shared-potato-9a8.notion.site/Sprint-1-bfdaf195d5dd491d968609e97acdaf0a?pvs=73" target="_blank">Sprint Details</a>
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
