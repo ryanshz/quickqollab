@@ -71,7 +71,7 @@ _Below are instructions for setting up a local repository, installing requiremen
 _Assume you are at the root of the project directory._
 1. Clone the repository.
    ```sh
-   git clone https://github.com/ryanshz/project4
+   git clone https://github.com/ryanshz/quickqollab
    ```
    ```sh
    cd quickqollab
