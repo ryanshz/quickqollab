@@ -7,8 +7,9 @@
   </a>
   <h3 align="center">Collaborative Online Whiteboard</h3>
 </div>
-
 <br>
+
+# [Sprint Details](https://www.notion.so/Sprint-1-bfdaf195d5dd491d968609e97acdaf0a?pvs=4)
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -30,7 +31,6 @@
     <li><a href="#license">License</a></li>
   </ol>
 </details>
-<br>
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
