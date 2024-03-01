@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  
     
 ![logo](https://github.com/ryanshz/project4/assets/58790036/1e1f5a87-fe43-4cd9-8736-6a3a18d0ec3c)
   </a>
@@ -25,6 +25,7 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#database-installation">Setting up Database</a></li>
       </ul>
     </li>
     <li><a href="#license">License</a></li>
@@ -34,7 +35,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-QuickQollab allows teams to access a simple website and collaborate in an online whiteboard environment. The whiteboard will update in real-time as people write and discuss their ideas.
+QuickQollab allows teams to access a simple website and collaborate in an online whiteboard environment. The whiteboard will update as people write and discuss their ideas in real-time.
 
 ### Built With
 
@@ -57,13 +58,15 @@ To get a local repository running, follow these steps.
 
 ### Prerequisites
 * VSCode (or any relevant IDE)
+* Git-Bash (or any relevant terminal)
 * The latest Python version.
 * Terminal or Command-Line Interface (preferably Git-Bash)
 * The latest NodeJS version.
+* Datagrip (or any relevant Database IDE) 
 
 ### Installation
 
-_Below are instructions for setting up a local repository, installing requirement packages, and first step to running the program._
+_Below are instructions for setting up a local repository, installing requirement packages, and the first step to running the program._
 
 _Assume you are at the root of the project directory._
 1. Clone the repository.
@@ -77,7 +80,7 @@ _Assume you are at the root of the project directory._
    ```sh
    npm install package.json
    ```
-3. Create your virtual environment for flask (Python) and install PIP packages.
+3. Create your virtual environment for Flask (Python) and install PIP packages.
    
    _Create virtual environment_
    ```sh
@@ -105,6 +108,27 @@ _Assume you are at the root of the project directory._
    ```
    * The project starts using React first. So a new tab will open in the browser with ip `localhost:3000`; not `127:0.0.1:5000`
 
+### Database Installation (Required)
+_Below are instructions for setting up a local database, which is required for Flask to operate safely._
+#### 1. Create a temporary project.  <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/58790036/2c983dc8-7091-468a-b25c-4a65061ea749" width="600" height="400">  <br>
+#### 2. Select `PostgreSQL` as your database's source. <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/58790036/4a37667a-71af-4039-ab65-a8a33d28fc61" width="600" height="400">  <br>
+#### 3. Fill in the required information (you should have created a username and password upon installation of Datagrip). <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/58790036/169e11ef-e4a7-4690-abac-bcc6eb1e387b" width="600" height="400">  <br>
+#### 4. Within the project directory `/api`, visit the `schema.sample.sql` and copy everything [CTRL + C or CMD + C] inside.  <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/58790036/97c90da6-077b-4a48-a5a2-31580954a29d" width="600" height="400">  <br>
+#### 5. Insert into the console and click the green play button.  <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/58790036/0e853273-a0b6-462b-8903-c28834510f66" width="600" height="400">  <br>
+#### * Be sure to click this statement here.  <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/58790036/aa803f90-eae7-40c1-b97d-c52db17364b7" width="600" height="400">  <br>
+#### 6. Create a `.env` file using the sample template from `.env.sample`  <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/58790036/8fe3836e-ed79-44af-b592-5adc5c932137" width="600" height="400">  <br>
+
+8. Start the project.
+   ```sh
+   npm start
+   ```
 <!-- LICENSE -->
 ## License
 
