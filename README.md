@@ -124,8 +124,7 @@ _Below are instructions for setting up a local database, which is required for F
 <img src="https://github.com/ryanshz/quickqollab/assets/58790036/aa803f90-eae7-40c1-b97d-c52db17364b7" width="600" height="400">  <br>
 #### 6. Create a `.env` file using the sample template from `.env.sample` within the `/api` directory. <br>
 <img src="https://github.com/ryanshz/quickqollab/assets/58790036/8fe3836e-ed79-44af-b592-5adc5c932137" width="600" height="400">  <br>
-
-8. Start the project.
+#### 7. Start the project.
    ```sh
    npm start
    ```
