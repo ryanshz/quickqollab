@@ -108,7 +108,7 @@ _Assume you are at the root of the project directory._
    ```
    * The project starts using React first. So a new tab will open in the browser with ip `localhost:3000`; not `127:0.0.1:5000`
 
-### Database Installation (Required)
+### Database Installation (Required) <a name="database-installation"></a>
 _Below are instructions for setting up a local database, which is required for Flask to operate safely._
 #### 1. Create a temporary project.  <br>
 <img src="https://github.com/ryanshz/quickqollab/assets/58790036/2c983dc8-7091-468a-b25c-4a65061ea749" width="600" height="400">  <br>
