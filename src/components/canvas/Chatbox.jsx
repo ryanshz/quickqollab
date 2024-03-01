@@ -1,79 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
 
 const Chatbox = () => {
+	const SERVER_URL = 'http://127.0.0.1:5000/';
+	const [socket, setSocket] = useState(null);
+	const [message, setMessage] = useState('');
+	const [chat, setChat] = useState([]); // Listen for chat messages
+	// Connect to Socket.IO server
+	useEffect(() => {
+		const newSocket = io(SERVER_URL);
+		setSocket(newSocket);
+
+		return () => newSocket.close();
+	}, [setSocket]);
+
+	// Listen for chat messages
+	useEffect(() => {
+		if (socket) {
+			socket.on('chat_message', (msg) => {
+				setChat((prevChat) => [...prevChat, msg]);
+			});
+		}
+	}, [socket]);
+
+	// Send a message
+	const sendMessage = (e) => {
+		e.preventDefault();
+		if (socket) {
+			socket.emit('chat_message', message);
+			setMessage('');
+		}
+	};
 	return (
 		<>
 			<div className='h-5/6 w-full flex flex-col p-3 border-2 border-green-800 rounded-md'>
 				<div className='pl-2 pr-2 h-5/6 w-full flex flex-col gap-3 overflow-hidden'>
-					<div className='chat chat-start'>
-						<div className='chat-image avatar'>
-							<div className='w-10 rounded-full'>
-								<img
-									alt='Tailwind CSS chat bubble component'
-									src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwIS19eYgoT9_JzJSC9Ef2SILcF-d4ecQY0g&usqp=CAU'
-								/>
-							</div>
-						</div>
-						<div className='chat-header'>
-							OtakuMike42
-							<time className='text-xs opacity-50'>12:45</time>
-						</div>
-						<div className='chat-bubble'>
-							you're missing the point Rem from Re:Zero is the best waifu she's loyal caring and strong in
-							the face of adversity
-						</div>
-					</div>
-
-					<div className='chat chat-start'>
-						<div className='chat-image avatar'>
-							<div className='w-10 rounded-full'>
-								<img
-									alt='Tailwind CSS chat bubble component'
-									src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwIS19eYgoT9_JzJSC9Ef2SILcF-d4ecQY0g&usqp=CAU'
-								/>
-							</div>
-						</div>
-						<div className='chat-header'>
-							OtakuMike42
-							<time className='text-xs opacity-50'>12:46</time>
-						</div>
-						<div className='chat-bubble'>
-							and her backstory tragic yet it adds so much depth to her character makes her more relatable
-							and lovable
-						</div>
-					</div>
-
-					<div className='chat chat-start'>
-						<div className='chat-image avatar'>
-							<div className='w-10 rounded-full'>
-								<img
-									alt='Tailwind CSS chat bubble component'
-									src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwIS19eYgoT9_JzJSC9Ef2SILcF-d4ecQY0g&usqp=CAU'
-								/>
-							</div>
-						</div>
-						<div className='chat-header'>
-							OtakuMike42
-							<time className='text-xs opacity-50'>12:47</time>
-						</div>
-						<div className='chat-bubble'>anyone with half a brain gets why Rem is the best</div>
-					</div>
-					<div className='chat chat-end'>
-						<div className='chat-image avatar'>
-							<div className='w-10 rounded-full'>
-								<img
-									alt='Tailwind CSS chat bubble component'
-									src='https://pbs.twimg.com/profile_images/1047935929405591557/8-u-t0zD_400x400.jpg'
-								/>
-							</div>
-						</div>
-						<div className='chat-header'>
-							Anakin
-							<time className='text-xs opacity-50'>12:52</time>
-						</div>
-						<div className='chat-bubble'>can you leave me alone</div>
-						<div className='chat-footer opacity-50'>Seen at 12:52</div>
-					</div>
+					<h1>Chat</h1>
+					<ul>
+						{chat.map((msg, index) => (
+							<li key={index}>{msg}</li>
+						))}
+					</ul>
+					<form onSubmit={sendMessage}>
+						<input type='text' value={message} onChange={(e) => setMessage(e.target.value)} />
+						<button type='submit'>Send</button>
+					</form>
 				</div>
 				<div className='divider divider-neutral'>Chat</div>
 				<div className='w-full h-1/5 flex content-end items-center justify-center'>
