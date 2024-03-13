@@ -10,7 +10,7 @@ CREATE TABLE client (
 );
 
 INSERT INTO client (username, email, password_hash, date_created)
-VALUES 
+VALUES
     ('john_doe', 'john@example.com', 'password1', '2024-03-12 00:00:00'),
     ('jane_smith', 'jane@example.com', 'password2', '2024-03-12 00:00:00'),
     ('mark_johnson', 'mark@example.com', 'password3', '2024-03-12 00:00:00');
