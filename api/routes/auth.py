@@ -1,11 +1,16 @@
-from flask import Blueprint, request, render_template, redirect, url_for
-from controllers import auth_controller 
+from flask import Blueprint, request, render_template, redirect, url_for, jsonify
+from controllers import auth_controller
 
 auth_blueprint = Blueprint('auth', __name__)
 
-@auth_blueprint.route('/login')
+@auth_blueprint.route('/login', methods=['POST'])
 def login():
-    return "Login Page"
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    response, status_code = auth_controller.login_user(username, password)
+    return jsonify(response), status_code
+
 
 @auth_blueprint.route('/signup')
 def signup():
