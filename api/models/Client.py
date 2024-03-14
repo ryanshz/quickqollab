@@ -11,10 +11,9 @@ class Client(db.Model):
     email = db.Column(db.String(255), nullable=False, unique=True)
     password_hash = db.Column(db.String(255), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
-
 #
-def save(self, Client):
-    db.session.add(Client)
+def save(self):
+    db.session.add(self)
     db.session.commit()
 
 def get_by_id(id):

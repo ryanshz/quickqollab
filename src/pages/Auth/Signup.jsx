@@ -2,13 +2,13 @@ import React from 'react';
 
 const Signup = () => {
   return (
-    <div className="min-h-screen py-40" style={{ backgroundImage: 'linear-gradient(115deg, #6EE7B7, #3BCB6D)' }}> //needs to be changed to tailwind from 'style'
+    <div className="min-h-screen py-40" style={{ backgroundImage: 'linear-gradient(115deg, #6EE7B7, #3BCB6D)' }}>
       <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
-          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center" style={{ backgroundImage: "url('https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg')" }}> //needs to be changed to tailwind from 'style'
+          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center" style={{ backgroundImage: "url('https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg')" }}>
             <h1 className="text-white text-3xl mb-3">Welcome</h1>
             <div>
-              <p className="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean suspendisse aliquam varius rutrum purus maecenas ac <a href="#" className="text-green-500 font-semibold">Learn more</a></p>
+              <p className="text-white">Random<a href="#" className="text-green-500 font-semibold">Learn more</a></p>
             </div>
           </div>
           <div className="w-full lg:w-1/2 py-16 px-12">
@@ -16,10 +16,9 @@ const Signup = () => {
             <p className="mb-4 text-black">
               Create your account. It's free and only takes a minute.
             </p>
-            <form action="#">
-              <div className="grid grid-cols-2 gap-5">
-                <input type="text" placeholder="Firstname" className="border border-black py-1 px-2" />
-                <input type="text" placeholder="Surname" className="border border-black py-1 px-2" />
+            <form action="http://localhost:3000/signup" method="POST"> 
+              <div className="grid grid-cols-1 gap-5">
+              <input type="text" placeholder="Username" className="border border-black py-1 px-2 w-full" />
               </div>
               <div className="mt-5">
                 <input type="text" placeholder="Email" className="border border-black py-1 px-2 w-full" />
