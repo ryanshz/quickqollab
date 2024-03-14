@@ -3,7 +3,7 @@ from controllers import auth_controller
 
 auth_blueprint = Blueprint('auth', __name__)
 
-@auth_blueprint.route('/login', methods=['POST'])
+@auth_blueprint.post('/login')
 def login():
     data = request.get_json()
     username = data.get('username')
