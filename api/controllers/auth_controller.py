@@ -1,0 +1,18 @@
+from models.Client import Client
+
+def create_user(username, email, password):
+    try:
+        existing_user = Client.query.filter((Client.username == username) | (Client.email == email)).first()
+        if existing_user:
+            return {"warning": "User with this username or email already exists."}, 409 
+        
+        new_user = Client(username=username, email=email)
+        response, status = new_user.save(password)
+        
+        if status == 200:
+            return {"message": "User signed up successfully"}, 200
+        else:
+            return response, status
+    except Exception as e:
+        return {"error": str(e)}, 500
+
