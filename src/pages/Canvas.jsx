@@ -1,11 +1,15 @@
 import React, { useRef, useState } from 'react';
 import Chatbox from '../components/canvas/Chatbox';
-import DesignToolbox from '../components/canvas/DesignToolbox';
+import ColorBox from '../components/canvas/ColorBox';
+import ShapeBox from '../components/canvas/ShapeBox';
 
 function Canvas() {
 	const canvasRef = useRef(null);
 	const [isDrawing, setIsDrawing] = useState(false);
 	const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
+
+	// Set Color
+	const [color, setColor] = useState('#FFFFFF'); //white is default color
 
 	const handleMouseDown = (e) => {
 		setIsDrawing(true);
@@ -27,6 +31,8 @@ function Canvas() {
 	const drawLine = (startX, startY, endX, endY) => {
 		const ctx = canvasRef.current.getContext('2d');
 		ctx.beginPath();
+		// use selected color
+		ctx.strokeStyle = color;
 		ctx.moveTo(startX, startY);
 		ctx.lineTo(endX, endY);
 		ctx.stroke();
@@ -55,7 +61,8 @@ function Canvas() {
 					onMouseUp={handleMouseUp}
 				/>
 				<div className='w-2/6 h-12 flex flex-row gap-4'>
-					<DesignToolbox></DesignToolbox>
+					<ShapeBox></ShapeBox>
+					<ColorBox setColor={setColor}></ColorBox>
 				</div>
 			</div>
 			<div className='h-full w-1/4'>
