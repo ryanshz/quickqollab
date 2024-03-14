@@ -3,9 +3,21 @@ from controllers import auth_controller
 
 auth_blueprint = Blueprint('auth', __name__)
 
-@auth_blueprint.route('/login')
+@auth_blueprint.post('/login')
 def login():
-    return "Login Page"
+    data = request.get_json()
+    if not data:
+        return jsonify({'error': 'Missing data'}), 400
+    
+    username = data.get('username')
+    password = data.get('password')
+    
+    if not username or not password:
+        return jsonify({'error': 'Missing username or password'}), 400
+
+    response, status = auth_controller.login_user(username, password)
+    return jsonify(response), status
+
 
 @auth_blueprint.post('/signup')
 def signup():
