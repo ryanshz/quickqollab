@@ -9,7 +9,11 @@ def login():
 
 @auth_blueprint.route('/signup')
 def signup():
-    return render_template('auth/signup.html')
+    username = request.form['username']
+    password = request.form['password']
+    email = request.form['email']
+    auth_controller.create_user(username,password,email)
+    return jsonify('user signed up sucessfully')
 
 @auth_blueprint.post('/register_user')
 def register_user():
