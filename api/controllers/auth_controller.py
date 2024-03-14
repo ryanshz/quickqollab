@@ -16,4 +16,16 @@ def create_user(username, email, password):
             return response, status
     except Exception as e:
         return {"error": str(e)}, 500
+    
+def login_user(username, password):
+    try:
+        user = Client.query.filter_by(username=username).first()
+        if user and user.check_password(password):
+            return {'message': 'Successful Login!'}, 200
+        else:
+            return {'message': 'Invalid username or password!'}, 401
+    except Exception as e:
+        return {'error': str(e)}, 500
+
+
 
