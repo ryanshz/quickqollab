@@ -5,7 +5,7 @@ from routes import canvas_route as cr, dashboard_route as dr, auth_route as auth
 from routes.test import test_route as test
 from flask_cors import CORS
 from models.Client import db, bcrypt  
-from models.Chat import socketio 
+from models.Socket import socketio 
 
 load_dotenv()
 app = Flask(__name__, template_folder='views')

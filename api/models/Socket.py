@@ -13,3 +13,7 @@ def handle_disconnect():
 @socketio.on('chat_message')
 def handle_chat_message(message):
     emit('chat_message', message, broadcast=True)
+    
+@socketio.on('drawLine')
+def handle_draw_line(data):
+    emit('drawLine', data, broadcast=True)
