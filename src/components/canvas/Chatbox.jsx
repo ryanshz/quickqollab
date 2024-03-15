@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import { socketConfig } from '../../config/site-config';
 
 const Chatbox = () => {
-	const SERVER_URL = 'http://127.0.0.1:5000/';
 	const [socket, setSocket] = useState(null);
 	const [message, setMessage] = useState('');
 	const [chat, setChat] = useState([]); // Listen for chat messages
 	// Connect to Socket.IO server
 	useEffect(() => {
-		const newSocket = io(SERVER_URL);
+		const newSocket = io(socketConfig.socket);
 		setSocket(newSocket);
 
 		return () => newSocket.close();
