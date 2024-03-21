@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, jsonify
+from flask import Blueprint, request, redirect, jsonify, session
 from controllers import auth_controller 
 
 auth_blueprint = Blueprint('auth', __name__)
@@ -18,7 +18,6 @@ def login():
     response, status = auth_controller.login_user(username, password)
     return jsonify(response), status
 
-
 @auth_blueprint.post('/signup')
 def signup():
     data = request.get_json() 
@@ -28,6 +27,14 @@ def signup():
     response, status = auth_controller.create_user(username, email, password)
     return jsonify(response), status
 
-@auth_blueprint.post('/logout')
+@auth_blueprint.get('/logout')
 def logout():
-    return "Logout Page"
+    session.clear()
+    return {'message': 'Logged out'}, 200
+
+@auth_blueprint.get('is-authenticated')
+def is_authenticated():
+    if 'user_id' in session:
+        return {'authenticated': True}, 200
+    else:
+        return {'authenticated': False}, 401
