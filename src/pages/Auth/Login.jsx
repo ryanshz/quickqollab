@@ -6,7 +6,7 @@ import { useAuth } from '../../middleware/AuthContext';
 
 const Login = () => {
 	const navigate = useNavigate();
-	const { setIsAuthenticated } = useAuth();
+	const { login } = useAuth();
 
 	const [formData, setFormData] = useState({
 		username: '',
@@ -31,8 +31,8 @@ const Login = () => {
 
 			const data = await response.json();
 
-			if (response.ok && data.client_id) {
-				setIsAuthenticated(true);
+			if (response.ok) {
+				login(data); // Update global state with user data
 				navigate('/profile');
 			} else {
 				console.error('Login failed:', data.message);
