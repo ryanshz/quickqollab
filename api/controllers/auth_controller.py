@@ -1,5 +1,4 @@
 from models.Client import Client
-from flask import jsonify
 
 def create_user(username, email, password):
     try:
