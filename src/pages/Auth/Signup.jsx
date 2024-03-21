@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../middleware/AuthContext';
 
 const Signup = () => {
 	const navigate = useNavigate();
+	const { setIsAuthenticated } = useAuth();
 
 	const [formData, setFormData] = useState({
 		username: '',
@@ -34,10 +36,11 @@ const Signup = () => {
 
 			const data = await response.json();
 
-			if (response.ok) {
-				navigate('/dashboard');
+			if (response.ok && data.client_id) {
+				setIsAuthenticated(true);
+				navigate('/profile');
 			} else {
-				console.error('Signup failed:', data.message);
+				console.error('Login failed:', data.message);
 			}
 		} catch (error) {
 			console.error('An error occurred:', error);
