@@ -1,9 +1,8 @@
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from datetime import datetime
 from flask_bcrypt import Bcrypt
+from utils.sql_alchemy import db
 
-db = SQLAlchemy()
 bcrypt = Bcrypt()
 
 class Client(db.Model):

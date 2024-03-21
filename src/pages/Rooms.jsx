@@ -18,7 +18,7 @@ function Rooms() {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://127.0.0.1:5000/rooms', {
+            const response = await fetch('http://127.0.0.1:5000/rooms/new', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

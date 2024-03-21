@@ -7,7 +7,7 @@ def create_room(title, description):
             return {"warning": "Room with this title already exists."}, 409
             
         new_room = Room(title=title, description=description)
-        response, status = new_room.create(new_room)
+        response, status = Room.create(new_room)
 
         if status == 200:
             return {"message": "Room created successfully"}, 200
