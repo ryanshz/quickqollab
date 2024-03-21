@@ -7,9 +7,12 @@ from flask_cors import CORS
 from models.Client import bcrypt  
 from models.Socket import socketio 
 from utils.sql_alchemy import db
+from utils.session import g_session
 
 load_dotenv()
 app = Flask(__name__, template_folder='views')
+
+app.secret_key = os.getenv("SECRET_KEY")
 
 # Postgres Local DB
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASS")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/{os.getenv("DB_NAME")}'
@@ -27,6 +30,7 @@ app.register_blueprint(test.test_blueprint)
 # Setup
 db.init_app(app)
 bcrypt.init_app(app)
+
 CORS(app)
 socketio.init_app(app, cors_allowed_origins="*")
 
