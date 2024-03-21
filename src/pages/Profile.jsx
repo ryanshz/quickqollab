@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
 function Profile() {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/profile', {
+        const response = await fetch('http://127.0.0.1:5000/fetch_client_info/profile', {
           method: 'GET',
           headers: {
+          'username': 'YakuzaQATester'
           },
         });
         if (response.ok) {
