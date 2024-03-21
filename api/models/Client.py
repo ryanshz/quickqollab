@@ -26,6 +26,14 @@ class Client(db.Model):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
-
-def get_by_id(id):
-    return Client.query.get(id)
+    def get_by_username(username):
+        client = Client.query.filter_by(username=username).first()
+        if client:
+            return {
+                'client_id': client.client_id,
+                'username': client.username,
+                'email': client.email,
+                'date_created': client.date_created
+            }
+        else:
+            return {'error': 'user not found'}
