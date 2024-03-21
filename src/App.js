@@ -9,6 +9,7 @@ import Footer from './components/ui/Footer';
 import Signup from './pages/Auth/Signup';
 import Profile from './pages/Profile';
 import Test from './pages/Test';
+import Rooms from './pages/Rooms';
 
 function App() {
 	return (
@@ -22,6 +23,7 @@ function App() {
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/profile' element={<Profile />} />
 					<Route path='/test' element={<Test />} />
+					<Route path='/rooms' element={<Rooms />} />
 				</Routes>
 				<Footer></Footer>
 			</div>

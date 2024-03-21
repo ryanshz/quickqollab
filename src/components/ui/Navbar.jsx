@@ -19,6 +19,7 @@ const Navbar = () => {
 							<li><Link to="/" className='card-title'>Profile</Link></li>
 							<li><Link to="/" className='card-title'>Customize</Link></li>
 							<li><Link to="/" className='card-title'>Settings</Link></li>
+							<li><Link to="/rooms" className='card-title'>Rooms</Link></li>
 						</ul>
 					</div>
 				</div>
