@@ -4,6 +4,22 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [user, setUser] = useState(null);
+
+	const login = (userData) => {
+		setIsAuthenticated(true);
+		setUser(userData);
+		// Optionally, you can store user data in sessionStorage/localStorage here
+		// Do this later
+	};
+
+	const logout = () => {
+		setIsAuthenticated(false);
+		setUser(null);
+		// Clear any stored user data from sessionStorage/localStorage here
+		// Do this later
+	};
+
 	useEffect(() => {
 		const fetchAuthStatus = async () => {
 			try {
@@ -17,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 		fetchAuthStatus();
 	}, []);
 
-	return <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>{children}</AuthContext.Provider>;
+	return <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
