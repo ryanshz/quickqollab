@@ -11,8 +11,10 @@ from utils.session import g_session
 
 load_dotenv()
 app = Flask(__name__, template_folder='views')
-
 app.secret_key = os.getenv("SECRET_KEY")
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "None"
 
 # Postgres Local DB
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASS")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/{os.getenv("DB_NAME")}'
