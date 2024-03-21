@@ -16,7 +16,11 @@ def login():
         return jsonify({'error': 'Missing username or password'}), 400
 
     response, status = auth_controller.login_user(username, password)
-    return jsonify(response), status
+    
+    if status == 200:
+        return jsonify(response), status
+    else:
+        return jsonify({'error': response}), status
 
 @auth_blueprint.post('/signup')
 def signup():
