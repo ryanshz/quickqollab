@@ -13,32 +13,63 @@ const Login = () => {
 		password: '',
 	});
 
+	const [errors, setErrors] = useState({
+		username: '',
+		password: '',
+		authentication: '',
+	});
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData({ ...formData, [name]: value });
+		setErrors({ ...errors, [name]: '' });
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			const response = await fetch('http://127.0.0.1:5000/auth/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(formData),
-			});
+		const errorsCopy = { ...errors };
 
-			const data = await response.json();
+		if (!/^[a-zA-Z0-9]+$/.test(formData.username)) {
+			errorsCopy.username = 'Only letters and numbers are allowed';
+		} else {
+			errorsCopy.username = '';
+		}
 
-			if (response.ok) {
-				login(data); // Update global state with user data
-				navigate('/profile');
-			} else {
-				console.error('Login failed:', data.message);
+		// Validation for password
+		if (!/^[a-zA-Z0-9!?$#]+$/.test(formData.password)) {
+			errorsCopy.password = 'Please enter only letters, numbers, and these special characters: !, ?, $, #';
+		} else {
+			errorsCopy.password = '';
+		}
+
+		errorsCopy.authentication= '';
+
+		setErrors(errorsCopy);
+
+		if (Object.values(errorsCopy).every((error) => !error)) {
+			try {
+				const response = await fetch('http://127.0.0.1:5000/auth/login', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(formData),
+				});
+
+				const data = await response.json();
+
+				if (response.ok) {
+					login(data); // Update global state with user data
+					navigate('/profile');
+				} else {
+					if(response.status === 401) {
+						setErrors({...errors, authentication: 'Please enter a valid username or password'});
+					}
+						console.error('Login failed:', data.message);
+				}
+			} catch (error) {
+				console.error('An error occurred:', error);
 			}
-		} catch (error) {
-			console.error('An error occurred:', error);
 		}
 	};
 
@@ -78,12 +109,13 @@ const Login = () => {
 									type='text'
 									id='username'
 									name='username'
-									placeholder='User name'
+									placeholder='Username'
 									value={formData.username}
 									onChange={handleChange}
 									className='mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm'
 									required
 								/>
+								{errors.username && <p className='text-red-500'>{errors.username}</p>}
 							</div>
 
 							<div className='col-span-6 sm:col-span-3'>
@@ -101,6 +133,7 @@ const Login = () => {
 									className='mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm'
 									required
 								/>
+								{errors.password && <p className='text-red-500'>{errors.password}</p>}
 							</div>
 
 							<div className='col-span-6 sm:flex sm:items-center sm:gap-4'>
@@ -109,6 +142,8 @@ const Login = () => {
 									className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500'>
 									Login
 								</button>
+								{errors.authentication && <p className='text-red-500'>{errors.authentication}</p>}
+
 
 								<p className='mt-4 text-sm text-gray-500 sm:mt-0'>
 									Dont have an account?{' '}
