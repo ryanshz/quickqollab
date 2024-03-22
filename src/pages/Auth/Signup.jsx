@@ -12,6 +12,12 @@ const Signup = () => {
 		password: '',
 	});
 
+	const [errors, setErrors] = useState({
+		username: '',
+		email: '',
+		password: '',
+	});
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevFormData) => ({
@@ -22,28 +28,55 @@ const Signup = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		const errorsCopy = { ...errors };
+
 
 		// Additional validation could be added here
+		// Validation for username
+		if (!/^[a-zA-Z0-9]+$/.test(formData.username)) {
+			errorsCopy.username = 'Only letters and numbers are allowed';
+		} else {
+			errorsCopy.username = '';
+		}
 
-		try {
-			const response = await fetch('http://127.0.0.1:5000/auth/signup', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(formData),
-			});
+		// Validation for email
+		if (!/\S+@\S+\.\S+/.test(formData.email)) {
+			errorsCopy.email = 'Please enter a valid email address';
+		} else {
+			errorsCopy.email = '';
+		}
 
-			const data = await response.json();
+		// Validation for password
+		if (!/^[a-zA-Z0-9!?$#]+$/.test(formData.password)) {
+			errorsCopy.password = 'Please enter only letters, numbers, and these special characters: !, ?, $, #';
+		} else {
+			errorsCopy.password = '';
+		}
 
-			if (response.ok) {
-				login(data);
-				navigate('/profile');
-			} else {
-				console.error('Login failed:', data.message);
+		// Update errors state
+		setErrors(errorsCopy);
+
+		if (Object.values(errorsCopy).every((error) => !error)) {
+			try {
+				const response = await fetch('http://127.0.0.1:5000/auth/signup', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(formData),
+				});
+
+				const data = await response.json();
+
+				if (response.ok) {
+					login(data);
+					navigate('/profile');
+				} else {
+					console.error('Login failed:', data.message);
+				}
+			} catch (error) {
+				console.error('An error occurred:', error);
 			}
-		} catch (error) {
-			console.error('An error occurred:', error);
 		}
 	};
 	return (
@@ -80,6 +113,7 @@ const Signup = () => {
 									className='border border-black py-1 px-2 w-full'
 									required // Ensures the user can't submit the form without filling this out
 								/>
+								{errors.username && <p className='text-red-500'>{errors.username}</p>}
 							</div>
 							<div className='mt-5'>
 								<input
@@ -92,6 +126,7 @@ const Signup = () => {
 									required
 								/>
 							</div>
+							{errors.email && <p className='text-red-500'>{errors.email}</p>}
 							<div className='mt-5'>
 								<input
 									type='password'
@@ -102,6 +137,7 @@ const Signup = () => {
 									className='border border-black py-1 px-2 w-full'
 									required
 								/>
+								{errors.password && <p className='text-red-500'>{errors.password}</p>}
 							</div>
 							{/* You mentioned not to worry about the checkbox for now, so it's omitted */}
 							<div className='mt-5'>
