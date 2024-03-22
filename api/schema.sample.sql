@@ -18,3 +18,12 @@ INSERT INTO client (username, email, password_hash) VALUES
 ('HaikuHacker', 'haikuhacker@poetictech.com', 'hashed_password_3'),
 ('SakuraSysadmin', 'sakurasysadmin@itblossoms.com', 'hashed_password_4'),
 ('OtakuEngineer', 'otakuengineer@animeinnovation.com', 'hashed_password_5');
+
+CREATE TABLE IF NOT EXISTS rooms
+(
+    room_id       SERIAL          PRIMARY KEY,
+    title         VARCHAR(100)    NOT NULL,
+    created_by    VARCHAR(36)     NOT NULL,
+    description   TEXT            NOT NULL,
+    date_created  TIMESTAMP       DEFAULT CURRENT_TIMESTAMP
+);
