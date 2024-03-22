@@ -1,8 +1,6 @@
 from utils.sql_alchemy import db
 from datetime import datetime
 
-
-
 class Room(db.Model):
     __tablename__ = 'rooms'
 
