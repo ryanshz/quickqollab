@@ -7,7 +7,7 @@ const InfoBox = () => {
 			<div className='w-fit h-fit'>
 				<Phone></Phone>
 			</div>
-			<div className='w-full h-full flex flex-col justify-center pl-12'>
+			<div className='w-full h-full flex flex-col justify-center pl-12 hover:cursor-default'>
 				<h1 className='text-3xl pb-2'>
 					<span className='font-bold text-7xl text-center'>quickqollab</span> coming to mobile🎉.
 				</h1>
