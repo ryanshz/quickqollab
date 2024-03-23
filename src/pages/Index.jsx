@@ -6,7 +6,7 @@ import CallToAction from '../components/home/CallToAction';
 
 function Home() {
 	return (
-		<main className='flex flex-col flex-grow '>
+		<main className='flex flex-col flex-grow scroll-smooth'>
 			<Hero></Hero>
 			<MeetTheTeam></MeetTheTeam>
 			<FAQ></FAQ>
