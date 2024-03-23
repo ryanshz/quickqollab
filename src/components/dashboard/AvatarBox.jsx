@@ -23,7 +23,7 @@ const AvatarBox = ({ user }) => {
 						</div>
 					</div>
 
-					<div className='flex flex-col gap-1'>
+					<div className='flex flex-col gap-1 hover:cursor-default'>
 						<h1 className='text-4xl font-bold'>
 							Welcome <span className='underline decoration-success'>{user.username}</span>.
 						</h1>
