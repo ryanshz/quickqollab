@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalForm from './room/ModalForm';
+import CreateRoomModalForm from './room/CreateRoomModalForm';
 import { SquarePen } from 'lucide-react';
 
 const CreateRoomBox = () => {
@@ -13,7 +13,7 @@ const CreateRoomBox = () => {
 			</button>
 			<dialog id='create-room-modal' className='modal w-full h-full'>
 				<div className='modal-box'>
-					<ModalForm></ModalForm>
+					<CreateRoomModalForm></CreateRoomModalForm>
 				</div>
 			</dialog>
 		</div>
