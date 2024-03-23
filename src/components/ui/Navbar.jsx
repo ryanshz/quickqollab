@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
-import logoblack from '../../assets/logoblack.png';
 import { useAuth } from '../../middleware/AuthContext';
 
 const Navbar = () => {
@@ -11,30 +10,32 @@ const Navbar = () => {
 			{user ? (
 				<nav className='navbar bg-base-100 xl:pl-44 pl-4 xl:pr-14 pr-4'>
 					<section className='flex-1'>
-						<label className='swap swap-rotate'>
-							<img src={logo} alt='logo' className='w-48 swap-active' />
-							<img src={logoblack} alt='logo' className='w-48 swap-on' />
-						</label>
+						<Link to='/'>
+							<img src={logo} alt='logo' className='w-48' />
+						</Link>
 					</section>
 					<section className='flex-none mr-24'>
-						<ul className='menu menu-horizontal'></ul>
+						<ul className='menu menu-horizontal'>
+							<li>
+								<Link to='/dashboard'>Dashboard</Link>
+							</li>
+						</ul>
 					</section>
 				</nav>
 			) : (
 				<nav className='navbar bg-base-100 xl:pl-44 pl-4 xl:pr-14 pr-4'>
 					<section className='flex-1'>
-						<img src={logo} alt='logo' className='w-48' />
+						<Link to='/'>
+							<img src={logo} alt='logo' className='w-48' />
+						</Link>
 					</section>
 					<section className='flex-none mr-24'>
 						<ul className='menu menu-horizontal'>
 							<li>
-								<Link to='/'>about</Link>
+								<Link to='/login'>Sign in</Link>
 							</li>
 							<li>
-								<Link to='/login'>login</Link>
-							</li>
-							<li>
-								<Link to='/signup'>signup</Link>
+								<Link to='/signup'>Sign up</Link>
 							</li>
 						</ul>
 					</section>
