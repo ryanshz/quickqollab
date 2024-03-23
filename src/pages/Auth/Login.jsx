@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo-black.png';
+
 import { useAuth } from '../../middleware/AuthContext';
 
 const Login = () => {
@@ -33,7 +33,7 @@ const Login = () => {
 
 			if (response.ok) {
 				login(data); // Update global state with user data
-				navigate('/profile');
+				navigate('/dashboard');
 			} else {
 				console.error('Login failed:', data.message);
 			}
@@ -55,9 +55,7 @@ const Login = () => {
 
 				<main className='flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6'>
 					<div className='max-w-xl lg:max-w-3xl'>
-						<Link to='/'>
-							<img src={logo} alt='logo' className='h-8 sm:h-10' />
-						</Link>
+						<Link to='/'></Link>
 
 						<h1 className='mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl'>
 							Login to QuickQollab
