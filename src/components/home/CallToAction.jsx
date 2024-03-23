@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CallToActionConfig } from '../../config/site-config';
+import { useAuth } from '../../middleware/AuthContext';
 
 const CallToAction = () => {
+	const { user } = useAuth();
+	let CTARoute = user ? '/dashboard' : '/signup';
 	return (
 		<div className='w-full h-full'>
 			<div className='mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16 '>
@@ -21,7 +24,7 @@ const CallToAction = () => {
 						<p className='mt-4 text-neutral text-center'>{CallToActionConfig.description}</p>
 
 						<div className='mt-12 text-center'>
-							<Link to='/signup'>
+							<Link to={CTARoute}>
 								<div className='inline-block rounded bg-green-600 px-12 py-3 text-sm font-medium text-primary-content transition hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-400'>
 									Get Started
 								</div>

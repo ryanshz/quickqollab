@@ -3,8 +3,11 @@ import { HeroConfig } from '../../config/site-config';
 import { Link } from 'react-router-dom';
 import Icon from './ui/Icon';
 import { MoveDown } from 'lucide-react';
+import { useAuth } from '../../middleware/AuthContext';
 
 const Hero = () => {
+	const { user } = useAuth();
+	let CTARoute = user ? '/dashboard' : '/signup';
 	return (
 		<div className='w-screen h-screen'>
 			<section className='hover:cursor-default'>
@@ -26,7 +29,7 @@ const Hero = () => {
 						})}
 					</div>
 					<div className='mt-12 text-center'>
-						<Link to='/signup'>
+						<Link to={CTARoute}>
 							<div
 								href='#'
 								className='inline-block rounded bg-green-600 px-12 py-3 text-sm font-medium text-primary-content transition hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-400'>
