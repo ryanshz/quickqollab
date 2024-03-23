@@ -42,7 +42,7 @@ const SettingModalForm = () => {
 			</label>
 
 			<div className='modal-action flex flex-col justify-center'>
-				<form>
+				<form className='flex flex-col gap-4'>
 					<label className='input input-bordered flex items-center gap-2'>
 						<input type='text' className='grow' placeholder='Update name' />
 					</label>
@@ -54,7 +54,9 @@ const SettingModalForm = () => {
 					<label className='input input-bordered flex items-center gap-2'>
 						<input type='text' className='grow' placeholder='Update email' />
 					</label>
-
+					<label>
+						<input type='file' className='file-input file-input-bordered w-full ' />
+					</label>
 					<div className='flex flex-row justify-between'>
 						<button className='btn'>Save</button>
 						<div className='flex flex-row gap-2'>
