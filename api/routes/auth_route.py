@@ -34,7 +34,7 @@ def signup():
 @auth_blueprint.get('/logout')
 def logout():
     session.clear()
-    return {'message': 'Logged out'}, 200
+    return {'authenticated': False}, 200
 
 @auth_blueprint.get('is-authenticated')
 def is_authenticated():
