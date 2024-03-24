@@ -39,7 +39,7 @@ const MeetTheTeam = () => {
 										</div>
 										<div
 											key={`${index}-item`}
-											className='flex items-start gap-4 col-span-1 rounded-2xl border-gray-800 p-8 shadow-xl transition hover:border-green-400/10 hover:shadow-green-400/10 hover:cursor-default'>
+											className='flex items-start gap-4 col-span-1 rounded-2xl border-gray-800 p-8 border shadow-xl transition hover:border-green-400/10 hover:shadow-green-400/10 hover:cursor-default'>
 											<div className='w-2/5'>
 												<img src={item.picture} alt={item.name} className='rounded-2xl' />
 											</div>
@@ -55,7 +55,7 @@ const MeetTheTeam = () => {
 							return (
 								<div
 									key={index}
-									className='flex items-start gap-4 col-span-1 rounded-2xl border-gray-800 p-8 shadow-xl transition hover:border-green-400/10 hover:shadow-green-400/10 hover:cursor-default'>
+									className='flex items-start gap-4 col-span-1 rounded-2xl border border-gray-800 p-8 shadow-xl transition hover:border-green-400/10 hover:shadow-green-400/10 hover:cursor-default'>
 									<div className='w-2/5'>
 										<img src={item.picture} alt={item.name} className='rounded-2xl' />
 									</div>
