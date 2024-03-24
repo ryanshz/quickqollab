@@ -37,7 +37,7 @@ const Hero = () => {
 							</div>
 						</Link>
 					</div>
-					<div className='flex flex-row justify-center text-center pt-24'>
+					<div className='flex flex-row justify-center text-center pt-8'>
 						<MoveDown size={58} />
 					</div>
 				</div>
