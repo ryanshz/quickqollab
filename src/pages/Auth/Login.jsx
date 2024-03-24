@@ -59,8 +59,8 @@ const Login = () => {
 				const data = await response.json();
 
 				if (response.ok) {
-					login(data); // Update global state with user data
-					navigate('/profile');
+					login(data);
+					navigate('/dashboard');
 				} else {
 					if (response.status === 401) {
 						setErrors({ ...errors, authentication: 'Please enter a valid username or password' });

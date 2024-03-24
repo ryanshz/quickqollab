@@ -30,7 +30,6 @@ const Signup = () => {
 		e.preventDefault();
 		const errorsCopy = { ...errors };
 
-
 		// Additional validation could be added here
 		// Validation for username
 		if (!/^[a-zA-Z0-9]+$/.test(formData.username)) {
@@ -70,7 +69,7 @@ const Signup = () => {
 
 				if (response.ok) {
 					login(data);
-					navigate('/profile');
+					navigate('/dashboard');
 				} else {
 					console.error('Login failed:', data.message);
 				}
