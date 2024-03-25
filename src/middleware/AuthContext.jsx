@@ -1,39 +1,38 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	const [user, setUser] = useState(null);
+const useAuthProvider = () => {
+	const [isAuthenticated, setIsAuthenticated] = useState(() => {
+		const storedAuth = localStorage.getItem('isAuthenticated');
+		return storedAuth ? JSON.parse(storedAuth) : false;
+	});
+	const [user, setUser] = useState(() => {
+		const storedUser = localStorage.getItem('user');
+		return storedUser ? JSON.parse(storedUser) : null;
+	});
 
 	const login = (userData) => {
 		setIsAuthenticated(true);
 		setUser(userData);
-		// Optionally, you can store user data in sessionStorage/localStorage here
-		// Do this later
+		localStorage.setItem('isAuthenticated', true);
+		localStorage.setItem('user', JSON.stringify(userData));
 	};
 
 	const logout = () => {
 		setIsAuthenticated(false);
 		setUser(null);
-		// Clear any stored user data from sessionStorage/localStorage here
-		// Do this later
+		localStorage.removeItem('isAuthenticated');
+		localStorage.removeItem('user');
 	};
 
-	useEffect(() => {
-		const fetchAuthStatus = async () => {
-			try {
-				const response = await fetch('http://127.0.0.1:5000/auth/is-authenticated');
-				const data = await response.json();
-				setIsAuthenticated(data.authenticated);
-			} catch (error) {
-				console.error('An error occurred:', error);
-			}
-		};
-		fetchAuthStatus();
-	}, []);
+	return { isAuthenticated, user, login, logout };
+};
 
-	return <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>{children}</AuthContext.Provider>;
+export const AuthProvider = ({ children }) => {
+	const auth = useAuthProvider();
+
+	return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo-black.png';
+
 import { useAuth } from '../../middleware/AuthContext';
 
 const Login = () => {
@@ -42,7 +42,7 @@ const Login = () => {
 			errorsCopy.password = '';
 		}
 
-		errorsCopy.authentication= '';
+		errorsCopy.authentication = '';
 
 		setErrors(errorsCopy);
 
@@ -59,13 +59,13 @@ const Login = () => {
 				const data = await response.json();
 
 				if (response.ok) {
-					login(data); // Update global state with user data
-					navigate('/profile');
+					login(data);
+					navigate('/dashboard');
 				} else {
-					if(response.status === 401) {
-						setErrors({...errors, authentication: 'Please enter a valid username or password'});
+					if (response.status === 401) {
+						setErrors({ ...errors, authentication: 'Please enter a valid username or password' });
 					}
-						console.error('Login failed:', data.message);
+					console.error('Login failed:', data.message);
 				}
 			} catch (error) {
 				console.error('An error occurred:', error);
@@ -86,9 +86,7 @@ const Login = () => {
 
 				<main className='flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6'>
 					<div className='max-w-xl lg:max-w-3xl'>
-						<Link to='/'>
-							<img src={logo} alt='logo' className='h-8 sm:h-10' />
-						</Link>
+						<Link to='/'></Link>
 
 						<h1 className='mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl'>
 							Login to QuickQollab
@@ -143,7 +141,6 @@ const Login = () => {
 									Login
 								</button>
 								{errors.authentication && <p className='text-red-500'>{errors.authentication}</p>}
-
 
 								<p className='mt-4 text-sm text-gray-500 sm:mt-0'>
 									Dont have an account?{' '}
