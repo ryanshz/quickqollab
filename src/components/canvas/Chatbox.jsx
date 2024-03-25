@@ -33,7 +33,7 @@ const Chatbox = () => {
 	};
 	return (
 		<>
-			<div className='h-5/6 w-full flex flex-col p-3 border-2 border-green-800 rounded-md'>
+			<div className='h-5/6 w-full flex flex-col p-3 border-2 border-primary rounded-md'>
 				<div className='pl-2 pr-2 h-5/6 w-full flex flex-col gap-3 overflow-hidden'>
 					<h1>Chat</h1>
 					<ul>
@@ -50,7 +50,7 @@ const Chatbox = () => {
 				<div className='w-full h-1/5 flex content-end items-center justify-center'>
 					<textarea
 						placeholder='Enter message'
-						className='textarea textarea-bordered textarea-success w-full max-w-xs'></textarea>
+						className='textarea textarea-bordered border-primary textarea-success w-full max-w-xs'></textarea>
 				</div>
 			</div>
 		</>

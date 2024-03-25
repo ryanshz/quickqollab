@@ -6,15 +6,16 @@ import Whiteboard from '../components/canvas/Whiteboard';
 
 function Canvas() {
 	const [color, setColor] = useState('#FFFFFF');
+	const [tool, setTool] = useState('pen');
 
 	return (
 		<main className='flex flex-row items-center justify-center h-screen w-screen p-4 flex-grow bg-base-300'>
 			<div className='h-full w-3/4 flex flex-col items-center justify-start gap-2 bg-base-300'>
 				{/* {Whiteboard} */}
-				<Whiteboard setColor={color} />
+				<Whiteboard setColor={color} setTool={tool}/>
 				<div className='w-2/6 h-12 flex flex-row gap-4'>
 					{/* {Tools} */}
-					<ShapeBox />
+					<ShapeBox setTool={setTool}/>
 					{/* {Colors} */}
 					<ColorBox setColor={setColor} />
 				</div>

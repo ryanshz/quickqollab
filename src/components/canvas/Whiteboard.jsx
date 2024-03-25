@@ -4,11 +4,12 @@ import { socketConfig } from '../../config/site-config';
 
 const socket = io(socketConfig.socket);
 
-const Whiteboard = ({ setColor }) => {
+const Whiteboard = ({ setTool, setColor }) => {
 	const canvasRef = useRef(null);
 	const [isDrawing, setIsDrawing] = useState(false);
 	const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
 	const [currentColor, setCurrentColor] = useState('#FFFFFF');
+	const [currentTool, setCurrentTool] = useState('pen');
 
 	useEffect(() => {
 		setCurrentColor(setColor);
@@ -31,7 +32,7 @@ const Whiteboard = ({ setColor }) => {
 	const handleMouseMove = (e) => {
 		if (!isDrawing) return;
 		const { offsetX, offsetY } = getAdjustedMousePos(e);
-		drawLine(lastPosition.x, lastPosition.y, offsetX, offsetY, currentColor);
+		drawLine(lastPosition.x, lastPosition.y, offsetX, offsetY, currentColor, currentTool);
 		setLastPosition({ x: offsetX, y: offsetY });
 		socket.emit('drawLine', {
 			startX: lastPosition.x,
@@ -39,6 +40,7 @@ const Whiteboard = ({ setColor }) => {
 			endX: offsetX,
 			endY: offsetY,
 			color: currentColor,
+			tool: currentTool,
 		});
 	};
 
@@ -46,14 +48,19 @@ const Whiteboard = ({ setColor }) => {
 		setIsDrawing(false);
 	};
 
-	const drawLine = (startX, startY, endX, endY, color) => {
+	const drawLine = (startX, startY, endX, endY, color, tool) => {
 		const ctx = canvasRef.current.getContext('2d');
 		ctx.beginPath();
-		ctx.strokeStyle = color;
+		if(tool === 'eraser') {
+			ctx.strokeStyle = 'black';
+		}else{
+			ctx.strokeStyle = color;
+		}
 		ctx.moveTo(startX, startY);
 		ctx.lineTo(endX, endY);
 		ctx.stroke();
 	};
+	
 
 	const getAdjustedMousePos = (e) => {
 		const rect = canvasRef.current.getBoundingClientRect();
@@ -63,6 +70,43 @@ const Whiteboard = ({ setColor }) => {
 			offsetX: (e.clientX - rect.left + window.scrollX) * scaleX,
 			offsetY: (e.clientY - rect.top + window.scrollY) * scaleY,
 		};
+	};
+
+	//tool stuff
+
+	useEffect(() => {
+		toolSelection(setTool);
+	}, [setTool]);
+
+	const toolSelection = (tool) => {
+		console.log('tool rn:'+currentTool);
+		switch (tool) {
+			case 'pen':
+				setCurrentTool('pen');
+				break;
+			case 'erase':
+				setCurrentTool('eraser');
+				break;
+			case 'clear':
+				const clearWhiteboard = () => {
+					const ctx = canvasRef.current.getContext('2d');
+					ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+				};
+				clearWhiteboard();
+				break;
+			case 'square':
+				// Perform draw square logic
+				break;
+			case 'line':
+				// Perform draw line logic
+				break;
+			case 'circle':
+				// Perform draw circle logic
+				break;
+			default:
+				// Handle unknown tool
+				break;
+		}
 	};
 
 	return (
