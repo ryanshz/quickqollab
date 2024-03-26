@@ -5,7 +5,6 @@ import InfoBox from '../components/dashboard/InfoBox';
 import RoomBox from '../components/dashboard/RoomBox';
 import CreateRoomBox from '../components/dashboard/CreateRoomBox';
 import SettingBox from '../components/dashboard/SettingBox';
-import { useAnimate, stagger } from 'framer-motion';
 
 function Dashboard() {
 	const { user } = useAuth();
