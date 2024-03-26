@@ -19,7 +19,7 @@ INSERT INTO client (username, email, password_hash) VALUES
 ('SakuraSysadmin', 'sakurasysadmin@itblossoms.com', 'hashed_password_4'),
 ('OtakuEngineer', 'otakuengineer@animeinnovation.com', 'hashed_password_5');
 
-CREATE TABLE IF NOT EXISTS rooms
+CREATE TABLE IF NOT EXISTS room
 (
     room_id       SERIAL          PRIMARY KEY,
     title         VARCHAR(100)    NOT NULL,
