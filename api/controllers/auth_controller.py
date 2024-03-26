@@ -1,5 +1,5 @@
 from models.Client import Client
-from flask import jsonify
+from flask import session, jsonify
 
 def create_user(username, email, password):
     try:
@@ -11,7 +11,10 @@ def create_user(username, email, password):
         response, status = new_user.save(password)
         
         if status == 200:
-            return {"message": "User signed up successfully"}, 200
+            response = Client.get_by_username(username)
+            client_id = response['client_id']
+            session['user_id'] = client_id
+            return response, 200
         else:
             return response, status
     except Exception as e:
@@ -20,8 +23,11 @@ def create_user(username, email, password):
 def login_user(username, password):
     try:
         user = Client.query.filter_by(username=username).first()
-        if user and user.check_password(password):
-            return {'message': 'Successful Login!'}, 200
+        if user and user.check_password(password) :
+            response = Client.get_by_username(username)
+            client_id = response['client_id']
+            session['user_id'] = client_id
+            return response, 200
         else:
             return {'message': 'Invalid username or password!'}, 401
     except Exception as e:

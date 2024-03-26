@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
 	return (
-		<footer className='footer items-center p-4 bg-base-100'>
+		<footer className='footer items-center p-4 bg-base-100 '>
 			<aside className='items-center grid-flow-col ml-24'>
 				<p>&copy;quickqollab 2024 - All rights reserved</p>
 			</aside>

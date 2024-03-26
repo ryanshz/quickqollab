@@ -1,8 +1,8 @@
-from models.Client import get_by_id
+from models.Client import Client
 from flask import jsonify, abort
 
-def get_client(id):
-    client = get_by_id(id)
+def get_client(username):
+    client = Client.get_by_username(username)
     if client:
         return jsonify({
             'client_id': client.client_id,

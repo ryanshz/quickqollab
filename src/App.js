@@ -6,28 +6,56 @@ import Canvas from './pages/Canvas';
 import Index from './pages/Index';
 import Dashboard from './pages/Dashboard';
 import Footer from './components/ui/Footer';
+import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
-import Profile from './pages/Profile';
 import Test from './pages/Test';
 import Rooms from './pages/Rooms';
+import { AuthProvider } from './middleware/AuthContext';
+import { ProtectedRoute } from './middleware/ProtectedRoute';
 
 function App() {
 	return (
-		<BrowserRouter>
-			<div className='w-screen h-screen'>
-				<Navbar />
-				<Routes>
-					<Route path='/' element={<Index />} />
-					<Route path='/canvas' element={<Canvas />} />
-					<Route path='/dashboard' element={<Dashboard />} />
-					<Route path='/signup' element={<Signup />} />
-					<Route path='/profile' element={<Profile />} />
-					<Route path='/test' element={<Test />} />
-					<Route path='/rooms' element={<Rooms />} />
-				</Routes>
-				<Footer></Footer>
-			</div>
-		</BrowserRouter>
+		<AuthProvider>
+			<BrowserRouter>
+				<div className='flex flex-col min-h-screen scrollbar-hide'>
+					<Navbar />
+
+					<div className='flex-grow'>
+						<Routes>
+							<Route path='/' element={<Index />} />
+							<Route
+								path='/canvas'
+								element={
+									<ProtectedRoute>
+										<Canvas />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path='/dashboard'
+								element={
+									<ProtectedRoute>
+										<Dashboard />
+									</ProtectedRoute>
+								}
+							/>
+							<Route path='/signup' element={<Signup />} />
+							<Route path='/login' element={<Login />} />
+							<Route path='/test' element={<Test />} />
+							<Route
+								path='/rooms'
+								element={
+									<ProtectedRoute>
+										<Rooms />
+									</ProtectedRoute>
+								}
+							/>
+						</Routes>
+					</div>
+					<Footer />
+				</div>
+			</BrowserRouter>
+		</AuthProvider>
 	);
 }
 
