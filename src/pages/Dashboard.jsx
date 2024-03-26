@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAuth } from '../middleware/AuthContext';
 import AvatarBox from '../components/dashboard/AvatarBox';
 import InfoBox from '../components/dashboard/InfoBox';
