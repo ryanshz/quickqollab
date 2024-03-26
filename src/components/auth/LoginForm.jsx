@@ -85,6 +85,7 @@ const LoginForm = () => {
 				</div>
 
 				<form onSubmit={handleSubmit} className='w-full h-full flex flex-col gap-2'>
+					{errors.authentication && <p className='text-red-500'>{errors.authentication}</p>}
 					<label className='input input-bordered flex items-center gap-2'>
 						<UsersRound />
 						<input

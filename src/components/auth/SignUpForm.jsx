@@ -64,7 +64,10 @@ const SignUpForm = () => {
 					if (response.status === 401) {
 						setErrors({ ...errors, authentication: 'Please enter a valid username or password' });
 					}
-					console.error('Login failed:', data.message);
+					if (response.status === 409) {
+						setErrors({ ...errors, authentication: 'Account with username and email already exists' });
+					}
+					console.error('Signup failed:', data.message);
 				}
 			} catch (error) {
 				console.error('An error occurred:', error);
@@ -90,6 +93,8 @@ const SignUpForm = () => {
 				</div>
 
 				<form onSubmit={handleSubmit} className='w-full h-full flex flex-col gap-4'>
+					{' '}
+					{errors.authentication && <p className='text-red-500'>{errors.authentication}</p>}
 					<label className='input input-bordered flex items-center gap-2'>
 						<UsersRound />
 						<input
@@ -130,7 +135,7 @@ const SignUpForm = () => {
 						/>
 						{errors.password && <p className=''>{errors.password}</p>}
 					</label>
-					<button class='btn btn-outline rounded-xl w-full'>Sign In</button>
+					<button class='btn btn-outline rounded-xl w-full'>Sign Up</button>
 				</form>
 				<div className='pt-1'>
 					<h3 className='font-thin'>
