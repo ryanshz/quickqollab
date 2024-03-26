@@ -65,7 +65,7 @@ const SignUpForm = () => {
 						setErrors({ ...errors, authentication: 'Please enter a valid username or password' });
 					}
 					if (response.status === 409) {
-						setErrors({ ...errors, authentication: 'Account with username and email already exists' });
+						setErrors({ ...errors, authentication: 'Account with username or email already exists' });
 					}
 					console.error('Signup failed:', data.message);
 				}
