@@ -37,3 +37,24 @@ class Client(db.Model):
             }
         else:
             return {'error': 'user not found'}
+        
+    def update_user_info(self, username, password, email):
+        try:
+            if username:
+                self.username = username
+            if email:
+                self.email = email
+            if password:
+                self.password_hash = bcrypt.generate_password_hash(password, 12).decode('utf-8')
+
+            db.session.commit()
+
+            return {
+                'client_id': self.client_id,
+                'username': self.username,
+                'email': self.email,
+                'date_created': self.date_created
+            },200
+        except Exception as e:
+            db.session.rollback()
+            return {"Error:": str(e)}, 500

@@ -33,5 +33,24 @@ def login_user(username, password):
     except Exception as e:
         return {'error': str(e)}, 500
 
+def update_user(username, password, email):
+    try:
+        client_id = session.get('user_id')
+        if not client_id:
+            return {'error': 'User not logged in!'}, 401
+        
+        user = Client.query.get(client_id)
+        if not user:
+            return {'error': 'User not found!'}, 404
+        
+        response, status = user.update_user_info(username, password, email)
 
+        if status == 200:
+            updated_user = Client.get_by_username(username)
+            return updated_user, 200
+        else:
+            return {'error': response}, status
+
+    except Exception as e:
+        return {'error': str(e)}, 500
 

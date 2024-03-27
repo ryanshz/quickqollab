@@ -31,6 +31,23 @@ def signup():
     response, status = auth_controller.create_user(username, email, password)
     return jsonify(response), status
 
+@auth_blueprint.put('/update')
+def update():
+    data = request.get_json()
+    if not data:
+        return jsonify({'error':'Missing data'}), 400
+    
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
+
+    response, status = auth_controller.update_user(username, password, email)
+
+    if status == 200:
+        return jsonify(response), status
+    else:
+        return jsonify({'error': response}), status
+
 @auth_blueprint.get('/logout')
 def logout():
     session.clear()
