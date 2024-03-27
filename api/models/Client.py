@@ -1,11 +1,9 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from flask_bcrypt import Bcrypt
 from utils.sql_alchemy import db
+from utils.bcrypt import bcrypt
 from models.Room import Lobby
-
-bcrypt = Bcrypt()
 
 class Client(db.Model):
     __tablename__ = 'client'
