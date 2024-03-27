@@ -14,6 +14,7 @@ def create_user(username, email, password):
             response = Client.get_by_username(username)
             client_id = response['client_id']
             session['user_id'] = client_id
+            session['username'] = username
             return response, 200
         else:
             return response, status
@@ -27,6 +28,7 @@ def login_user(username, password):
             response = Client.get_by_username(username)
             client_id = response['client_id']
             session['user_id'] = client_id
+            session['username'] = username
             return response, 200
         else:
             return {'message': 'Invalid username or password!'}, 401

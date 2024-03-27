@@ -19,11 +19,23 @@ INSERT INTO client (username, email, password_hash) VALUES
 ('SakuraSysadmin', 'sakurasysadmin@itblossoms.com', 'hashed_password_4'),
 ('OtakuEngineer', 'otakuengineer@animeinnovation.com', 'hashed_password_5');
 
-CREATE TABLE IF NOT EXISTS room
-(
+CREATE TABLE IF NOT EXISTS room (
     room_id       SERIAL          PRIMARY KEY,
     title         VARCHAR(100)    NOT NULL,
     created_by    VARCHAR(36)     NOT NULL,
     description   TEXT            NOT NULL,
+    password      VARCHAR(255),   
+    is_open       BOOLEAN         DEFAULT TRUE, 
     date_created  TIMESTAMP       DEFAULT CURRENT_TIMESTAMP
 );
+
+
+CREATE TABLE IF NOT EXISTS lobby 
+(
+    room_id INT NOT NULL,
+    client_id INT NOT NULL,
+    FOREIGN KEY (room_id) REFERENCES room(room_id),
+    FOREIGN KEY (client_id) REFERENCES client(client_id),
+    PRIMARY KEY (room_id, client_id)
+);
+

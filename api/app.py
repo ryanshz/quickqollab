@@ -26,7 +26,7 @@ app.register_blueprint(cr.canvas_blueprint, url_prefix='/canvas')
 app.register_blueprint(dr.dashboard_blueprint, url_prefix='/dashboard')
 app.register_blueprint(auth.auth_blueprint, url_prefix='/auth')
 app.register_blueprint(pr.profile_blueprint, url_prefix='/fetch_client_info')
-app.register_blueprint(rr.rooms_blueprint, url_prefix='/rooms')
+app.register_blueprint(rr.rooms_blueprint, url_prefix='/room')
 
 # Tests
 app.register_blueprint(test.test_blueprint)

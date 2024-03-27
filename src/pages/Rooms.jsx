@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../middleware/AuthContext';
 
-function Rooms() {
+const CreateRoomModalForm = () => {
+    const navigate = useNavigate();
+    const { user } = useAuth();
     const [formData, setFormData] = useState({
         title: '',
-        description: ''
+        description: '',
+        password: ''
     });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            [name]: value
-        }));
-    };
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://127.0.0.1:5000/rooms/new', {
+            const response = await fetch('http://127.0.0.1:5000/room/new', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -26,59 +24,85 @@ function Rooms() {
                 body: JSON.stringify(formData)
             });
 
-            const data = await response.json();
-
+            const responseData = await response.json();
             if (response.ok) {
-                console.log('Room created successfully');
-                // Reset form data or do other actions upon successful submission
-                setFormData({ title: '', description: '' });
+                navigate('/canvas');
             } else {
-                console.error('Room creation failed:', data.message);
-                // Handle error (e.g., display error message to user)
+                setErrorMessage(responseData.warning || responseData.error || 'Failed to create room.');
             }
         } catch (error) {
-            console.error('Error creating room:', error);
-            // Handle error (e.g., display error message to user)
+            console.error('Network error:', error);
+            setErrorMessage('Network error. Please try again.');
         }
     };
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleExit = (e) => {
+        e.preventDefault();
+        // Handle exit action if needed
+    };
+
     return (
-        <div className="container mx-auto px-4 py-8 flex">
-            <div className="w-1/2 pr-8">
-                <h2 className="text-3xl font-semibold mb-4 text-white">Active Rooms</h2>
-                <div className="grid gap-4">
-                    <div className="bg-gray-800 p-4 rounded-lg cursor-pointer hover:bg-gray-700 transition duration-300">
-                        <h3 className="text-xl font-semibold mb-2 text-white">Room 1</h3>
-                        <p className="text-gray-300">Description of Room 1 goes here...</p>
+        <div>
+            <h3 className='font-bold text-lg'>Create Room</h3>
+            {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
+            <p className='py-4'>Enter the form below to create a public/private room.</p>
+            <div className='modal-action flex flex-col justify-center'>
+                <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+                    <label className='input input-bordered flex items-center gap-2'>
+                        <input
+                            type='text'
+                            name='title'
+                            value={formData.title}
+                            onChange={handleChange}
+                            className='grow'
+                            placeholder='Room name'
+                        />
+                    </label>
+                    <label className='input input-bordered flex items-center gap-2'>
+                        <input
+                            type='text'
+                            name='created_by'
+                            value={user.username}
+                            onChange={handleChange}
+                            className='grow'
+                        />
+                    </label>
+                    <label className='input input-bordered flex items-center gap-2'>
+                        <input
+                            type='text'
+                            name='description'
+                            value={formData.description}
+                            onChange={handleChange}
+                            className='grow'
+                            placeholder='Description'
+                        />
+                    </label>
+                    <label className='input input-bordered flex items-center gap-2'>
+                        <input
+                            type='password'
+                            name='password'
+                            value={formData.password}
+                            onChange={handleChange}
+                            className='grow'
+                            placeholder='Password (optional)'
+                        />
+                    </label>
+                    <div className='flex flex-row justify-between'>
+                        <button className='btn' type='submit'>Create Room</button>
+                        <button className='btn' onClick={handleExit}>Exit</button>
                     </div>
-                    <div className="bg-gray-800 p-4 rounded-lg cursor-pointer hover:bg-gray-700 transition duration-300">
-                        <h3 className="text-xl font-semibold mb-2 text-white">Room 2</h3>
-                        <p className="text-gray-300">Description of Room 2 goes here...</p>
-                    </div>
-                    <div className="bg-gray-800 p-4 rounded-lg cursor-pointer hover:bg-gray-700 transition duration-300">
-                        <h3 className="text-xl font-semibold mb-2 text-white">Room 3</h3>
-                        <p className="text-gray-300">Description of Room 3 goes here...</p>
-                    </div>
-                </div>
-            </div>
-            <div className="w-1/2 pl-8">
-                <h2 className="text-3xl font-semibold mb-4 text-white">Create a Game Room</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label htmlFor="title" className="block text-white font-semibold mb-1">Title:</label>
-                        <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} required className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
-                    </div>
-                    <div>
-                        <label htmlFor="description" className="block text-white font-semibold mb-1">Description:</label>
-                        <textarea id="description" name="description" value={formData.description} onChange={handleChange} required className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" rows="4"></textarea>
-                    </div>
-                    <button type="submit" className="btn btn-ghost bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">
-                        Create Room
-                    </button>
                 </form>
             </div>
         </div>
     );
-}
+};
 
-export default Rooms;
+export default CreateRoomModalForm;
