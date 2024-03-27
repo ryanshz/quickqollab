@@ -1,17 +1,20 @@
-from sqlalchemy import Table, Column, Integer, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.orm import relationship
 from datetime import datetime
 from flask_bcrypt import Bcrypt
 from utils.sql_alchemy import db
+from models.Room import Lobby
 
 bcrypt = Bcrypt()
 
 class Client(db.Model):
     __tablename__ = 'client'
-    client_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(36), nullable=False, unique=True)
-    email = db.Column(db.String(255), nullable=False, unique=True)
-    password_hash = db.Column(db.String(255), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    client_id = Column(Integer, primary_key=True)
+    username = Column(String(36), nullable=False, unique=True)
+    email = Column(String(255), nullable=False, unique=True)
+    password_hash = Column(String(255), nullable=False)
+    date_created = Column(DateTime, default=datetime.utcnow)
+    lobbies = db.relationship('Room', secondary=Lobby, back_populates='clients')
 
     def save(self, password):
         try:

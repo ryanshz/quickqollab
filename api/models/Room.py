@@ -1,15 +1,23 @@
 from utils.sql_alchemy import db
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 from datetime import datetime
 
-
+Lobby = db.Table('lobby',
+    Column('id', Integer, primary_key=True),
+    Column('client_id', Integer, ForeignKey('client.id'), nullable=False),
+    Column('room_id', Integer, ForeignKey('room.id'), nullable=False),
+    Column('join_date', DateTime, default=datetime.utcnow)
+)
 
 class Room(db.Model):
-    __tablename__ = 'rooms'
-
-    room_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    __tablename__ = 'room'
+    room_id = Column(Integer, primary_key=True)
+    title = Column(String(100), nullable=False)
+    password_hash = Column(String(255), nullable=False)
+    date_created = Column(DateTime, default=datetime.utcnow)
+    host_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    clients = db.relationship('Client', secondary=Lobby, back_populate='lobbies')
 
     def create(room):
         try:
