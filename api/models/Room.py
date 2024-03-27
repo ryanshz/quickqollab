@@ -17,7 +17,7 @@ class Room(db.Model):
     password_hash = Column(String(255), nullable=False)
     date_created = Column(DateTime, default=datetime.utcnow)
     host_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    clients = db.relationship('Client', secondary=Lobby, back_populate='lobbies')
+    clients = db.relationship('Client', secondary=Lobby, back_populates='lobbies')
 
     def create(room):
         try:
