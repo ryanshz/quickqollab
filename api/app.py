@@ -4,9 +4,9 @@ import os
 from routes import canvas_route as cr, dashboard_route as dr, auth_route as auth, room_route as rr
 from routes.test import test_route as test
 from flask_cors import CORS
-from models.Client import bcrypt  
 from models.Socket import socketio 
 from utils.sql_alchemy import db
+from utils.bcrypt import bcrypt
 from datetime import timedelta
 
 
