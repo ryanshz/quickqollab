@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS client
 CREATE TABLE IF NOT EXISTS room (
     room_id SERIAL PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255),
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     host_id INTEGER NOT NULL,
     FOREIGN KEY (host_id) REFERENCES client(client_id)
