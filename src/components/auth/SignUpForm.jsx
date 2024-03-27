@@ -10,11 +10,13 @@ const SignUpForm = () => {
 	const [formData, setFormData] = useState({
 		username: '',
 		password: '',
+		email: '',
 	});
 
 	const [errors, setErrors] = useState({
 		username: '',
 		password: '',
+		email: '',
 		authentication: '',
 	});
 
@@ -135,13 +137,13 @@ const SignUpForm = () => {
 						/>
 						{errors.password && <p className=''>{errors.password}</p>}
 					</label>
-					<button class='btn btn-outline rounded-xl w-full'>Sign Up</button>
+					<button className='btn btn-outline rounded-xl w-full'>Sign Up</button>
 				</form>
 				<div className='pt-1'>
 					<h3 className='font-thin'>
 						Have an account?{' '}
 						<span>
-							<Link to='/login' class='link'>
+							<Link to='/login' className='link'>
 								Click here
 							</Link>
 						</span>
