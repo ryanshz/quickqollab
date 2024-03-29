@@ -1,9 +1,12 @@
 from models.Room import Room
+from models.Client import Client
 from flask import session
 
 def create_room(title, password):
-    try:         
-        host_id = session.get('user_id')  
+    try:       
+        host_id = session.get('user_id')      
+        if host_id is None:
+            return {"error": "User not authenticated or invalid session"}, 401  
         check_existing_room = Room.query.filter(Room.title == title).first()
         if check_existing_room:
             return {"warning": "Room already exists with this title name."}, 409 
@@ -11,11 +14,24 @@ def create_room(title, password):
         response, status = new_room.save(password)
 
         if status == 200:
-            return {"message": "Room created successfully"}, 200
+            response = Room.get_by_room_id(response.room_id)
+            client = Client.get_by_client_id(host_id)
+            lobby = new_room.join_room(client)
+            return {"message": "Room created successfully", "response": response, "join_room_status": lobby}, 200
         else:
             return response, 200
     except Exception as e:
         return {"error": str(e)}, 500
+
+# def join_room(room_id, client_id):
+#     try: 
+#         if status == 200:
+#             return {"message": (f'Client {client_id} joined room {room_id}')}, 200
+#         else:
+#             return response, 200
+#     except Exception as e:
+#         return {"error": str(e)}, 500
+    
 
 # def get_room_info(room_id):
 #     try:
