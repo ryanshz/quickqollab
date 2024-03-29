@@ -60,12 +60,12 @@ const SettingModalForm = () => {
 					<div className='flex flex-row justify-between'>
 						<button className='btn'>Save</button>
 						<div className='flex flex-row gap-2'>
-							<form method='dialog'>
-								<button className='btn'>Exit</button>
-							</form>
 							<button className='btn' onClick={handleSubmit}>
 								Logout
 							</button>
+							<form method='dialog'>
+								<button className='btn'>Exit</button>
+							</form>
 						</div>
 					</div>
 				</form>

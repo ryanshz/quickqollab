@@ -2,8 +2,8 @@ import React from 'react';
 
 const ShapeBox = () => {
 	return (
-		<div class='w-1/2 h-full border-2 border-green-800 grid grid-cols-5 items-center rounded-md pl-2 pr-2 bg-neutral-500'>
-			<div class='flex items-center justify-center'>
+		<div className='w-1/2 h-full border-2 border-green-800 grid grid-cols-5 items-center rounded-md pl-2 pr-2 bg-neutral-500'>
+			<div className='flex items-center justify-center'>
 				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512' width='25' height='25'>
 					<path
 						fill='#ffffff'
@@ -11,7 +11,7 @@ const ShapeBox = () => {
 					/>
 				</svg>
 			</div>
-			<div class='flex items-center justify-center'>
+			<div className='flex items-center justify-center'>
 				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512' width='25' height='25'>
 					<path
 						fill='#ffffff'
@@ -19,7 +19,7 @@ const ShapeBox = () => {
 					/>
 				</svg>
 			</div>
-			<div class='flex items-center justify-center'>
+			<div className='flex items-center justify-center'>
 				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' width='25' height='25'>
 					<path
 						fill='#ffffff'
@@ -27,7 +27,7 @@ const ShapeBox = () => {
 					/>
 				</svg>
 			</div>
-			<div class='flex items-center justify-center'>
+			<div className='flex items-center justify-center'>
 				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512' width='25' height='25'>
 					<path
 						fill='#ffffff'
@@ -35,7 +35,7 @@ const ShapeBox = () => {
 					/>
 				</svg>
 			</div>
-			<div class='flex items-center justify-center'>
+			<div className='flex items-center justify-center'>
 				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512 ' width='25' height='25'>
 					<path
 						fill='#ffffff'
