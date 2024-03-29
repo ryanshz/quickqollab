@@ -54,10 +54,6 @@ const SettingModalForm = () => {
 
 		setErrors(errorsCopy);
 
-		const filteredFormData = Object.fromEntries(
-			Object.entries(formData).filter(([_, value]) => value.trim() !== '')
-		);
-
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
 				const response = await fetch('http://127.0.0.1:5000/auth/update', {
@@ -66,8 +62,7 @@ const SettingModalForm = () => {
 						'Content-Type': 'application/json',
 					},
 					credentials: 'include',
-					// body: JSON.stringify(formData),
-					body: JSON.stringify(filteredFormData),
+					body: JSON.stringify(formData),
 				});
 
 				const data = await response.json();
