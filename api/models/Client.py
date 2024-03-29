@@ -1,17 +1,18 @@
-from sqlalchemy import Table, Column, Integer, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.orm import relationship
 from datetime import datetime
-from flask_bcrypt import Bcrypt
 from utils.sql_alchemy import db
-
-bcrypt = Bcrypt()
+from utils.bcrypt import bcrypt
+from models.Room import Lobby
 
 class Client(db.Model):
     __tablename__ = 'client'
-    client_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(36), nullable=False, unique=True)
-    email = db.Column(db.String(255), nullable=False, unique=True)
-    password_hash = db.Column(db.String(255), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    client_id = Column(Integer, primary_key=True)
+    username = Column(String(36), nullable=False, unique=True)
+    email = Column(String(255), nullable=False, unique=True)
+    password_hash = Column(String(255), nullable=False)
+    date_created = Column(DateTime, default=datetime.utcnow)
+    lobbies = db.relationship('Room', secondary=Lobby, back_populates='clients')
 
     def save(self, password):
         try:
@@ -27,6 +28,7 @@ class Client(db.Model):
         return bcrypt.check_password_hash(self.password_hash, password)
 
     def get_by_username(username):
+        # already deserialized
         client = Client.query.filter_by(username=username).first()
         if client:
             return {
@@ -58,3 +60,11 @@ class Client(db.Model):
         except Exception as e:
             db.session.rollback()
             return {"Error:": str(e)}, 500
+        
+    def get_by_client_id(client_id):
+        # returns obj instance
+        client = Client.query.filter_by(client_id=client_id).first()
+        if client:
+            return client
+        else:
+            return {'error': 'user not found'}

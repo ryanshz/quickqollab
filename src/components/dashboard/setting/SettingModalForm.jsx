@@ -12,7 +12,7 @@ const SettingModalForm = () => {
 		username: '',
 		password: '',
 		email: '',
-	}); 
+	});
 
 	const [errors, setErrors] = useState({
 		username: '',
@@ -72,8 +72,8 @@ const SettingModalForm = () => {
 					navigate('/dashboard');
 				} else {
 					if (response.status === 409) {
-					setErrors({ ...errors, authentication: 'Account with username exists' });
-					setErrors({ ...errors, authentication: 'Account with email exists' });
+						setErrors({ ...errors, authentication: 'Account with username exists' });
+						setErrors({ ...errors, authentication: 'Account with email exists' });
 					}
 					console.error('Update failed:', data.message);
 				}
@@ -84,7 +84,7 @@ const SettingModalForm = () => {
 	};
 
 	const handleLogout = async (e) => {
-		e.preventDefault(); 
+		e.preventDefault();
 
 		try {
 			const response = await fetch('http://127.0.0.1:5000/auth/logout', {
@@ -121,29 +121,55 @@ const SettingModalForm = () => {
 				<form className='flex flex-col gap-4' onSubmit={handleSubmit}>
 					{errors.authentication && <p className='text-red-500'>{errors.authentication}</p>}
 					<label className='input input-bordered flex items-center gap-2'>
-						<input type='text' id='username' name='username' className='grow' placeholder='Update username' value={formData.username} onChange={handleChange} /> {errors.username && <p className='text-red-500'>{errors.username}</p>}
+						<input
+							type='text'
+							id='username'
+							name='username'
+							className='grow'
+							placeholder='Update username'
+							value={formData.username}
+							onChange={handleChange}
+						/>{' '}
+						{errors.username && <p className='text-red-500'>{errors.username}</p>}
 					</label>
 
 					<label className='input input-bordered flex items-center gap-2'>
-						<input type='password' id='password' name='password' className='grow' placeholder='Update password' value={formData.password} onChange={handleChange} /> {errors.password && <p className='text-red-500'>{errors.password}</p>}
+						<input
+							type='password'
+							id='password'
+							name='password'
+							className='grow'
+							placeholder='Update password'
+							value={formData.password}
+							onChange={handleChange}
+						/>{' '}
+						{errors.password && <p className='text-red-500'>{errors.password}</p>}
 					</label>
 
 					<label className='input input-bordered flex items-center gap-2'>
-						<input type='text' className='grow' id='email' name='email' placeholder='Update email' value={formData.email} onChange={handleChange} /> {errors.email && <p className='text-red-500'>{errors.email}</p>}
-
+						<input
+							type='text'
+							className='grow'
+							id='email'
+							name='email'
+							placeholder='Update email'
+							value={formData.email}
+							onChange={handleChange}
+						/>{' '}
+						{errors.email && <p className='text-red-500'>{errors.email}</p>}
 					</label>
 					<label>
 						<input type='file' className='file-input file-input-bordered w-full ' />
 					</label>
 					<div className='flex flex-row justify-between'>
-						<button type='submit' className='btn'>Save</button>
-						<div className='flex flex-row gap-2'>	
+						<button className='btn'>Save</button>
+						<div className='flex flex-row gap-2'>
+							<button className='btn' onClick={handleSubmit}>
+								Logout
+							</button>
 							<form method='dialog'>
 								<button className='btn'>Exit</button>
 							</form>
-							<button className='btn' onClick={handleLogout}>
-								Logout
-							</button>
 						</div>
 					</div>
 				</form>

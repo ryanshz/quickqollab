@@ -10,6 +10,7 @@ const SignUpForm = () => {
 	const [formData, setFormData] = useState({
 		username: '',
 		password: '',
+		email: '',
 	});
 
 	const [errors, setErrors] = useState({
@@ -60,6 +61,7 @@ const SignUpForm = () => {
 						'Content-Type': 'application/json',
 					},
 					body: JSON.stringify(formData),
+					credentials: 'include',
 				});
 
 				const data = await response.json();
@@ -142,13 +144,13 @@ const SignUpForm = () => {
 						/>
 						{errors.password && <p className='text-red-500'>{errors.password}</p>}
 					</label>
-					<button class='btn btn-outline rounded-xl w-full'>Sign Up</button>
+					<button className='btn btn-outline rounded-xl w-full'>Sign Up</button>
 				</form>
 				<div className='pt-1'>
 					<h3 className='font-thin'>
 						Have an account?{' '}
 						<span>
-							<Link to='/login' class='link'>
+							<Link to='/login' className='link'>
 								Click here
 							</Link>
 						</span>
