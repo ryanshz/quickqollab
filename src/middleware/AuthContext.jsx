@@ -5,13 +5,13 @@ const AuthContext = createContext();
 const useAuthProvider = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(() => {
 		const storedAuth = localStorage.getItem('isAuthenticated');
-		return storedAuth === 'true'; // Direct string comparison
+		return storedAuth === 'true';
 	});
 
 	const [user, setUser] = useState(() => {
 		const storedUser = localStorage.getItem('user');
 		try {
-			return storedUser ? JSON.parse(storedUser) : null; // Safely parse the user data
+			return storedUser ? JSON.parse(storedUser) : null;
 		} catch (error) {
 			console.error('Parsing error on user', error);
 			return null;
@@ -21,8 +21,8 @@ const useAuthProvider = () => {
 	const login = (userData) => {
 		setIsAuthenticated(true);
 		setUser(userData);
-		localStorage.setItem('isAuthenticated', 'true'); // Store as a string
-		localStorage.setItem('user', JSON.stringify(userData)); // Serialize user data to JSON string
+		localStorage.setItem('isAuthenticated', 'true');
+		localStorage.setItem('user', JSON.stringify(userData));
 	};
 
 	const logout = () => {
