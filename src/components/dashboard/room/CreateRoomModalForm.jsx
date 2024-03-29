@@ -25,7 +25,7 @@ const CreateRoomModalForm = () => {
 			if (response.ok) {
 				const data = await response.json();
 				console.log(data);
-				navigate(`/canvas/${data.response.room_id}`);
+				navigate(`/canvas/${data.response.room_id}`, { state: { roomData: data.response } });
 			} else {
 				console.error('Failed to create room:', response.statusText);
 			}
