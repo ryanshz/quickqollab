@@ -31,22 +31,44 @@ class Room(db.Model):
                 db.session.rollback()
                 return {"Error:": str(e)}, 500
             
-    def join_room(self, client):
+    def join_room(self, client, password):
         try:
             if not client:
                 return {'error': 'Client not found'}, 404
             if client in self.clients:
                 return {'error': 'Client already in the room'}, 409
+            if self.password_hash:
+                if not bcrypt.check_password_hash(self.password_hash, password):
+                    return {'error': 'Incorrect password'}, 403
             self.clients.append(client)
             db.session.commit()
-            return {"message": "Client added to lobby successfully"}, 200
+            return {"Client added to lobby successfully"}, 200
         except Exception as e:
             db.session.rollback()
             return {"Error:": str(e)}, 500
-            
-            
-    def check_password(self, password):
-        return bcrypt.check_password_hash(self.password_hash, password)
+        
+    def leave_room(self, client):
+        try:
+            if client not in self.client:
+                return {'Client not in room'}, 200
+            self.clients.remove(client)
+            db.session.commit()
+            return {'Client left the room successfully'}, 200
+        except Exception as e:
+            db.session.rollback()
+            return {"Error:": str(e)}, 500
+        
+    def delete_room(self):
+        try:
+            if len(self.clients) < 1:
+                db.session.delete(self)
+                db.session.commit()
+                return {'Room deleted successfully'}, 200
+            else:
+                return {'Room is not empty'}, 200
+        except Exception as e:
+            db.session.rollback()
+            return {"Error:": str(e)}, 500
 
     def get_by_room_id(room_id):
         room = Room.query.filter_by(room_id=room_id).first()
