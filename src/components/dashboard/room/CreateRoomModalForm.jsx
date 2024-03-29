@@ -18,11 +18,14 @@ const CreateRoomModalForm = () => {
 				headers: {
 					'Content-Type': 'application/json',
 				},
+				credentials: 'include',
 				body: JSON.stringify(formData),
 			});
 
 			if (response.ok) {
-				navigate('/canvas');
+				const data = await response.json();
+				console.log(data);
+				navigate(`/canvas/${data.response.room_id}`);
 			} else {
 				console.error('Failed to create room:', response.statusText);
 			}
