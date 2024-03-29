@@ -42,29 +42,22 @@ def update_user(username, password, email):
         user = Client.query.get(client_id)
         if not user:
             return {'error': 'User not found!'}, 404
-        
-        '''
-        if username:
-            existing_user = Client.query.filter_by(username=username).first()
-            if existing_user and existing_user.id != client_id:
-                return {'error': 'Username already in use'}, 400
-            user.username = username
-        
-        if email:
-            existing_email = Client.query.filter_by(email=email).first()
-            if existing_email and existing_email.id != client_id:
-                return {'error': 'Email already in use'}, 400
-            user.email = email
-        '''
 
-        if Client.query.filter((Client.username == username) | (Client.email == email)).first():
-            return {'error': 'Username, or email already in use'}, 409
+        existing_user = Client.query.filter(((Client.username == username) | (Client.email == email)) & (Client.client_id != client_id)).first()
+        if existing_user:
+            return {'error': 'Username or email already in use'}, 409
 
         response, status = user.update_user_info(username, password, email)
 
         if status == 200:
-            updated_user = Client.get_by_username(username)
-            return updated_user, 200
+            if response is not None:
+                updated_user = Client.get_by_client_id(response['client_id'])
+                if updated_user is not None:
+                    return updated_user.to_dict(), 200
+                else:
+                    return {"error": "Account not updated"}, 200
+            else:
+                return {"error": "No updates were applied."}, 409
         else:
             return {'error': response}, status
 
