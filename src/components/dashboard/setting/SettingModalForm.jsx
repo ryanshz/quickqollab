@@ -29,63 +29,39 @@ const SettingModalForm = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const errorsCopy = { ...errors };
 
-		if (!/^[a-zA-Z0-9]+$/.test(formData.username)) {
-			errorsCopy.username = 'Only letters and numbers are allowed';
-		} else {
-			errorsCopy.username = '';
-		}
+		try {
+			const response = await fetch('http://127.0.0.1:5000/auth/update', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				credentials: 'include',
+				body: JSON.stringify(formData),
+			});
 
-		// Validation for password
-		if (!/^[a-zA-Z0-9!?$#]+$/.test(formData.password)) {
-			errorsCopy.password = 'Please enter only letters, numbers, and these special characters: !, ?, $, #';
-		} else {
-			errorsCopy.password = '';
-		}
+			const data = await response.json();
 
-		if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-			errorsCopy.email = 'Please enter a valid email address';
-		} else {
-			errorsCopy.email = '';
-		}
-
-		errorsCopy.authentication = '';
-
-		setErrors(errorsCopy);
-
-		if (Object.values(errorsCopy).every((error) => !error)) {
-			try {
-				const response = await fetch('http://127.0.0.1:5000/auth/update', {
-					method: 'PUT',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					credentials: 'include',
-					body: JSON.stringify(formData),
-				});
-
-				const data = await response.json();
-
-				if (response.ok) {
-					login(data);
-					navigate('/dashboard');
+			if (response.ok) {
+				login(data);
+				document.getElementById('create-setting-modal').close();
+				setFormData({ username: '', password: '', email: '' });
+			} else {
+				if (response.status === 409) {
+					setErrors({ ...errors, authentication: 'Account with this username or email already exists.' });
 				} else {
-					if (response.status === 409) {
-						setErrors({ ...errors, authentication: 'Account with username exists' });
-						setErrors({ ...errors, authentication: 'Account with email exists' });
-					}
-					console.error('Update failed:', data.message);
+					setErrors({ ...errors, authentication: data.message || 'An unexpected error occurred.' });
 				}
-			} catch (error) {
-				console.error('An error occured: ', error);
 			}
+		} catch (error) {
+			console.error('An error occurred:', error);
+			setErrors({ ...errors, authentication: 'Failed to connect to the server.' });
 		}
 	};
 
+	// {Handle logout DO NOT TOUCH}
 	const handleLogout = async (e) => {
 		e.preventDefault();
-
 		try {
 			const response = await fetch('http://127.0.0.1:5000/auth/logout', {
 				method: 'GET',
@@ -110,15 +86,13 @@ const SettingModalForm = () => {
 	return (
 		<div>
 			<h3 className='font-bold text-lg pb-2'>Settings</h3>
-
 			<label className='swap swap-rotate'>
 				<input type='checkbox' className='theme-controller' value='corporate' />
 				<Moon className='swap-off w-10 h-10' />
 				<Sun className='swap-on w-10 h-10' color='#ff8040' />
 			</label>
-
 			<div className='modal-action flex flex-col justify-center'>
-				<form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+				<form className='flex flex-col gap-4' method='dialog' onSubmit={handleSubmit}>
 					{errors.authentication && <p className='text-red-500'>{errors.authentication}</p>}
 					<label className='input input-bordered flex items-center gap-2'>
 						<input
@@ -127,9 +101,8 @@ const SettingModalForm = () => {
 							name='username'
 							className='grow'
 							placeholder='Update username'
-							value={formData.username}
 							onChange={handleChange}
-						/>{' '}
+						/>
 						{errors.username && <p className='text-red-500'>{errors.username}</p>}
 					</label>
 
@@ -140,9 +113,8 @@ const SettingModalForm = () => {
 							name='password'
 							className='grow'
 							placeholder='Update password'
-							value={formData.password}
 							onChange={handleChange}
-						/>{' '}
+						/>
 						{errors.password && <p className='text-red-500'>{errors.password}</p>}
 					</label>
 
@@ -153,9 +125,8 @@ const SettingModalForm = () => {
 							id='email'
 							name='email'
 							placeholder='Update email'
-							value={formData.email}
 							onChange={handleChange}
-						/>{' '}
+						/>
 						{errors.email && <p className='text-red-500'>{errors.email}</p>}
 					</label>
 					<label>
@@ -164,7 +135,7 @@ const SettingModalForm = () => {
 					<div className='flex flex-row justify-between'>
 						<button className='btn'>Save</button>
 						<div className='flex flex-row gap-2'>
-							<button className='btn' onClick={handleSubmit}>
+							<button className='btn' onClick={handleLogout}>
 								Logout
 							</button>
 							<form method='dialog'>
