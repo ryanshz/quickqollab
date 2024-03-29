@@ -52,6 +52,7 @@ const LoginForm = () => {
 					headers: {
 						'Content-Type': 'application/json',
 					},
+					credentials:'include',
 					body: JSON.stringify(formData),
 				});
 
@@ -107,11 +108,12 @@ const LoginForm = () => {
 							id='password'
 							name='password'
 							placeholder='Password'
+							value={formData.password}
 							onChange={handleChange}
 							className='w-full'
 							required
 						/>
-						{errors.password && <p className=''>{errors.password}</p>}
+						{errors.password && <p className='text-red-500'>{errors.password}</p>}
 					</label>
 					<button class='btn btn-outline rounded-xl w-full'>Sign In</button>
 				</form>

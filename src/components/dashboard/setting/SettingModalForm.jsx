@@ -14,38 +14,77 @@ const SettingModalForm = () => {
 		email: '',
 	}); 
 
-	/** 
-	const [userName, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
-	*/
+	const [errors, setErrors] = useState({
+		username: '',
+		password: '',
+		email: '',
+		authentication: '',
+	});
 
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData({ ...formData, [name]: value });
+		setErrors({ ...errors, [name]: '' });
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		const errorsCopy = { ...errors };
 
-		try {
-			const response = await fetch('http://127.0.0.1:5000/auth/update', {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(formData),
-			});
+		if (!/^[a-zA-Z0-9]+$/.test(formData.username)) {
+			errorsCopy.username = 'Only letters and numbers are allowed';
+		} else {
+			errorsCopy.username = '';
+		}
 
-			const data = await response.json();
+		// Validation for password
+		if (!/^[a-zA-Z0-9!?$#]+$/.test(formData.password)) {
+			errorsCopy.password = 'Please enter only letters, numbers, and these special characters: !, ?, $, #';
+		} else {
+			errorsCopy.password = '';
+		}
 
-			if (response.ok) {
-				if (data && data.username && data.email) {
-                login(data);
+		if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+			errorsCopy.email = 'Please enter a valid email address';
+		} else {
+			errorsCopy.email = '';
+		}
+
+		errorsCopy.authentication = '';
+
+		setErrors(errorsCopy);
+
+		const filteredFormData = Object.fromEntries(
+			Object.entries(formData).filter(([_, value]) => value.trim() !== '')
+		);
+
+		if (Object.values(errorsCopy).every((error) => !error)) {
+			try {
+				const response = await fetch('http://127.0.0.1:5000/auth/update', {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					credentials: 'include',
+					// body: JSON.stringify(formData),
+					body: JSON.stringify(filteredFormData),
+				});
+
+				const data = await response.json();
+
+				if (response.ok) {
+					login(data);
+					navigate('/dashboard');
+				} else {
+					if (response.status === 409) {
+					setErrors({ ...errors, authentication: 'Account with username exists' });
+					setErrors({ ...errors, authentication: 'Account with email exists' });
+					}
+					console.error('Update failed:', data.message);
 				}
-				navigate('/dashboard');
-			} else {
-				console.error('Update failed:', data.message);
+			} catch (error) {
+				console.error('An error occured: ', error);
 			}
-
-		} catch(error) {
-			console.error('An error occured: ', error);
 		}
 	};
 
@@ -85,23 +124,25 @@ const SettingModalForm = () => {
 
 			<div className='modal-action flex flex-col justify-center'>
 				<form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+					{errors.authentication && <p className='text-red-500'>{errors.authentication}</p>}
 					<label className='input input-bordered flex items-center gap-2'>
-						<input type='text' className='grow' placeholder='Update username' value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} />
+						<input type='text' id='username' name='username' className='grow' placeholder='Update username' value={formData.username} onChange={handleChange} /> {errors.username && <p className='text-red-500'>{errors.username}</p>}
 					</label>
 
 					<label className='input input-bordered flex items-center gap-2'>
-						<input type='text' className='grow' placeholder='Update password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
+						<input type='password' id='password' name='password' className='grow' placeholder='Update password' value={formData.password} onChange={handleChange} /> {errors.password && <p className='text-red-500'>{errors.password}</p>}
 					</label>
 
 					<label className='input input-bordered flex items-center gap-2'>
-						<input type='text' className='grow' placeholder='Update email' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+						<input type='text' className='grow' id='email' name='email' placeholder='Update email' value={formData.email} onChange={handleChange} /> {errors.email && <p className='text-red-500'>{errors.email}</p>}
+
 					</label>
 					<label>
 						<input type='file' className='file-input file-input-bordered w-full ' />
 					</label>
 					<div className='flex flex-row justify-between'>
 						<button type='submit' className='btn'>Save</button>
-						<div className='flex flex-row gap-2'>
+						<div className='flex flex-row gap-2'>	
 							<form method='dialog'>
 								<button className='btn'>Exit</button>
 							</form>

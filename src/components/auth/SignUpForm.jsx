@@ -15,6 +15,7 @@ const SignUpForm = () => {
 	const [errors, setErrors] = useState({
 		username: '',
 		password: '',
+		email: '',
 		authentication: '',
 	});
 
@@ -39,6 +40,12 @@ const SignUpForm = () => {
 			errorsCopy.password = 'Please enter only letters, numbers, and these special characters: !, ?, $, #';
 		} else {
 			errorsCopy.password = '';
+		}
+
+		if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+			errorsCopy.email = 'Please enter a valid email address';
+		} else {
+			errorsCopy.email = '';
 		}
 
 		errorsCopy.authentication = '';
@@ -120,8 +127,8 @@ const SignUpForm = () => {
 							className='w-full'
 							required
 						/>
-						{errors.email && <p className='text-red-500'>{errors.email}</p>}
 					</label>
+					{errors.email && <p className='text-red-500'>{errors.email}</p>}
 					<label className='input input-bordered flex items-center gap-2'>
 						<ArrowUpAZ />
 						<input
@@ -133,7 +140,7 @@ const SignUpForm = () => {
 							className='w-full'
 							required
 						/>
-						{errors.password && <p className=''>{errors.password}</p>}
+						{errors.password && <p className='text-red-500'>{errors.password}</p>}
 					</label>
 					<button class='btn btn-outline rounded-xl w-full'>Sign Up</button>
 				</form>

@@ -43,6 +43,23 @@ def update_user(username, password, email):
         if not user:
             return {'error': 'User not found!'}, 404
         
+        '''
+        if username:
+            existing_user = Client.query.filter_by(username=username).first()
+            if existing_user and existing_user.id != client_id:
+                return {'error': 'Username already in use'}, 400
+            user.username = username
+        
+        if email:
+            existing_email = Client.query.filter_by(email=email).first()
+            if existing_email and existing_email.id != client_id:
+                return {'error': 'Email already in use'}, 400
+            user.email = email
+        '''
+
+        if Client.query.filter((Client.username == username) | (Client.email == email)).first():
+            return {'error': 'Username, or email already in use'}, 409
+
         response, status = user.update_user_info(username, password, email)
 
         if status == 200:
