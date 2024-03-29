@@ -31,8 +31,31 @@ class Room(db.Model):
                 db.session.rollback()
                 return {"Error:": str(e)}, 500
             
+    def join_room(self, client):
+        try:
+            if not client:
+                return {'error': 'Client not found'}, 404
+            if client in self.clients:
+                return {'error': 'Client already in the room'}, 409
+            self.clients.append(client)
+            db.session.commit()
+            return {"message": "Client added to lobby successfully"}, 200
+        except Exception as e:
+            db.session.rollback()
+            return {"Error:": str(e)}, 500
+            
+            
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
-def get_by_id(id):
-    return Room.query.get(id)
+    def get_by_room_id(room_id):
+        room = Room.query.filter_by(room_id=room_id).first()
+        if room:
+            return {
+                'room_id': room.room_id,
+                'title': room.title,
+                'date_created': room.date_created,
+                'host_id': room.host_id, # client_id of host
+            }
+        else:
+            return {'error': 'room not found'}
