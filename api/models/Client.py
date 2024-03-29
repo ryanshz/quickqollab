@@ -40,10 +40,42 @@ class Client(db.Model):
         else:
             return {'error': 'user not found'}
         
+    def update_user_info(self, username, password, email):
+        try:
+            updated_fields = {}
+            if username and username != self.username:
+                self.username = username
+                updated_fields['username'] = username
+            if email and email != self.email:
+                self.email = email
+                updated_fields['email'] = email
+            if password:
+                new_password_hash = bcrypt.generate_password_hash(password, 12).decode('utf-8')
+                if new_password_hash != self.password_hash:
+                    self.password_hash = new_password_hash
+                    updated_fields['password'] = '********'
+            
+            if updated_fields:
+                db.session.commit()
+                return {'client_id': self.client_id, 'updated': updated_fields},200
+            else:
+                return None, 200
+        except Exception as e:
+            db.session.rollback()
+            return {"Error:": str(e)}, 500
+        
     def get_by_client_id(client_id):
         # returns obj instance
         client = Client.query.filter_by(client_id=client_id).first()
         if client:
             return client
         else:
-            return {'error': 'user not found'}
+            return None
+
+    def to_dict(self):
+        return {
+            'client_id': self.client_id,
+            'username': self.username,
+            'email': self.email,
+            'date_created': self.date_created
+        }

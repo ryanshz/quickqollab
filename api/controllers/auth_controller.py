@@ -33,5 +33,34 @@ def login_user(username, password):
     except Exception as e:
         return {'error': str(e)}, 500
 
+def update_user(username, password, email):
+    try:
+        client_id = session.get('user_id')
+        if not client_id:
+            return {'error': 'User not logged in!'}, 401
+        
+        user = Client.query.get(client_id)
+        if not user:
+            return {'error': 'User not found!'}, 404
 
+        existing_user = Client.query.filter(((Client.username == username) | (Client.email == email)) & (Client.client_id != client_id)).first()
+        if existing_user:
+            return {'error': 'Username or email already in use'}, 409
+
+        response, status = user.update_user_info(username, password, email)
+
+        if status == 200:
+            if response is not None:
+                updated_user = Client.get_by_client_id(response['client_id'])
+                if updated_user is not None:
+                    return updated_user.to_dict(), 200
+                else:
+                    return {"error": "Account not updated"}, 200
+            else:
+                return {"error": "No updates were applied."}, 409
+        else:
+            return {'error': response}, status
+
+    except Exception as e:
+        return {'error': str(e)}, 500
 
