@@ -28,6 +28,7 @@ class Client(db.Model):
         return bcrypt.check_password_hash(self.password_hash, password)
 
     def get_by_username(username):
+        # already deserialized
         client = Client.query.filter_by(username=username).first()
         if client:
             return {
@@ -36,5 +37,13 @@ class Client(db.Model):
                 'email': client.email,
                 'date_created': client.date_created
             }
+        else:
+            return {'error': 'user not found'}
+        
+    def get_by_client_id(client_id):
+        # returns obj instance
+        client = Client.query.filter_by(client_id=client_id).first()
+        if client:
+            return client
         else:
             return {'error': 'user not found'}
