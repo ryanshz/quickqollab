@@ -1,9 +1,9 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify
 from controllers import room_controller
 
 rooms_blueprint = Blueprint('room', __name__)
 
-@rooms_blueprint.post('new')
+@rooms_blueprint.post('/new')
 def create_room():
     data = request.get_json()
     if not data:
@@ -18,6 +18,11 @@ def create_room():
         return jsonify(response), status
     else:
         return jsonify({'error': response}), status
+    
+@rooms_blueprint.post('/join')
+def join_room():
+    data = request.json()
+    return 'message'
 
 # @rooms_blueprint.route('/<int:room_id>', methods=['GET'])
 # def get_room(room_id):
