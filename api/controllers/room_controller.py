@@ -23,14 +23,22 @@ def create_room(title, password):
     except Exception as e:
         return {"error": str(e)}, 500
 
-# def join_room(room_id, client_id):
-#     try: 
-#         if status == 200:
-#             return {"message": (f'Client {client_id} joined room {room_id}')}, 200
-#         else:
-#             return response, 200
-#     except Exception as e:
-#         return {"error": str(e)}, 500
+def join_room(room_id, password):
+    try:
+        host_id = session.get('user_id')      
+        if host_id is None:
+            return {"error": "User not authenticated or invalid session"}, 401
+        client = Client.get_by_client_id(host_id)
+        if status == 200:
+            return {"message": (f'Client {client_id} joined room {room_id}')}, 200
+        else:
+            return response, 200
+    except Exception as e:
+        return {"error": str(e)}, 500
+    
+def leave_room():
+    return ""
+
     
 
 # def get_room_info(room_id):
