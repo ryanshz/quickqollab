@@ -29,33 +29,64 @@ const SettingModalForm = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		const errorsCopy = { ...errors };
 
-		try {
-			const response = await fetch('http://127.0.0.1:5000/auth/update', {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				credentials: 'include',
-				body: JSON.stringify(formData),
-			});
+		if (formData.username.trim() && !/^[a-zA-Z0-9]+$/.test(formData.username)) {
+			errorsCopy.username = 'Please enter only letters and numbers';
+		} else {
+			errorsCopy.username = '';
+		}
 
-			const data = await response.json();
+		if (formData.password.trim() && !/^[a-zA-Z0-9!?$#]+$/.test(formData.password)) {
+			errorsCopy.password = 'Please enter only letters, numbers, and these special characters: !, ?, $, #';
+		} else {
+			errorsCopy.password = '';
+		}
 
-			if (response.ok) {
-				login(data);
-				document.getElementById('create-setting-modal').close();
-				setFormData({ username: '', password: '', email: '' });
-			} else {
-				if (response.status === 409) {
-					setErrors({ ...errors, authentication: 'Account with this username or email already exists.' });
+		if (formData.email.trim() && !/^\S+@\S+\.\S+$/.test(formData.email)) {
+			errorsCopy.email = 'Please enter a valid email address';
+		} else {
+			errorsCopy.email = '';
+		}
+
+		if (!formData.username.trim() && !formData.password.trim() && !formData.email.trim()) {
+			errorsCopy.username = 'At least one field is required';
+			errorsCopy.password = 'At least one field is required';
+			errorsCopy.email = 'At least one field is required';
+		}
+
+		errorsCopy.authentication = '';
+
+		setErrors(errorsCopy);
+
+		if (Object.values(errorsCopy).every((error) => !error)) {
+			try {
+				const response = await fetch('http://127.0.0.1:5000/auth/update', {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					credentials: 'include',
+					body: JSON.stringify(formData),
+				});
+
+				const data = await response.json();
+
+				if (response.ok) {
+					login(data);
+					document.getElementById('create-setting-modal').close();
+					setFormData({ username: '', password: '', email: '' });
 				} else {
-					setErrors({ ...errors, authentication: data.message || 'An unexpected error occurred.' });
+					if (response.status === 409) {
+						setErrors({ ...errors, authentication: 'Account with this username or email already exists.' });
+					} else {
+						setErrors({ ...errors, authentication: data.message || 'An unexpected error occurred.' });
+					}
 				}
+			} catch (error) {
+				console.error('An error occurred:', error);
+				setErrors({ ...errors, authentication: 'Failed to connect to the server.' });
 			}
-		} catch (error) {
-			console.error('An error occurred:', error);
-			setErrors({ ...errors, authentication: 'Failed to connect to the server.' });
 		}
 	};
 
