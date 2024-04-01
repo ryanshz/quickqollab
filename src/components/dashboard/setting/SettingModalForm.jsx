@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sun, Moon } from 'lucide-react';
 import { useAuth } from '../../../middleware/AuthContext';
+import { toast, Flip  } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SettingModalForm = () => {
 	const navigate = useNavigate();
@@ -21,6 +23,23 @@ const SettingModalForm = () => {
 		authentication: '',
 	});
 
+	const resetForm = () => {
+        setFormData({
+            username: '',
+            password: '',
+            email: '',
+        });
+        setErrors({
+            username: '',
+            password: '',
+            email: '',
+            authentication: '',
+        });
+		document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('email').value = '';
+    };
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData({ ...formData, [name]: value });
@@ -30,8 +49,12 @@ const SettingModalForm = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const errorsCopy = { ...errors };
+		const userData = JSON.parse(localStorage.getItem('user'));
 
-		if (formData.username.trim() && !/^[a-zA-Z0-9]+$/.test(formData.username)) {
+		if(formData.username.trim() === userData.username) {
+			errorsCopy.username = 'Username cannot be the same as your current one';
+		}
+		else if (formData.username.trim() && !/^[a-zA-Z0-9]+$/.test(formData.username)) {
 			errorsCopy.username = 'Please enter only letters and numbers';
 		} else {
 			errorsCopy.username = '';
@@ -43,7 +66,10 @@ const SettingModalForm = () => {
 			errorsCopy.password = '';
 		}
 
-		if (formData.email.trim() && !/^\S+@\S+\.\S+$/.test(formData.email)) {
+		if(formData.email.trim() === userData.email) {
+			errorsCopy.email = 'Email cannot be the same as your current one';
+		}
+		else if (formData.email.trim() && !/^\S+@\S+\.\S+$/.test(formData.email)) {
 			errorsCopy.email = 'Please enter a valid email address';
 		} else {
 			errorsCopy.email = '';
@@ -74,8 +100,19 @@ const SettingModalForm = () => {
 
 				if (response.ok) {
 					login(data);
+					resetForm();
 					document.getElementById('create-setting-modal').close();
-					setFormData({ username: '', password: '', email: '' });
+					toast.success('Profile successfully updated!', {
+						position: "top-center",
+						autoClose: 5000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "dark",
+						transition: Flip,
+						});
 				} else {
 					if (response.status === 409) {
 						setErrors({ ...errors, authentication: 'Account with this username or email already exists.' });
@@ -113,6 +150,10 @@ const SettingModalForm = () => {
 			console.error('An error occurred:', error);
 		}
 	};
+
+	const handleExit = () => {
+		resetForm();
+	}
 
 	return (
 		<div>
@@ -170,7 +211,7 @@ const SettingModalForm = () => {
 								Logout
 							</button>
 							<form method='dialog'>
-								<button className='btn'>Exit</button>
+								<button className='btn' onClick={handleExit}>Exit</button>
 							</form>
 						</div>
 					</div>
