@@ -64,17 +64,24 @@ _Below are instructions for setting up a local database, which is required for F
 #### 3. Fill in the required information (you should have created a username and password upon installation of Datagrip). <br>
 <img src="https://github.com/ryanshz/quickqollab/assets/58790036/169e11ef-e4a7-4690-abac-bcc6eb1e387b" width="600" height="400">  <br>
 #### 4. Within the project directory `/api`, visit the `schema.sample.sql` and copy everything [CTRL + C or CMD + C] inside.  <br>
-<img src="https://github.com/ryanshz/quickqollab/assets/58790036/97c90da6-077b-4a48-a5a2-31580954a29d" width="600" height="400">  <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/74262047/22681a30-37e5-476d-b66b-3e1b2881a0d8" width="600" height="400"> <br>
 #### 5. Insert into the console and click the green play button.  <br>
-<img src="https://github.com/ryanshz/quickqollab/assets/58790036/0e853273-a0b6-462b-8903-c28834510f66" width="600" height="400">  <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/74262047/bdc2e8ec-da98-461e-b4df-07af4fa61844" width="600" height="400"> <br>
 #### * Be sure to click this statement here.  <br>
-<img src="https://github.com/ryanshz/quickqollab/assets/58790036/aa803f90-eae7-40c1-b97d-c52db17364b7" width="600" height="400">  <br>
-#### 6. Create a `.env` file using the sample template from `.env.sample` within the `/api` directory. <br>
-<img src="https://github.com/ryanshz/quickqollab/assets/58790036/8fe3836e-ed79-44af-b592-5adc5c932137" width="600" height="400">  <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/74262047/f1d6d073-b5e6-453d-9570-2d6c493d5029" width="600" height="400"><br>
+#### 6. Create a `.env` file using the sample template from `.env.sample` within the `/api` directory. Secret key can be anything, for simplicity, use "abc" <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/74262047/a14c33af-439c-4548-a5ba-efd0317dc51f" width="600" height="400"> <br>
 #### 7. Start the project.
    ```sh
    npm start
    ```
+
+<br><br>
+
+### Accounts
+* Accounts are to be made on sign up feature.
+
+<br><br>
 <!-- LICENSE -->
 ## License
 
