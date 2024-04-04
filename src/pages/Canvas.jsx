@@ -4,35 +4,34 @@ import Toolbox from '../components/canvas/Toolbox';
 import Whiteboard from '../components/canvas/Whiteboard';
 import { useParams } from 'react-router-dom';
 import PasswordForm from '../components/canvas/auth/PasswordForm';
+import Chatbox from '../components/canvas/Chatbox';
+import { MessageSquareMore } from 'lucide-react';
 
 function Canvas() {
-	const { id: roomId } = useParams();
-	const location = useLocation();
-	const roomData = location.state.roomData;
 	const [color, setColor] = useState('#FFFFFF');
 	const [currentTool, setCurrentTool] = useState('scribble');
 
-	const formatDate = (dateString) => {
-		const options = { year: 'numeric', month: 'long', day: 'numeric' };
-		const date = new Date(dateString);
-		return date.toLocaleDateString('en-US', options);
-	};
-
 	return (
-		<main className='flex flex-row items-center justify-center h-screen w-screen p-4 flex-grow bg-base-300'>
+		<main className='flex flex-row items-center justify-center bg-base-300'>
 			{false ? (
 				<PasswordForm />
 			) : (
-				<div className='h-full w-full'>
-					<div className='flex flex-row h-full w-full'>
-						<div className='h-full w-3/4 flex flex-col items-center justify-start gap-2 bg-base-300'>
-							{/* Whiteboard and tools */}
-							<div className='w-2/6 h-12 flex flex-row gap-4'>
-								<Toolbox setColor={setColor} setCurrentTool={setCurrentTool}></Toolbox>
+				<div className='h-full w-full  bg-base-100'>
+					<Whiteboard penColor={color} currentTool={currentTool} />
+					<div className='flex flex-row justify-center '>
+						<Toolbox setColor={setColor} setCurrentTool={setCurrentTool} className='z-50'></Toolbox>
+						{/* {Chatbox Modal (opens chatbox)} */}
+						<div class='dropdown dropdown-top'>
+							<div
+								tabindex='0'
+								role='button'
+								className='btn m-1 tooltip tooltip-bottom flex flex-row items-center justify-center bg-base-200'
+								data-tip='Message'>
+								<button>
+									<MessageSquareMore />
+								</button>
 							</div>
-							<Whiteboard penColor={color} currentTool={currentTool} />
 						</div>
-						<div className='h-full w-1/4'></div>
 					</div>
 				</div>
 			)}
