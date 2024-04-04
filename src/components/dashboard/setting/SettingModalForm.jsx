@@ -201,7 +201,7 @@ const SettingModalForm = () => {
 					<div className='flex flex-row justify-between'>
 						<button className='btn'>Save</button>
 						<div className='flex flex-row gap-2'>
-							<button className='btn' onClick={handleLogout}>
+							<button className='btn bg-red-700' onClick={handleLogout}>
 								Logout
 							</button>
 							<form method='dialog'>

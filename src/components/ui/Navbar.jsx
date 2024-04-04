@@ -39,18 +39,16 @@ const Navbar = () => {
 							<img src={setLogoImage()} alt='logo' className='w-48' />
 						</Link>
 					</section>
-					<section className='flex-none'>
+					<section className='flex-none mr-[131px]'>
 						<ul className='menu menu-horizontal'>
 							<li>
 								<Link to='/dashboard'>Dashboard</Link>
 							</li>
 						</ul>
-					</section>
-					<section className='flex-none mr-24'>
 						<label className='swap swap-rotate'>
 							<input type='checkbox' className='theme-controller' value='corporate' checked={pageThemeIsDark} onChange={() => setThemeToDark(!pageThemeIsDark)} />
-							<Moon className='swap-off w-10 h-10' />
-							<Sun className='swap-on w-10 h-10' color='#ff8040' />
+							<Moon className='swap-off w-6 h-6' />
+							<Sun className='swap-on w-6 h-6' color='#ff8040' />
 						</label>
 					</section>
 				</nav>
@@ -71,7 +69,7 @@ const Navbar = () => {
 							</li>
 						</ul>
 					</section>
-					<section className='flex-none mr-24'>
+					<section className='flex-none mr-28'>
 						<label className='swap swap-rotate'>
 							<input type='checkbox' className='theme-controller' value='corporate' checked={pageThemeIsDark} onChange={() => setThemeToDark(!pageThemeIsDark)} />
 							<Moon className='swap-off w-10 h-10' />

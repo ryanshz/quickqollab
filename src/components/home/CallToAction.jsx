@@ -25,7 +25,7 @@ const CallToAction = () => {
 
 						<div className='mt-12 text-center'>
 							<Link to={CTARoute}>
-								<div className='inline-block rounded bg-green-600 px-12 py-3 text-sm font-medium text-primary-content transition hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-400'>
+								<div className='inline-block rounded bg-green-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-400'>
 									Get Started
 								</div>
 							</Link>
