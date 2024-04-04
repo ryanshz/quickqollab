@@ -21,7 +21,7 @@ function Canvas() {
 					<div className='flex flex-row justify-center '>
 						<Toolbox setColor={setColor} setCurrentTool={setCurrentTool} className='z-50'></Toolbox>
 						{/* {Chatbox Modal (opens chatbox)} */}
-						<div class='dropdown dropdown-top'>
+						<div className='dropdown dropdown-top'>
 							<div
 								tabindex='0'
 								role='button'
