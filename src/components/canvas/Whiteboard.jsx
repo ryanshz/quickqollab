@@ -41,15 +41,15 @@ const Whiteboard = ({ penColor, currentTool }) => {
 			setShapes(updatedShapes);
 		}
 	};
-	const handleMouseUp = (e) => {
+	const handleMouseUp = () => {
 		isDrawing.current = false;
 	};
 
 	return (
 		<Stage
-			width={910}
-			height={750}
-			className='w-5/6 h-5/6 bg-neutral-700 border-2 border-neutral-700 rounded-md'
+			width={window.innerWidth - 20}
+			height={window.innerHeight - 185}
+			className='bg-base-100 rounded-md'
 			onMouseDown={handleMouseDown}
 			onMousemove={handleMouseMove}
 			onMouseup={handleMouseUp}>

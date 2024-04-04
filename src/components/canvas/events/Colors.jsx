@@ -25,7 +25,7 @@ const Colors = ({ setColor, setPaletteBG, setIconColor }) => {
 				}}
 				disableAlpha='hide'
 			/>
-			<div style={{ background: hex, marginTop: 30, padding: 10 }}>{JSON.stringify(hex)}</div>
+			<div style={{ background: hex, marginTop: 30, padding: 10 }}></div>
 		</div>
 	);
 };

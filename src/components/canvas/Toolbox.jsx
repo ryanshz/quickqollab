@@ -16,11 +16,12 @@ import {
 } from 'lucide-react';
 
 const Toolbox = ({ setColor, setCurrentTool }) => {
-	const [color, bgColor] = useState('#000000');
+	const [color, bgColor] = useState('#141414');
 	const [colorIcon, setColorIcon] = useState('#FFFFFF');
 	return (
-		<div className='flex flex-row'>
-			<div class='dropdown dropdown-bottom'>
+		// Shape
+		<div className='flex flex-row bg-base-100 w-fit'>
+			<div className='dropdown dropdown-top'>
 				<div
 					tabindex='0'
 					role='button'
@@ -28,7 +29,7 @@ const Toolbox = ({ setColor, setCurrentTool }) => {
 					data-tip='Tools'>
 					<PencilRuler />
 				</div>
-				<ul tabindex='0' class='dropdown-content z-[1] menu p-2 w-1/5'>
+				<ul tabindex='0' className='dropdown-content z-[1] menu p-2 w-1/5'>
 					<li className='tooltip tooltip-left' data-tip='Pen'>
 						<button onClick={() => setCurrentTool('scribble')}>
 							<Pen />
@@ -46,7 +47,7 @@ const Toolbox = ({ setColor, setCurrentTool }) => {
 					</li>
 				</ul>
 			</div>
-			<div class='dropdown dropdown-bottom'>
+			<div className='dropdown dropdown-top'>
 				<div
 					tabindex='0'
 					role='button'
@@ -54,7 +55,7 @@ const Toolbox = ({ setColor, setCurrentTool }) => {
 					data-tip='Shapes'>
 					<Shapes />
 				</div>
-				<ul tabindex='0' class='dropdown-content z-[1] menu p-2 w-1/5'>
+				<ul tabindex='0' className='dropdown-content z-[1] menu p-2 w-1/5'>
 					<li className='tooltip tooltip-left' data-tip='Triangle'>
 						<button onClick={() => setCurrentTool('Triangle')}>
 							<Triangle />
@@ -72,7 +73,7 @@ const Toolbox = ({ setColor, setCurrentTool }) => {
 					</li>
 				</ul>
 			</div>
-			<div class='dropdown dropdown-bottom'>
+			<div className='dropdown dropdown-top'>
 				<div
 					tabindex='0'
 					role='button'
@@ -81,13 +82,13 @@ const Toolbox = ({ setColor, setCurrentTool }) => {
 					data-tip='Color Palette'>
 					<Palette color={`${colorIcon}`} />
 				</div>
-				<ul tabindex='0' class='dropdown-content z-[1] menu p-2 w-1/5'>
+				<ul tabindex='0' className='dropdown-content z-[1] menu p-2 w-1/5'>
 					<li>
 						<Colors setColor={setColor} setPaletteBG={bgColor} setIconColor={setColorIcon}></Colors>
 					</li>
 				</ul>
 			</div>
-			<div class='dropdown dropdown-bottom'>
+			<div className='dropdown dropdown-top'>
 				<div
 					tabindex='0'
 					role='button'
@@ -98,7 +99,7 @@ const Toolbox = ({ setColor, setCurrentTool }) => {
 					</button>
 				</div>
 			</div>
-			<div class='dropdown dropdown-bottom'>
+			<div className='dropdown dropdown-top'>
 				<div
 					tabindex='0'
 					role='button'
@@ -109,7 +110,7 @@ const Toolbox = ({ setColor, setCurrentTool }) => {
 					</button>
 				</div>
 			</div>
-			<div class='dropdown dropdown-bottom'>
+			<div className='dropdown dropdown-top'>
 				<div
 					tabindex='0'
 					role='button'
