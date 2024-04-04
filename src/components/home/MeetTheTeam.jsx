@@ -45,8 +45,8 @@ const MeetTheTeam = () => {
 											</div>
 											<div className='flex flex-col justify-start w-3/5'>
 												<h1 className='font-bold text-3xl text-primary-content'>{item.name}</h1>
-												<h3 className='font-thin text-xl text-neutral-content'>{item.role}</h3>
-												<p className='mt-1 text-sm text-neutral-content'>{item.description}</p>
+												<h3 className='font-thin text-xl text-secondary-content'>{item.role}</h3>
+												<p className='mt-1 text-sm text-tertairy-content'>{item.description}</p>
 											</div>
 										</div>
 									</>
@@ -61,8 +61,8 @@ const MeetTheTeam = () => {
 									</div>
 									<div className='flex flex-col justify-start w-3/5'>
 										<h1 className='font-bold text-3xl text-primary-content'>{item.name}</h1>
-										<h3 className='font-thin text-xl text-neutral-content'>{item.role}</h3>
-										<p className='mt-1 text-sm text-neutral-content'>{item.description}</p>
+										<h3 className='font-thin text-xl text-secondary-content'>{item.role}</h3>
+										<p className='mt-1 text-sm text-tertairy-content'>{item.description}</p>
 									</div>
 								</div>
 							);

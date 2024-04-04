@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sun, Moon } from 'lucide-react';
 import { useAuth } from '../../../middleware/AuthContext';
 import { toast, Flip  } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -158,11 +157,6 @@ const SettingModalForm = () => {
 	return (
 		<div>
 			<h3 className='font-bold text-lg pb-2'>Settings</h3>
-			<label className='swap swap-rotate'>
-				<input type='checkbox' className='theme-controller' value='corporate' />
-				<Moon className='swap-off w-10 h-10' />
-				<Sun className='swap-on w-10 h-10' color='#ff8040' />
-			</label>
 			<div className='modal-action flex flex-col justify-center'>
 				<form className='flex flex-col gap-4' method='dialog' onSubmit={handleSubmit}>
 					{errors.authentication && <p className='text-red-500'>{errors.authentication}</p>}
