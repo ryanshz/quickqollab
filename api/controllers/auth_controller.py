@@ -1,5 +1,6 @@
 from models.Client import Client
 from flask import session, jsonify
+import re
 
 def create_user(username, email, password):
     try:
@@ -42,6 +43,15 @@ def update_user(username, password, email):
         user = Client.query.get(client_id)
         if not user:
             return {'error': 'User not found!'}, 404
+        
+        if username.strip() and not re.match(r'^[a-zA-Z0-9]+$', username):
+            return {'error': 'Only letters and numbers are allowed in username'}, 400
+        
+        if password.strip() and not re.match(r'^[a-zA-Z0-9!?$#]+$', password):
+            return {'error': 'Please enter only letters, numbers, and these special characters: !, ?, $, # in password'}, 400
+        
+        if email.strip() and not re.match(r'^\S+@\S+\.\S+$', email):
+            return {'error': 'Please enter a valid email address'}, 400
 
         existing_user = Client.query.filter(((Client.username == username) | (Client.email == email)) & (Client.client_id != client_id)).first()
         if existing_user:

@@ -5,12 +5,15 @@ import InfoBox from '../components/dashboard/InfoBox';
 import RoomBox from '../components/dashboard/RoomBox';
 import CreateRoomBox from '../components/dashboard/CreateRoomBox';
 import SettingBox from '../components/dashboard/SettingBox';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Dashboard() {
 	const { user } = useAuth();
 
 	return (
 		<div className='w-full h-full flex flex-col justify-center items-center overflow-y-auto scrollbar-hide'>
+			<ToastContainer />
 			<div className='grid grid-cols-4 gap-8 w-5/6 h-full p-8 auto-rows-[176px]'>
 				{/* {Box 1} */}
 				<div className='col-span-2 row-span-1 shadow-grid rounded-3xl bg-base-200 flex flex-col justify-center '>
