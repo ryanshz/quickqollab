@@ -15,7 +15,11 @@ const Navbar = () => {
 	);
 
 	useEffect(() => {
-		localStorage.setItem('pageThemeIsDark', JSON.stringify(pageThemeIsDark));
+		try{
+			localStorage.setItem('pageThemeIsDark', JSON.stringify(pageThemeIsDark));
+		}catch(e){
+			console.error('Failed to set page theme:', e);
+		}
 	}, [pageThemeIsDark]);
 
 	const setLogoImage = () => {

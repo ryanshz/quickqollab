@@ -8,7 +8,7 @@ const MeetTheTeam = () => {
 				<div className='p-12 flex flex-col justify-center items-center w-full h-full'>
 					<div className='max-w-xl'>
 						<h2 className='text-3xl font-bold sm:text-4xl text-center'>{TeamConfig.title}</h2>
-						<p className='mt-4 text-neutral-content text-lg text-center'>{TeamConfig.description}</p>
+						<p className='mt-4 text-secondary-content text-lg text-center'>{TeamConfig.description}</p>
 					</div>
 
 					<div className='m-4 grid grid-cols-3 grid-row-2 gap-8'>
