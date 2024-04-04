@@ -10,14 +10,12 @@ const Navbar = () => {
 	const { user } = useAuth();
 
 	//makes theme of page persistent through refresh
-	const [pageThemeIsDark, setThemeToDark] = useState(
-		JSON.parse(localStorage.getItem('pageThemeIsDark'))
-	);
+	const [pageThemeIsDark, setThemeToDark] = useState(JSON.parse(localStorage.getItem('pageThemeIsDark')));
 
 	useEffect(() => {
-		try{
+		try {
 			localStorage.setItem('pageThemeIsDark', JSON.stringify(pageThemeIsDark));
-		}catch(e){
+		} catch (e) {
 			console.error('Failed to set page theme:', e);
 		}
 	}, [pageThemeIsDark]);
@@ -28,7 +26,7 @@ const Navbar = () => {
 		} else {
 			return logo;
 		}
-	}
+	};
 
 	return (
 		<div>
@@ -39,17 +37,25 @@ const Navbar = () => {
 							<img src={setLogoImage()} alt='logo' className='w-48' />
 						</Link>
 					</section>
-					<section className='flex-none mr-[131px]'>
+					<section className='flex-none mr-28'>
 						<ul className='menu menu-horizontal'>
+							<li>
+								<label className='swap swap-rotate'>
+									<input
+										type='checkbox'
+										className='theme-controller'
+										value='corporate'
+										checked={pageThemeIsDark}
+										onChange={() => setThemeToDark(!pageThemeIsDark)}
+									/>
+									<Moon className='swap-off w-5 h-5' />
+									<Sun className='swap-on w-5 h-5' color='#ff8040' />
+								</label>
+							</li>
 							<li>
 								<Link to='/dashboard'>Dashboard</Link>
 							</li>
 						</ul>
-						<label className='swap swap-rotate'>
-							<input type='checkbox' className='theme-controller' value='corporate' checked={pageThemeIsDark} onChange={() => setThemeToDark(!pageThemeIsDark)} />
-							<Moon className='swap-off w-6 h-6' />
-							<Sun className='swap-on w-6 h-6' color='#ff8040' />
-						</label>
 					</section>
 				</nav>
 			) : (
@@ -71,7 +77,13 @@ const Navbar = () => {
 					</section>
 					<section className='flex-none mr-28'>
 						<label className='swap swap-rotate'>
-							<input type='checkbox' className='theme-controller' value='corporate' checked={pageThemeIsDark} onChange={() => setThemeToDark(!pageThemeIsDark)} />
+							<input
+								type='checkbox'
+								className='theme-controller'
+								value='corporate'
+								checked={pageThemeIsDark}
+								onChange={() => setThemeToDark(!pageThemeIsDark)}
+							/>
 							<Moon className='swap-off w-10 h-10' />
 							<Sun className='swap-on w-10 h-10' color='#ff8040' />
 						</label>
