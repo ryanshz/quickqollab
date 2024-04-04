@@ -32,7 +32,7 @@ const Toolbox = ({ setColor, setCurrentTool }) => {
 				<ul tabindex='0' className='dropdown-content z-[1] menu p-2 w-1/5'>
 					<li className='tooltip tooltip-left' data-tip='Pen'>
 						<button onClick={() => setCurrentTool('scribble')}>
-							<Pen />
+							<Pen className='text-green-400' />
 						</button>
 					</li>
 					<li className='tooltip tooltip-left' data-tip='Eraser'>
@@ -115,7 +115,7 @@ const Toolbox = ({ setColor, setCurrentTool }) => {
 					tabindex='0'
 					role='button'
 					className='btn m-1 tooltip tooltip-bottom flex flex-row items-center justify-center'
-					data-tip='Clear board'>
+					data-tip='Undo'>
 					<button onClick={() => setCurrentTool('Clear')}>
 						<RotateCcw />
 					</button>
