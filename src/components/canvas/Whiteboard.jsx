@@ -5,18 +5,32 @@ import { Stage, Layer } from 'react-konva';
 import Scribble from './events/Scribble';
 import { createShape, updateShape } from './events/Shapes';
 import Shapes from './events/Shapes';
+import { useCanvas } from './context/CanvasContext';
 
 const socket = io(socketConfig.socket);
 
-const Whiteboard = ({ penColor, currentTool }) => {
+const Whiteboard = () => {
+	const {
+		currentTool,
+		penColor,
+		scribbles,
+		setScribbles,
+		shapes,
+		setShapes,
+		currentStep,
+		setCurrentStep,
+		history,
+		addToHistory,
+	} = useCanvas();
+
+	console.log(currentTool);
 	const isDrawing = useRef(false);
-	const [scribbles, setScribbles] = useState([]);
-	// Holds generic shape obj
-	const [shapes, setShapes] = useState([]);
 
 	const handleMouseDown = (e) => {
 		isDrawing.current = true;
+		// gets cursor position for us (konva.js)
 		const pos = e.target.getStage().getPointerPosition();
+
 		if (currentTool === 'scribble') {
 			setScribbles([...scribbles, { points: [pos.x, pos.y], color: penColor }]);
 		} else {
@@ -29,6 +43,7 @@ const Whiteboard = ({ penColor, currentTool }) => {
 		if (!isDrawing.current) return;
 		const stage = e.target.getStage();
 		const pos = stage.getPointerPosition();
+
 		if (currentTool === 'scribble') {
 			// Continue updating the current scribble
 			const lastScribble = scribbles[scribbles.length - 1];
@@ -41,8 +56,20 @@ const Whiteboard = ({ penColor, currentTool }) => {
 			setShapes(updatedShapes);
 		}
 	};
+
+	//standalone do not touch
 	const handleMouseUp = () => {
 		isDrawing.current = false;
+		addToHistory(scribbles, shapes);
+	};
+
+	const undo = () => {
+		if (currentStep > 0) {
+			const previousState = history[currentStep - 1];
+			setScribbles(previousState.scribbles);
+			setShapes(previousState.shapes);
+			setCurrentStep(currentStep - 1);
+		}
 	};
 
 	return (
@@ -57,6 +84,7 @@ const Whiteboard = ({ penColor, currentTool }) => {
 				{scribbles.map((scribble, i) => (
 					<Scribble key={i} scribble={scribble}></Scribble>
 				))}
+				{/* For shapes, you will need to visit components/canvas/events/Shapes to add additional obj. */}
 				{shapes.map((shape, i) => (
 					<Shapes key={i} shape={shape} />
 				))}
