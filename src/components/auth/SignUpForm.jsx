@@ -96,7 +96,7 @@ const SignUpForm = () => {
 			<div className='w-2/3 h-full flex flex-col justify-center items-center p-8 '>
 				<div className='flex flex-col gap-2 items-start justify-start w-full'>
 					<h1 className='text-6xl font-bold text-primary-content '>Sign Up</h1>
-					<p className='text-xl font-thin text-neutral-content pt-1 pb-8'>
+					<p className='text-xl font-thin text-secondary-content pt-1 pb-8'>
 						Start your collaborating journey with <span className='font-bold'>us</span>
 					</p>
 				</div>
