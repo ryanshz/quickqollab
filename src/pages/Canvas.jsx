@@ -1,62 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import Chatbox from '../components/canvas/Chatbox';
-import ColorBox from '../components/canvas/ColorBox';
-import ShapeBox from '../components/canvas/ShapeBox';
+import Toolbox from '../components/canvas/Toolbox';
 import Whiteboard from '../components/canvas/Whiteboard';
 import { useParams } from 'react-router-dom';
 import PasswordForm from '../components/canvas/auth/PasswordForm';
+import Chatbox from '../components/canvas/Chatbox';
+import { MessageSquareMore } from 'lucide-react';
+import { CanvasProvider } from '../components/canvas/context/CanvasContext';
 
 function Canvas() {
-	const { id: roomId } = useParams();
-	const location = useLocation();
-	const roomData = location.state.roomData;
 	const [color, setColor] = useState('#FFFFFF');
-
-	const formatDate = (dateString) => {
-		const options = { year: 'numeric', month: 'long', day: 'numeric' };
-		const date = new Date(dateString);
-		return date.toLocaleDateString('en-US', options);
-	};
+	const [currentTool, setCurrentTool] = useState('scribble');
 
 	return (
-		<main className='flex flex-row items-center justify-center h-screen w-screen p-4 flex-grow bg-base-300'>
+		<main className='flex flex-row items-center justify-center bg-base-300'>
 			{false ? (
 				<PasswordForm />
 			) : (
-				<div className='h-full w-full'>
-					<div className='flex flex-row h-full w-full'>
-						<div className='w-60'>
-							<h1 className='text-4xl'>Room details</h1>
-							<p>Testing and demonstration purposes</p>
-							<div className='divider'></div>
-							<h1>
-								Title: <span className='font-bold'>{roomData.title}</span>
-							</h1>
-							<h2>
-								room id: <span className='font-bold'>{roomData.room_id}</span>
-							</h2>
-							<h2>
-								host id: <span className='font-bold'>{roomData.host_id}</span>
-							</h2>
-							<p>
-								Date created: <span className='font-bold'>{formatDate(roomData.date_created)}</span>
-							</p>
-						</div>
-						<div className='h-full w-3/4 flex flex-col items-center justify-start gap-2 bg-base-300'>
-							{/* Whiteboard and tools */}
-							<Whiteboard setColor={color} />
-							<div className='w-2/6 h-12 flex flex-row gap-4'>
-								<ShapeBox />
-								<ColorBox setColor={setColor} />
+				<CanvasProvider>
+					<div className='h-full w-full  bg-base-100'>
+						<Whiteboard penColor={color} currentTool={currentTool} />
+						<div className='flex flex-row justify-center '>
+							<Toolbox setColor={setColor} setCurrentTool={setCurrentTool} className='z-50'></Toolbox>
+							{/* {Chatbox Modal (opens chatbox)} */}
+							<></>
+							<div className='dropdown dropdown-top'>
+								<div
+									tabindex='0'
+									role='button'
+									className='btn m-1 tooltip tooltip-bottom flex flex-row items-center justify-center bg-base-200'
+									data-tip='Message'>
+									<button>
+										<MessageSquareMore />
+									</button>
+								</div>
 							</div>
 						</div>
-						<div className='h-full w-1/4'>
-							{/* Chatbox */}
-							<Chatbox />
-						</div>
 					</div>
-				</div>
+				</CanvasProvider>
 			)}
 		</main>
 	);
