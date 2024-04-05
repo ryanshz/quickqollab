@@ -1,6 +1,7 @@
 from models.Room import Room
 from models.Client import Client
 from flask import session
+import re
 
 def create_room(title, password):
     try:       
@@ -10,6 +11,13 @@ def create_room(title, password):
         check_existing_room = Room.query.filter(Room.title == title).first()
         if check_existing_room:
             return {"warning": "Room already exists with this title name."}, 409 
+        
+        if not title.strip() or not re.match(r'^[a-zA-Z0-9]+$', title):
+            return {'error': 'Please enter only letters and numbers when creating a title'}, 400
+        
+        if password and not re.match(r'^[a-zA-Z0-9!?$#]+$', password.strip()):
+            return {'error': 'Please enter only letters, numbers, and these special characters: !, ?, $, # when creating a password'}, 400
+        
         new_room = Room(title=title, host_id=host_id)
         response, status = new_room.save(password)
 

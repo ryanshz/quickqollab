@@ -6,11 +6,14 @@ import ShapeBox from '../components/canvas/ShapeBox';
 import Whiteboard from '../components/canvas/Whiteboard';
 import { useParams } from 'react-router-dom';
 import PasswordForm from '../components/canvas/auth/PasswordForm';
+import { toast, Flip, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 function Canvas() {
 	const { id: roomId } = useParams();
 	const location = useLocation();
 	const roomData = location.state.roomData;
+	const message = location.state.message;
 	const [color, setColor] = useState('#FFFFFF');
 
 	const formatDate = (dateString) => {
@@ -19,8 +22,25 @@ function Canvas() {
 		return date.toLocaleDateString('en-US', options);
 	};
 
+	useEffect(() => {
+        if (message) {
+            toast.success(message, {
+				position: "top-center",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "dark",
+				transition: Flip,
+			});
+        }
+    }, [message]);
+
 	return (
 		<main className='flex flex-row items-center justify-center h-screen w-screen p-4 flex-grow bg-base-300'>
+			< ToastContainer />
 			{false ? (
 				<PasswordForm />
 			) : (
