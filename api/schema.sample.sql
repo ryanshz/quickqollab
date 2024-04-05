@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS client
     username      VARCHAR(36)     NOT NULL UNIQUE,
     email         VARCHAR(255)    NOT NULL UNIQUE,
     password_hash VARCHAR(255)    NOT NULL,
-    date_created  TIMESTAMP       DEFAULT CURRENT_TIMESTAMP
+    date_created  TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
+    profile_picture BYTEA
 );
 
 CREATE TABLE IF NOT EXISTS room (

@@ -34,7 +34,7 @@ def login_user(username, password):
     except Exception as e:
         return {'error': str(e)}, 500
 
-def update_user(username, password, email):
+def update_user(username, password, email, profile_picture):
     try:
         client_id = session.get('user_id')
         if not client_id:
@@ -57,7 +57,7 @@ def update_user(username, password, email):
         if existing_user:
             return {'error': 'Username or email already in use'}, 409
 
-        response, status = user.update_user_info(username, password, email)
+        response, status = user.update_user_info(username, password, email, profile_picture)
 
         if status == 200:
             if response is not None:

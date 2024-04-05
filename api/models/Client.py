@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, LargeBinary
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from utils.sql_alchemy import db
@@ -13,6 +13,7 @@ class Client(db.Model):
     password_hash = Column(String(255), nullable=False)
     date_created = Column(DateTime, default=datetime.utcnow)
     lobbies = db.relationship('Room', secondary=Lobby, back_populates='clients')
+    profile_picture = Column(LargeBinary)
 
     def save(self, password):
         try:
@@ -40,7 +41,7 @@ class Client(db.Model):
         else:
             return {'error': 'user not found'}
         
-    def update_user_info(self, username, password, email):
+    def update_user_info(self, username, password, email, profile_picture):
         try:
             updated_fields = {}
             if username and username != self.username:
@@ -54,7 +55,9 @@ class Client(db.Model):
                 if new_password_hash != self.password_hash:
                     self.password_hash = new_password_hash
                     updated_fields['password'] = '********'
-            
+            if profile_picture: 
+                self.profile_picture = profile_picture
+                updated_fields['profile_picture'] = profile_picture
             if updated_fields:
                 db.session.commit()
                 return {'client_id': self.client_id, 'updated': updated_fields},200

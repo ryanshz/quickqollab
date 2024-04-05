@@ -14,13 +14,14 @@ const SettingModalForm = () => {
 		username: '',
 		password: '',
 		email: '',
+		profile_picture: null,
 	});
 
 	const [errors, setErrors] = useState({
 		username: '',
 		password: '',
 		email: '',
-		authentication: '',
+		//authentication: '',
 	});
 
 	const resetForm = () => {
@@ -28,16 +29,18 @@ const SettingModalForm = () => {
             username: '',
             password: '',
             email: '',
+			profile_picture: null,
         });
         setErrors({
             username: '',
             password: '',
             email: '',
-            authentication: '',
+            //authentication: '',
         });
 		document.getElementById('username').value = '';
         document.getElementById('password').value = '';
         document.getElementById('email').value = '';
+		document.getElementById('profile_picture').value = '';
     };
 
 	const handleChange = (e) => {
@@ -46,6 +49,14 @@ const SettingModalForm = () => {
 		setErrors({ ...errors, [name]: '' });
 	};
 
+	const handleFileChange = (e) => {
+		console.log("this is working");
+		//const {name, file} = e.target;
+		setFormData({ ...formData, profile_picture: e.target.files[0]});
+		// setErrors({ ...errors, [name]: '' });
+		console.log(formData);
+	}
+	
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const errorsCopy = { ...errors };
@@ -202,7 +213,12 @@ const SettingModalForm = () => {
 						{errors.email && <p className='text-red-500'>{errors.email}</p>}
 					</label>
 					<label>
-						<input type='file' className='file-input file-input-bordered w-full ' />
+						<input type='file' 
+						id='profile_picture'
+						name='profile_picture'
+						onChange={handleFileChange}
+						className='file-input file-input-bordered w-full ' />
+						{errors.profile_picture && <p className='text-red-500'>{errors.profile_picture}</p>}
 					</label>
 					<div className='flex flex-row justify-between'>
 						<button className='btn'>Save</button>

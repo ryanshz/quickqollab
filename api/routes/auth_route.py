@@ -1,5 +1,6 @@
 from flask import Blueprint, request, redirect, jsonify, session
 from controllers import auth_controller 
+import base64
 
 auth_blueprint = Blueprint('auth', __name__)
 
@@ -40,8 +41,17 @@ def update():
     username = data.get('username')
     email = data.get('email')
     password = data.get('password')
+    profile_picture_base64 = data.get('profile_picture')
+    
+    if profile_picture_base64:
+        try:
+            profile_picture = base64.b64decode(profile_picture_base64)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 400
+    else:
+        profile_picture = None
 
-    response, status = auth_controller.update_user(username, password, email)
+    response, status = auth_controller.update_user(username, password, email, profile_picture)
 
     if status == 200:
         return jsonify(response), status
