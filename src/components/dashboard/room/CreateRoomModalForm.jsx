@@ -38,8 +38,8 @@ const CreateRoomModalForm = () => {
 		e.preventDefault();
 		const errorsCopy = { ...errors };
 
-		if (!/^[a-zA-Z0-9]+$/.test(formData.title)) {
-			errorsCopy.title = 'Please enter only letters and numbers';
+		if (!/^(?!\s)(?!.*\s$)(?!.*\s{2})[a-zA-Z0-9\s-]+$/.test(formData.title)) {
+			errorsCopy.title = 'Please enter only letters, number, hyphens, and spaces. Title must not start or end with space, or have consecutive spaces.';
 		} else {
 			errorsCopy.title = '';
 		}
@@ -107,7 +107,7 @@ const CreateRoomModalForm = () => {
 							autoComplete='off'
 							required
 						/>
-						{errors.title && <p className='text-red-500'>{errors.title}</p>}
+						{errors.title && <p className='text-red-500 text-sm'>{errors.title}</p>}
 					</label>
 					<label className='input input-bordered flex items-center gap-2'>
 						<input
@@ -120,7 +120,7 @@ const CreateRoomModalForm = () => {
 							placeholder='Password (optional)'
 							autoComplete='off'
 						/>
-						{errors.password && <p className='text-red-500'>{errors.password}</p>}
+						{errors.password && <p className='text-red-500 text-sm'>{errors.password}</p>}
 					</label>
 					{/* if there is a button in form, it will close the modal */}
 					<div className='flex flex-row justify-between'>

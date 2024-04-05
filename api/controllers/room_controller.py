@@ -12,8 +12,8 @@ def create_room(title, password):
         if check_existing_room:
             return {"warning": "Room already exists with this title name."}, 409 
         
-        if not title.strip() or not re.match(r'^[a-zA-Z0-9]+$', title):
-            return {'error': 'Please enter only letters and numbers when creating a title'}, 400
+        if not title.strip() or not re.match(r'^(?!\s)(?!.*\s$)(?!.*\s{2})[a-zA-Z0-9\s-]+$', title):
+            return {'error': 'Please enter only letters, numbers, hyphens, and spaces when creating a title. Title must not start or end with space, or have consecutive spaces.'}, 400
         
         if password and not re.match(r'^[a-zA-Z0-9!?$#]+$', password.strip()):
             return {'error': 'Please enter only letters, numbers, and these special characters: !, ?, $, # when creating a password'}, 400
