@@ -4,6 +4,7 @@ from datetime import datetime
 from utils.sql_alchemy import db
 from utils.bcrypt import bcrypt
 from models.Room import Lobby
+import base64
 
 class Client(db.Model):
     __tablename__ = 'client'
@@ -31,12 +32,18 @@ class Client(db.Model):
     def get_by_username(username):
         # already deserialized
         client = Client.query.filter_by(username=username).first()
+        profile_picture_data = None
         if client:
+            if client.profile_picture:
+                profile_picture_data = base64.b64encode(client.profile_picture).decode('utf-8')
+            else:
+                profile_picture_data = None
             return {
                 'client_id': client.client_id,
                 'username': client.username,
                 'email': client.email,
-                'date_created': client.date_created
+                'date_created': client.date_created,
+                'profile_picture': profile_picture_data
             }
         else:
             return {'error': 'user not found'}
@@ -76,9 +83,14 @@ class Client(db.Model):
             return None
 
     def to_dict(self):
+        if self.profile_picture:
+            profile_picture_data = base64.b64encode(self.profile_picture).decode('utf-8')
+        else:
+            profile_picture_data = None
         return {
             'client_id': self.client_id,
             'username': self.username,
             'email': self.email,
-            'date_created': self.date_created
+            'date_created': self.date_created,
+            'profile_picture': profile_picture_data
         }

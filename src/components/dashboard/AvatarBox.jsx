@@ -9,6 +9,7 @@ const AvatarBox = ({ user }) => {
 	};
 
 	const formattedDate = formatDate(user.date_created);
+	console.log("user.profile_picture:", user.profile_picture);
 
 	return (
 		<div className='w-full h-full'>
@@ -16,10 +17,10 @@ const AvatarBox = ({ user }) => {
 				<div className='w-full h-full flex flex-row items-center justify-start p-4 gap-4'>
 					<div className='avatar pr-2 w-32'>
 						<div className='w-32 rounded-3xl'>
-							<img
-								src='https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg'
-								alt='Profile Avatar'
-							/>
+						<img
+                                src={user.profile_picture ? `data:image/jpeg;base64,${user.profile_picture}` : 'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg'}
+                                alt='Profile Avatar'
+                            />
 						</div>
 					</div>
 

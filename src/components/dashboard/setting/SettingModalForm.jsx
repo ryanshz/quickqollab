@@ -9,7 +9,6 @@ const SettingModalForm = () => {
 	const navigate = useNavigate();
 	const { logout } = useAuth();
 	const { login } = useAuth();
-
 	const [formData, setFormData] = useState({
 		username: '',
 		password: '',
@@ -21,7 +20,8 @@ const SettingModalForm = () => {
 		username: '',
 		password: '',
 		email: '',
-		//authentication: '',
+		profile_picture: null,
+		authentication: '',
 	});
 
 	const resetForm = () => {
@@ -35,7 +35,7 @@ const SettingModalForm = () => {
             username: '',
             password: '',
             email: '',
-            //authentication: '',
+            authentication: '',
         });
 		document.getElementById('username').value = '';
         document.getElementById('password').value = '';
@@ -50,12 +50,23 @@ const SettingModalForm = () => {
 	};
 
 	const handleFileChange = (e) => {
-		console.log("this is working");
-		//const {name, file} = e.target;
-		setFormData({ ...formData, profile_picture: e.target.files[0]});
-		// setErrors({ ...errors, [name]: '' });
-		console.log(formData);
-	}
+		const file = e.target.files[0];
+		if (!file.type.startsWith('image/')) {
+			setErrors({ ...errors, profile_picture: 'Please select an image file.' });
+			setFormData({ ...formData, profile_picture: null }); // Clear the profile picture data
+			return;
+		}
+		else {
+			setErrors({ ...errors, profile_picture: '' });
+		}
+		const reader = new FileReader();
+		reader.onloadend = () => {
+			const base64String = reader.result.split(',')[1];
+			setFormData({ ...formData, profile_picture: base64String });
+		};
+		reader.readAsDataURL(file);
+	};
+	
 	
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -93,9 +104,8 @@ const SettingModalForm = () => {
 		}
 
 		errorsCopy.authentication = '';
-
 		setErrors(errorsCopy);
-
+		console.log(JSON.stringify(formData));
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
 				const response = await fetch('http://127.0.0.1:5000/auth/update', {
@@ -217,7 +227,8 @@ const SettingModalForm = () => {
 						id='profile_picture'
 						name='profile_picture'
 						onChange={handleFileChange}
-						className='file-input file-input-bordered w-full ' />
+						className='file-input file-input-bordered w-full ' 
+						accept='image/*'/>
 						{errors.profile_picture && <p className='text-red-500'>{errors.profile_picture}</p>}
 					</label>
 					<div className='flex flex-row justify-between'>
