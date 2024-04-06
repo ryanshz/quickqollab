@@ -38,7 +38,6 @@ def update():
     data = request.get_json()
     if not data:
         return jsonify({'error':'Missing data'}), 400
-    print(data)
     username = data.get('username')
     email = data.get('email')
     password = data.get('password')

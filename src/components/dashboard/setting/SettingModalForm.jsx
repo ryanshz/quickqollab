@@ -52,8 +52,8 @@ const SettingModalForm = () => {
 	const handleFileChange = (e) => {
 		const file = e.target.files[0];
 		if (!file.type.startsWith('image/')) {
-			setErrors({ ...errors, profile_picture: 'Please select an image file.' });
-			setFormData({ ...formData, profile_picture: null }); // Clear the profile picture data
+			setErrors({ ...errors, profile_picture: 'Unsupported file type, please select an image file.' });
+			setFormData({ ...formData, profile_picture: null }); 
 			return;
 		}
 		else {
