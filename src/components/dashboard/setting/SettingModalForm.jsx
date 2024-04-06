@@ -8,36 +8,39 @@ const SettingModalForm = () => {
 	const navigate = useNavigate();
 	const { logout } = useAuth();
 	const { login } = useAuth();
-
 	const [formData, setFormData] = useState({
 		username: '',
 		password: '',
 		email: '',
+		profile_picture: null,
 	});
 
 	const [errors, setErrors] = useState({
 		username: '',
 		password: '',
 		email: '',
+		profile_picture: null,
 		authentication: '',
 	});
 
 	const resetForm = () => {
-		setFormData({
-			username: '',
-			password: '',
-			email: '',
-		});
-		setErrors({
-			username: '',
-			password: '',
-			email: '',
-			authentication: '',
-		});
+        setFormData({
+            username: '',
+            password: '',
+            email: '',
+			profile_picture: null,
+        });
+        setErrors({
+            username: '',
+            password: '',
+            email: '',
+            authentication: '',
+        });
 		document.getElementById('username').value = '';
-		document.getElementById('password').value = '';
-		document.getElementById('email').value = '';
-	};
+        document.getElementById('password').value = '';
+        document.getElementById('email').value = '';
+		document.getElementById('profile_picture').value = '';
+    };
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -45,6 +48,25 @@ const SettingModalForm = () => {
 		setErrors({ ...errors, [name]: '' });
 	};
 
+	const handleFileChange = (e) => {
+		const file = e.target.files[0];
+		if (!file.type.startsWith('image/')) {
+			setErrors({ ...errors, profile_picture: 'Unsupported file type, please select an image file.' });
+			setFormData({ ...formData, profile_picture: null }); 
+			return;
+		}
+		else {
+			setErrors({ ...errors, profile_picture: '' });
+		}
+		const reader = new FileReader();
+		reader.onloadend = () => {
+			const base64String = reader.result.split(',')[1];
+			setFormData({ ...formData, profile_picture: base64String });
+		};
+		reader.readAsDataURL(file);
+	};
+	
+	
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const errorsCopy = { ...errors };
@@ -79,9 +101,8 @@ const SettingModalForm = () => {
 		}
 
 		errorsCopy.authentication = '';
-
 		setErrors(errorsCopy);
-
+		console.log(JSON.stringify(formData));
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
 				const response = await fetch('http://127.0.0.1:5000/auth/update', {
@@ -194,7 +215,13 @@ const SettingModalForm = () => {
 						{errors.email && <p className='text-red-500'>{errors.email}</p>}
 					</label>
 					<label>
-						<input type='file' className='file-input file-input-bordered w-full ' />
+						<input type='file' 
+						id='profile_picture'
+						name='profile_picture'
+						onChange={handleFileChange}
+						className='file-input file-input-bordered w-full ' 
+						accept='image/*'/>
+						{errors.profile_picture && <p className='text-red-500'>{errors.profile_picture}</p>}
 					</label>
 					<div className='flex flex-row justify-between'>
 						<button className='btn'>Save</button>
