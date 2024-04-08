@@ -94,10 +94,11 @@ const SettingModalForm = () => {
 			errorsCopy.email = '';
 		}
 
-		if (!formData.username.trim() && !formData.password.trim() && !formData.email.trim()) {
+		if (!formData.username.trim() && !formData.password.trim() && !formData.email.trim() && !formData.profile_picture) {
 			errorsCopy.username = 'At least one field is required';
 			errorsCopy.password = 'At least one field is required';
 			errorsCopy.email = 'At least one field is required';
+			errorsCopy.profile_picture = 'At least one field is required';
 		}
 
 		errorsCopy.authentication = '';
