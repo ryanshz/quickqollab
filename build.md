@@ -7,53 +7,8 @@ To get a local repository running, follow these steps.
 * VSCode (or any relevant IDE)
 * Git-Bash (or any relevant terminal)
 * The latest Python version.
-* Terminal or Command-Line Interface (preferably Git-Bash)
 * The latest NodeJS version.
-* Datagrip (or any relevant Database IDE) 
-
-### Installation
-
-_Below are instructions for setting up a local repository, installing requirement packages, and the first step to running the program._
-
-_Assume you are at the root of the project directory._
-1. Clone the repository.
-   ```sh
-   git clone https://github.com/ryanshz/quickqollab
-   ```
-   ```sh
-   cd quickqollab
-   ```
-2. Install NPM packages.
-   ```sh
-   npm install package.json
-   ```
-3. Create your virtual environment for Flask (Python) and install PIP packages.
-   
-   _Create virtual environment_
-   ```sh
-   python -m venv api/venv
-   ```
-   _Activate virtual environment_
-   ```sh
-   // Windows + Git-Bash
-   source ./api/venv/Scripts/activate
-   
-   // Mac/Linux
-   source ./api/venv/bin/activate
-   
-   // Windows + Powershell
-   \api\venv\Scripts\activate.bat
-   
-   ```
-   _Install PIP packages_
-   ```sh
-   pip install -r ./api/requirements.txt
-   ```
-4. Start the project.
-   ```sh
-   npm start
-   ```
-   * The project starts using React first. So a new tab will open in the browser with ip `localhost:3000`; not `127:0.0.1:5000`
+* Datagrip (or any relevant Database IDE)
 
 ### Database Installation (Required) <a name="database-installation"></a>
 _Below are instructions for setting up a local database, which is required for Flask to operate safely._
@@ -71,15 +26,35 @@ _Below are instructions for setting up a local database, which is required for F
 <img src="https://github.com/ryanshz/quickqollab/assets/74262047/f1d6d073-b5e6-453d-9570-2d6c493d5029" width="600" height="400"><br>
 #### 6. Create a `.env` file using the sample template from `.env.sample` within the `/api` directory. Secret key can be anything, for simplicity, use "abc" <br>
 <img src="https://github.com/ryanshz/quickqollab/assets/74262047/a14c33af-439c-4548-a5ba-efd0317dc51f" width="600" height="400"> <br>
-#### 7. Start the project.
+
+### Installation
+
+_Below are instructions for setting up a local repository, installing requirement packages, and the first step to running the program._ <br>
+_Assuming you are at the root of the project directory._
+1. Clone the repository.
    ```sh
-   npm start
+   git clone https://github.com/ryanshz/quickqollab
    ```
-
-<br><br>
-
-### Accounts
-* Accounts are to be made on sign up feature.
+   ```sh
+   cd quickqollab
+   ```
+2. Run `setup.sh` for first-time setup (This will launch the project after successful installation).
+   ```sh
+   bash ./setup.sh
+   ```
+   ```sh
+   sh ./setup.sh // Works the same
+   ```
+   ![setup](https://github.com/ryanshz/quickqollab/assets/58790036/73e34f0e-9cf8-48cf-b59b-9dca3f9530b5)
+3. Run `startup.sh` to start the project for now on. (Assuming you completed first-time setup).
+   ```sh
+   bash ./startup.sh
+   ```
+   ```sh
+   sh ./startup.sh // Works the same
+   ```
+   ![startup](https://github.com/ryanshz/quickqollab/assets/58790036/2059e8b0-7cbe-4d07-bf97-c923134a8ec8)
+   * The project starts using React first. So a new tab will open in the browser with ip `localhost:3000`; not `127:0.0.1:5000`
 
 <br><br>
 <!-- LICENSE -->

@@ -1,80 +1,95 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import io from 'socket.io-client';
 import { socketConfig } from '../../config/site-config';
+import { Stage, Layer } from 'react-konva';
+import Scribble from './events/Scribble';
+import { createShape, updateShape } from './events/Shapes';
+import Shapes from './events/Shapes';
+import { useCanvas } from './context/CanvasContext';
 
 const socket = io(socketConfig.socket);
 
-const Whiteboard = ({ setColor }) => {
-	const canvasRef = useRef(null);
-	const [isDrawing, setIsDrawing] = useState(false);
-	const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
-	const [currentColor, setCurrentColor] = useState('#FFFFFF');
+const Whiteboard = () => {
+	const {
+		currentTool,
+		penColor,
+		scribbles,
+		setScribbles,
+		shapes,
+		setShapes,
+		currentStep,
+		setCurrentStep,
+		history,
+		addToHistory,
+	} = useCanvas();
 
-	useEffect(() => {
-		setCurrentColor(setColor);
-	}, [setColor]);
-
-	useEffect(() => {
-		socket.on('drawLine', ({ startX, startY, endX, endY, color }) => {
-			drawLine(startX, startY, endX, endY, color);
-		});
-
-		return () => socket.off('drawLine');
-	}, []);
+	console.log(currentTool);
+	const isDrawing = useRef(false);
 
 	const handleMouseDown = (e) => {
-		setIsDrawing(true);
-		const { offsetX, offsetY } = getAdjustedMousePos(e);
-		setLastPosition({ x: offsetX, y: offsetY });
-	};
+		isDrawing.current = true;
+		// gets cursor position for us (konva.js)
+		const pos = e.target.getStage().getPointerPosition();
 
+		if (currentTool === 'scribble') {
+			setScribbles([...scribbles, { points: [pos.x, pos.y], color: penColor }]);
+		} else {
+			// Append shape (... is spread operator that append newShape to "existing array useState above")
+			const newShape = createShape(currentTool, pos, penColor);
+			setShapes([...shapes, newShape]);
+		}
+	};
 	const handleMouseMove = (e) => {
-		if (!isDrawing) return;
-		const { offsetX, offsetY } = getAdjustedMousePos(e);
-		drawLine(lastPosition.x, lastPosition.y, offsetX, offsetY, currentColor);
-		setLastPosition({ x: offsetX, y: offsetY });
-		socket.emit('drawLine', {
-			startX: lastPosition.x,
-			startY: lastPosition.y,
-			endX: offsetX,
-			endY: offsetY,
-			color: currentColor,
-		});
+		if (!isDrawing.current) return;
+		const stage = e.target.getStage();
+		const pos = stage.getPointerPosition();
+
+		if (currentTool === 'scribble') {
+			// Continue updating the current scribble
+			const lastScribble = scribbles[scribbles.length - 1];
+			const newScribbles = scribbles.slice(0, -1);
+			const newPoints = lastScribble.points.concat([pos.x, pos.y]);
+			setScribbles([...newScribbles, { ...lastScribble, points: newPoints }]);
+		} else {
+			// Update the current shape
+			const updatedShapes = updateShape(shapes, currentTool, pos);
+			setShapes(updatedShapes);
+		}
 	};
 
+	//standalone do not touch
 	const handleMouseUp = () => {
-		setIsDrawing(false);
+		isDrawing.current = false;
+		addToHistory(scribbles, shapes);
 	};
 
-	const drawLine = (startX, startY, endX, endY, color) => {
-		const ctx = canvasRef.current.getContext('2d');
-		ctx.beginPath();
-		ctx.strokeStyle = color;
-		ctx.moveTo(startX, startY);
-		ctx.lineTo(endX, endY);
-		ctx.stroke();
-	};
-
-	const getAdjustedMousePos = (e) => {
-		const rect = canvasRef.current.getBoundingClientRect();
-		const scaleX = canvasRef.current.width / rect.width;
-		const scaleY = canvasRef.current.height / rect.height;
-		return {
-			offsetX: (e.clientX - rect.left + window.scrollX) * scaleX,
-			offsetY: (e.clientY - rect.top + window.scrollY) * scaleY,
-		};
+	const undo = () => {
+		if (currentStep > 0) {
+			const previousState = history[currentStep - 1];
+			setScribbles(previousState.scribbles);
+			setShapes(previousState.shapes);
+			setCurrentStep(currentStep - 1);
+		}
 	};
 
 	return (
-		<canvas
-			ref={canvasRef}
-			className='w-5/6 h-5/6 bg-neutral-700 border-2 border-neutral-700 rounded-md'
-			width={700}
-			height={700}
+		<Stage
+			width={window.innerWidth - 20}
+			height={window.innerHeight - 185}
+			className='bg-base-100 rounded-md'
 			onMouseDown={handleMouseDown}
-			onMouseMove={handleMouseMove}
-			onMouseUp={handleMouseUp}
-		/>
+			onMousemove={handleMouseMove}
+			onMouseup={handleMouseUp}>
+			<Layer>
+				{scribbles.map((scribble, i) => (
+					<Scribble key={i} scribble={scribble}></Scribble>
+				))}
+				{/* For shapes, you will need to visit components/canvas/events/Shapes to add additional obj. */}
+				{shapes.map((shape, i) => (
+					<Shapes key={i} shape={shape} />
+				))}
+			</Layer>
+		</Stage>
 	);
 };
 

@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sun, Moon } from 'lucide-react';
 import { useAuth } from '../../../middleware/AuthContext';
-import { toast, Flip  } from 'react-toastify';
+import { toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const SettingModalForm = () => {
 	const navigate = useNavigate();
 	const { logout } = useAuth();
 	const { login } = useAuth();
-
 	const [formData, setFormData] = useState({
 		username: '',
 		password: '',
 		email: '',
+		profile_picture: null,
 	});
 
 	const [errors, setErrors] = useState({
 		username: '',
 		password: '',
 		email: '',
+		profile_picture: null,
 		authentication: '',
 	});
 
@@ -28,6 +28,7 @@ const SettingModalForm = () => {
             username: '',
             password: '',
             email: '',
+			profile_picture: null,
         });
         setErrors({
             username: '',
@@ -38,6 +39,7 @@ const SettingModalForm = () => {
 		document.getElementById('username').value = '';
         document.getElementById('password').value = '';
         document.getElementById('email').value = '';
+		document.getElementById('profile_picture').value = '';
     };
 
 	const handleChange = (e) => {
@@ -46,15 +48,33 @@ const SettingModalForm = () => {
 		setErrors({ ...errors, [name]: '' });
 	};
 
+	const handleFileChange = (e) => {
+		const file = e.target.files[0];
+		if (!file.type.startsWith('image/')) {
+			setErrors({ ...errors, profile_picture: 'Unsupported file type, please select an image file.' });
+			setFormData({ ...formData, profile_picture: null }); 
+			return;
+		}
+		else {
+			setErrors({ ...errors, profile_picture: '' });
+		}
+		const reader = new FileReader();
+		reader.onloadend = () => {
+			const base64String = reader.result.split(',')[1];
+			setFormData({ ...formData, profile_picture: base64String });
+		};
+		reader.readAsDataURL(file);
+	};
+	
+	
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const errorsCopy = { ...errors };
 		const userData = JSON.parse(localStorage.getItem('user'));
 
-		if(formData.username.trim() === userData.username) {
+		if (formData.username.trim() === userData.username) {
 			errorsCopy.username = 'Username cannot be the same as your current one';
-		}
-		else if (formData.username.trim() && !/^[a-zA-Z0-9]+$/.test(formData.username)) {
+		} else if (formData.username.trim() && !/^[a-zA-Z0-9]+$/.test(formData.username)) {
 			errorsCopy.username = 'Please enter only letters and numbers';
 		} else {
 			errorsCopy.username = '';
@@ -66,25 +86,24 @@ const SettingModalForm = () => {
 			errorsCopy.password = '';
 		}
 
-		if(formData.email.trim() === userData.email) {
+		if (formData.email.trim() === userData.email) {
 			errorsCopy.email = 'Email cannot be the same as your current one';
-		}
-		else if (formData.email.trim() && !/^\S+@\S+\.\S+$/.test(formData.email)) {
+		} else if (formData.email.trim() && !/^\S+@\S+\.\S+$/.test(formData.email)) {
 			errorsCopy.email = 'Please enter a valid email address';
 		} else {
 			errorsCopy.email = '';
 		}
 
-		if (!formData.username.trim() && !formData.password.trim() && !formData.email.trim()) {
+		if (!formData.username.trim() && !formData.password.trim() && !formData.email.trim() && !formData.profile_picture) {
 			errorsCopy.username = 'At least one field is required';
 			errorsCopy.password = 'At least one field is required';
 			errorsCopy.email = 'At least one field is required';
+			errorsCopy.profile_picture = 'At least one field is required';
 		}
 
 		errorsCopy.authentication = '';
-
 		setErrors(errorsCopy);
-
+		console.log(JSON.stringify(formData));
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
 				const response = await fetch('http://127.0.0.1:5000/auth/update', {
@@ -103,16 +122,16 @@ const SettingModalForm = () => {
 					resetForm();
 					document.getElementById('create-setting-modal').close();
 					toast.success('Profile successfully updated!', {
-						position: "top-center",
+						position: 'top-center',
 						autoClose: 5000,
 						hideProgressBar: false,
 						closeOnClick: true,
 						pauseOnHover: true,
 						draggable: true,
 						progress: undefined,
-						theme: "dark",
+						theme: 'dark',
 						transition: Flip,
-						});
+					});
 				} else {
 					if (response.status === 409) {
 						setErrors({ ...errors, authentication: 'Account with this username or email already exists.' });
@@ -153,16 +172,11 @@ const SettingModalForm = () => {
 
 	const handleExit = () => {
 		resetForm();
-	}
+	};
 
 	return (
 		<div>
 			<h3 className='font-bold text-lg pb-2'>Settings</h3>
-			<label className='swap swap-rotate'>
-				<input type='checkbox' className='theme-controller' value='corporate' />
-				<Moon className='swap-off w-10 h-10' />
-				<Sun className='swap-on w-10 h-10' color='#ff8040' />
-			</label>
 			<div className='modal-action flex flex-col justify-center'>
 				<form className='flex flex-col gap-4' method='dialog' onSubmit={handleSubmit}>
 					{errors.authentication && <p className='text-red-500'>{errors.authentication}</p>}
@@ -202,16 +216,24 @@ const SettingModalForm = () => {
 						{errors.email && <p className='text-red-500'>{errors.email}</p>}
 					</label>
 					<label>
-						<input type='file' className='file-input file-input-bordered w-full ' />
+						<input type='file' 
+						id='profile_picture'
+						name='profile_picture'
+						onChange={handleFileChange}
+						className='file-input file-input-bordered w-full ' 
+						accept='image/*'/>
+						{errors.profile_picture && <p className='text-red-500'>{errors.profile_picture}</p>}
 					</label>
 					<div className='flex flex-row justify-between'>
 						<button className='btn'>Save</button>
 						<div className='flex flex-row gap-2'>
-							<button className='btn' onClick={handleLogout}>
+							<button className='btn bg-red-700 hover:bg-red-700/80' onClick={handleLogout}>
 								Logout
 							</button>
 							<form method='dialog'>
-								<button className='btn' onClick={handleExit}>Exit</button>
+								<button className='btn' onClick={handleExit}>
+									Exit
+								</button>
 							</form>
 						</div>
 					</div>

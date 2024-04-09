@@ -1,9 +1,10 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, LargeBinary
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from utils.sql_alchemy import db
 from utils.bcrypt import bcrypt
 from models.Room import Lobby
+import base64
 
 class Client(db.Model):
     __tablename__ = 'client'
@@ -13,6 +14,7 @@ class Client(db.Model):
     password_hash = Column(String(255), nullable=False)
     date_created = Column(DateTime, default=datetime.utcnow)
     lobbies = db.relationship('Room', secondary=Lobby, back_populates='clients')
+    profile_picture = Column(LargeBinary)
 
     def save(self, password):
         try:
@@ -30,17 +32,23 @@ class Client(db.Model):
     def get_by_username(username):
         # already deserialized
         client = Client.query.filter_by(username=username).first()
+        profile_picture_data = None
         if client:
+            if client.profile_picture:
+                profile_picture_data = base64.b64encode(client.profile_picture).decode('utf-8')
+            else:
+                profile_picture_data = None
             return {
                 'client_id': client.client_id,
                 'username': client.username,
                 'email': client.email,
-                'date_created': client.date_created
+                'date_created': client.date_created,
+                'profile_picture': profile_picture_data
             }
         else:
             return {'error': 'user not found'}
         
-    def update_user_info(self, username, password, email):
+    def update_user_info(self, username, password, email, profile_picture):
         try:
             updated_fields = {}
             if username and username != self.username:
@@ -54,7 +62,9 @@ class Client(db.Model):
                 if new_password_hash != self.password_hash:
                     self.password_hash = new_password_hash
                     updated_fields['password'] = '********'
-            
+            if profile_picture: 
+                self.profile_picture = profile_picture
+                updated_fields['profile_picture'] = profile_picture
             if updated_fields:
                 db.session.commit()
                 return {'client_id': self.client_id, 'updated': updated_fields},200
@@ -73,9 +83,14 @@ class Client(db.Model):
             return None
 
     def to_dict(self):
+        if self.profile_picture:
+            profile_picture_data = base64.b64encode(self.profile_picture).decode('utf-8')
+        else:
+            profile_picture_data = None
         return {
             'client_id': self.client_id,
             'username': self.username,
             'email': self.email,
-            'date_created': self.date_created
+            'date_created': self.date_created,
+            'profile_picture': profile_picture_data
         }
