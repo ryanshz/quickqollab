@@ -30,6 +30,28 @@ def create_room(title, password):
             return response, 200
     except Exception as e:
         return {"error": str(e)}, 500
+    
+def remove_room(room_id, user_id):
+    try:
+        host_id = session.get('user_id')
+        if host_id is None:
+            return {"error": "User not authenticated or invalid session"}, 401
+
+        room = Room.get_by_room_id(room_id)
+        if room is None:
+            return {"error": "Room not found"}, 404
+
+        if room.host_id != user_id:
+            return {"error": "You are not authorized to remove this room"}, 403
+
+        # Remove the room
+        Room.delete_room(room_id)
+
+        return {"message": "Room removed successfully"}, 200
+    except Exception as e:
+        return {"error": str(e)}, 500
+
+
 
 # def join_room(room_id, client_id):
 #     try: 
