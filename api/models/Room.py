@@ -59,3 +59,17 @@ class Room(db.Model):
             }
         else:
             return {'error': 'room not found'}
+        
+    def delete_room(room_id):
+        try:
+            room = Room.query.filter_by(room_id=room_id).first()
+            if room:
+                db.session.delete(room)
+                db.session.commit()
+                return {"message": "Room deleted successfully"}, 200
+            else:
+                return {"error": "Room not found"}, 404
+        except Exception as e:
+            db.session.rollback()
+            return {"error": str(e)}, 500
+
