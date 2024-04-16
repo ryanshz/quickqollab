@@ -24,6 +24,17 @@ def join_room():
     data = request.json()
     return 'message'
 
+@rooms_blueprint.get('/all')
+def get_all_rooms():
+    response, status = room_controller.get_all_rooms()
+    return jsonify(response), status
+
+@rooms_blueprint.get('/search')
+def search_rooms():
+    query = request.args.get('query')
+    response, status = room_controller.search_rooms(query)
+    return jsonify(response), status
+
 # @rooms_blueprint.route('/<int:room_id>', methods=['GET'])
 # def get_room(room_id):
 #     room = Room.query.get(room_id)
