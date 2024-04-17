@@ -2,6 +2,10 @@ from models.Room import Room
 from models.Client import Client
 from flask import session
 import re
+import base64
+from sqlalchemy import or_, func
+from urllib.parse import unquote
+
 
 def create_room(title, password):
     try:       
@@ -30,6 +34,41 @@ def create_room(title, password):
             return response, 200
     except Exception as e:
         return {"error": str(e)}, 500
+    
+def get_all_rooms():
+    rooms = Room.get_all_rooms()
+    room_list = [
+        {
+            "room_id": room.room_id,
+            "title": room.title,
+            "username": room.username,
+            "profile_picture": base64.b64encode(room.profile_picture).decode('utf-8') 
+            if room.profile_picture 
+            else None
+        } for room in rooms
+    ]
+    return {"rooms": room_list}, 200
+
+def search_rooms(query):
+    if '%' not in query:
+        rooms = Room.query.join(Client).filter(
+            (Room.title.ilike(f'%{query}%')) | (Client.username.ilike(f'%{query}%'))
+        ).all()
+    
+        if rooms:
+            room_list = [
+                {
+                    "room_id": room.room_id,
+                    "title": room.title,
+                    "username": room.clients[0].username,  
+                    "profile_picture": base64.b64encode(room.clients[0].profile_picture).decode('utf-8') 
+                    if room.clients[0].profile_picture 
+                    else None
+                } for room in rooms
+            ]
+            return {"rooms": room_list}, 200
+   
+    return {"message": "No results found matching search criteria"}, 404
 
 # def join_room(room_id, client_id):
 #     try: 
