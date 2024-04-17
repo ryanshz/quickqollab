@@ -11,7 +11,6 @@ const SearchForm = ( {onSearch} ) => {
 
 	return (
 		<div>
-			{/* <form action='' onSubmit={handleSubmit}> */}
 			<form onSubmit={handleSubmit}>
 				<label className='input input-bordered flex items-center gap-2 rounded-t-2xl'>
 					<input 

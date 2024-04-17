@@ -50,10 +50,6 @@ def get_all_rooms():
     return {"rooms": room_list}, 200
 
 def search_rooms(query):
-    '''
-    Because in front-end I encoded the query but % doesnt encode as % is used to encode.
-    If % encoded it manually it would be %25%25 causing security issues so I checked if '%' is in the query
-    '''
     if '%' not in query:
         rooms = Room.query.join(Client).filter(
             (Room.title.ilike(f'%{query}%')) | (Client.username.ilike(f'%{query}%'))
