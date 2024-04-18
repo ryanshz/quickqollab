@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Colors from './events/Colors';
+import Chatbox from './Chatbox';
 import { useCanvas } from './context/CanvasContext';
 import {
 	Palette,
@@ -14,6 +15,7 @@ import {
 	PencilRuler,
 	Trash2,
 	RotateCcw,
+	MessageSquareMore
 } from 'lucide-react';
 
 const Toolbox = () => {
@@ -125,6 +127,13 @@ const Toolbox = () => {
 						<RotateCcw />
 					</button>
 				</div>
+			</div>
+			{/* Chatbox */}
+			<div className="dropdown dropdown-top">
+				<div tabIndex={0} role="button" className="btn m-1"><MessageSquareMore /></div>
+				<ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-200">
+					<Chatbox />
+				</ul>
 			</div>
 		</div>
 	);
