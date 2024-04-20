@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { io } from 'socket.io-client';
+
+const socket = io('http://127.0.0.1:5000/');
 
 const CreateRoomModalForm = () => {
 	const navigate = useNavigate();
@@ -16,17 +19,16 @@ const CreateRoomModalForm = () => {
 	});
 
 	const resetForm = () => {
-        setFormData({
-            title: '',
-            password: '',
-        });
-        setErrors({
-            title: '',
-            password: '',
-        });
-		document.getElementById('title').value = '';
-        document.getElementById('password').value = '';
-    };
+		setFormData({
+			title: '',
+			password: '',
+		});
+		setErrors({
+			title: '',
+			password: '',
+		});
+		// delete something
+	};
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -39,7 +41,8 @@ const CreateRoomModalForm = () => {
 		const errorsCopy = { ...errors };
 
 		if (!/^(?!\s)(?!.*\s$)(?!.*\s{2})[a-zA-Z0-9\s-]+$/.test(formData.title)) {
-			errorsCopy.title = 'Please enter only letters, number, hyphens, and spaces. Title must not start or end with space, or have consecutive spaces.';
+			errorsCopy.title =
+				'Please enter only letters, number, hyphens, and spaces. Title must not start or end with space, or have consecutive spaces.';
 		} else {
 			errorsCopy.title = '';
 		}
@@ -66,27 +69,34 @@ const CreateRoomModalForm = () => {
 				});
 
 				const data = await response.json();
+				console.log(data);
 
 				if (response.ok) {
-					navigate(`/canvas/${data.response.room_id}`, { state: { roomData: data.response, message: 'Your room was successfully created!' } });
+					socket.emit('create_room', data.response, (socketResponse) => {
+						navigate(`/canvas/${data.response.room_id}`, {
+							state: {
+								roomData: data.response,
+								message: 'Your room was successfully created!',
+							},
+						});
+					});
 				} else {
-					if(response.status === 409) {
-						setErrors({...errors, authentication: 'Another room with this title exists.'});
-					}
-					else { 
-						setErrors({ ...errors, authentication: data.message || 'An unexpected error occurred.'});
+					if (response.status === 409) {
+						setErrors({ ...errors, authentication: 'Another room with this title exists.' });
+					} else {
+						setErrors({ ...errors, authentication: data.message || 'An unexpected error occurred.' });
 					}
 				}
 			} catch (error) {
 				console.error('Network error:', error);
-				setErrors({ ...errors, authentication: 'Error connecting to the network.'});
+				setErrors({ ...errors, authentication: 'Error connecting to the network.' });
 			}
 		}
 	};
 
 	const handleExit = () => {
 		resetForm();
-	}
+	};
 
 	return (
 		<div>
@@ -98,7 +108,7 @@ const CreateRoomModalForm = () => {
 					<label className='input input-bordered flex items-center gap-2'>
 						<input
 							type='text'
-							id="title"
+							id='title'
 							name='title'
 							value={formData.title}
 							onChange={handleChange}
@@ -112,7 +122,7 @@ const CreateRoomModalForm = () => {
 					<label className='input input-bordered flex items-center gap-2'>
 						<input
 							type='password'
-							id="password"
+							id='password'
 							name='password'
 							value={formData.password}
 							onChange={handleChange}
@@ -128,7 +138,9 @@ const CreateRoomModalForm = () => {
 							Create Room
 						</button>
 						<form method='dialog'>
-							<button className='btn' onClick={handleExit}>Exit</button>
+							<button className='btn' onClick={handleExit}>
+								Exit
+							</button>
 						</form>
 					</div>
 				</form>
