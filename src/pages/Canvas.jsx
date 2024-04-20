@@ -1,42 +1,63 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import Toolbox from '../components/canvas/Toolbox';
 import Whiteboard from '../components/canvas/Whiteboard';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import PasswordForm from '../components/canvas/auth/PasswordForm';
 import Chatbox from '../components/canvas/Chatbox';
 import { MessageSquareMore } from 'lucide-react';
 import { CanvasProvider } from '../components/canvas/context/CanvasContext';
 import { toast, Flip, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
+import 'react-toastify/dist/ReactToastify.css';
 
 function Canvas() {
+	// const message = location.state.message;
 	const location = useLocation();
-	const message = location.state.message;
+	const { roomId } = useParams();
+	const navigate = useNavigate();
+
 	const [color, setColor] = useState('#FFFFFF');
 	const [currentTool, setCurrentTool] = useState('scribble');
+	const [room, setRoom] = useState(location.state ? location.state.roomData : null);
 
 	useEffect(() => {
-        if (message) {
-            toast.success(message, {
-				position: "top-center",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "dark",
-				transition: Flip,
-			});
-        }
-    }, [message]);
+		// If room data is not in the state, fetch it
+		if (!room) {
+			fetch(`http://127.0.0.1:5000/room/room_validate/${roomId}`)
+				.then((response) => response.json())
+				.then((data) => {
+					if (data.success) {
+						setRoom(data.room);
+					} else {
+						navigate('/dashboard');
+					}
+				})
+				.catch((error) => {
+					console.log('Failed to fetch room details', error);
+				});
+		}
+	}, [roomId, room, navigate]);
+
+	// useEffect(() => {
+	// 	if (message) {
+	// 		toast.success(message, {
+	// 			position: 'top-center',
+	// 			autoClose: 5000,
+	// 			hideProgressBar: false,
+	// 			closeOnClick: true,
+	// 			pauseOnHover: true,
+	// 			draggable: true,
+	// 			progress: undefined,
+	// 			theme: 'dark',
+	// 			transition: Flip,
+	// 		});
+	// 	}
+	// }, [message]);
 
 	return (
 		<main className='flex flex-row items-center justify-center bg-base-300'>
-			< ToastContainer />
+			<ToastContainer />
 			{false ? (
-				<PasswordForm />
+				<div>{/* {Password Component Form here}*/}</div>
 			) : (
 				<CanvasProvider>
 					<div className='h-full w-full  bg-base-100'>
@@ -47,7 +68,7 @@ function Canvas() {
 							<></>
 							<div className='dropdown dropdown-top'>
 								<div
-									tabindex='0'
+									tabIndex='0'
 									role='button'
 									className='btn m-1 tooltip tooltip-bottom flex flex-row items-center justify-center bg-base-200'
 									data-tip='Message'>
