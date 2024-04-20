@@ -23,7 +23,6 @@ const Whiteboard = () => {
 		addToHistory,
 	} = useCanvas();
 
-	console.log(currentTool);
 	const isDrawing = useRef(false);
 
 	const handleMouseDown = (e) => {
