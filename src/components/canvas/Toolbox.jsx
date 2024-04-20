@@ -24,13 +24,13 @@ const Toolbox = () => {
 		<div className='flex flex-row bg-base-100 w-fit'>
 			<div className='dropdown dropdown-top'>
 				<div
-					tabindex='0'
+					tabIndex='0'
 					role='button'
 					className='btn m-1 tooltip tooltip-bottom flex flex-row items-center justify-center'
 					data-tip='Tools'>
 					<PencilRuler />
 				</div>
-				<ul tabindex='0' className='dropdown-content z-[1] menu p-2 w-1/5'>
+				<ul tabIndex='0' className='dropdown-content z-[1] menu p-2 w-1/5'>
 					<li className='tooltip tooltip-left' data-tip='Pen'>
 						<button onClick={() => setCurrentTool('scribble')}>
 							<Pen className='text-green-400' />
@@ -51,13 +51,13 @@ const Toolbox = () => {
 			{/* Shapes */}
 			<div className='dropdown dropdown-top'>
 				<div
-					tabindex='0'
+					tabIndex='0'
 					role='button'
 					className='btn m-1 tooltip tooltip-bottom flex flex-row items-center justify-center'
 					data-tip='Shapes'>
 					<Shapes />
 				</div>
-				<ul tabindex='0' className='dropdown-content z-[1] menu p-2 w-1/5'>
+				<ul tabIndex='0' className='dropdown-content z-[1] menu p-2 w-1/5'>
 					<li className='tooltip tooltip-left' data-tip='Triangle'>
 						<button onClick={() => setCurrentTool('Triangle')}>
 							<Triangle />
@@ -78,14 +78,14 @@ const Toolbox = () => {
 			{/* Color Palette */}
 			<div className='dropdown dropdown-top'>
 				<div
-					tabindex='0'
+					tabIndex='0'
 					role='button'
 					className='btn m-1 tooltip tooltip-bottom flex flex-row items-center justify-center'
 					style={{ backgroundColor: `${paletteBG}` }}
 					data-tip='Color Palette'>
 					<Palette color={`${iconColor}`} />
 				</div>
-				<ul tabindex='0' className='dropdown-content z-[1] menu p-2 w-1/5'>
+				<ul tabIndex='0' className='dropdown-content z-[1] menu p-2 w-1/5'>
 					<li>
 						<Colors setColor={setPenColor} setPaletteBG={setPaletteBG} setIconColor={setIconColor}></Colors>
 					</li>
@@ -94,7 +94,7 @@ const Toolbox = () => {
 			{/* Download */}
 			<div className='dropdown dropdown-top'>
 				<div
-					tabindex='0'
+					tabIndex='0'
 					role='button'
 					className='btn m-1 tooltip tooltip-bottom flex flex-row items-center justify-center'
 					data-tip='Download as PNG'>
@@ -106,7 +106,7 @@ const Toolbox = () => {
 			{/* Clear */}
 			<div className='dropdown dropdown-top'>
 				<div
-					tabindex='0'
+					tabIndex='0'
 					role='button'
 					className='btn m-1 tooltip tooltip-bottom flex flex-row items-center justify-center'
 					data-tip='Clear board'>
@@ -117,7 +117,7 @@ const Toolbox = () => {
 			</div>
 			<div className='dropdown dropdown-top'>
 				<div
-					tabindex='0'
+					tabIndex='0'
 					role='button'
 					className='btn m-1 tooltip tooltip-bottom flex flex-row items-center justify-center'
 					data-tip='Undo'>
