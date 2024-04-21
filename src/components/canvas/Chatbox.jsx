@@ -71,7 +71,7 @@ const Chatbox = () => {
 									/>
 								</div>
 							</div>
-							<div className='chat-header'>{msg.username}</div>
+							<div className='chat-header font-bold'>{msg.username}</div>
 							<div className='chat-bubble word-break: break-all'>{msg.message}</div>
 							<div className='chat-footer opacity-50'>{msg.time}</div>
 						</div>
