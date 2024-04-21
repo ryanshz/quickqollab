@@ -54,7 +54,7 @@ const Chatbox = () => {
                             <li key={index} className={msg.username === user.username ? 'chat chat-start' : 'chat chat-end'} style={{ maxWidth: '100%', overflowWrap: 'normal' }} >
                                 <div className={msg.username === user.username ? 'chat-bubble chat-start' : 'chat-bubble chat-end'}  >
                                 <img
-                                            src={user.profile_picture ? `data:image/jpeg;base64,${msg.userImg}` : 'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg'}
+                                            src={msg.userImg ? `data:image/jpeg;base64,${msg.userImg}` : 'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg'}
                                             alt='Profile Avatar'
                                             style={{ width: '50px' }} />
                                     <div >
