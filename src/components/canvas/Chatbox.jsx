@@ -13,9 +13,15 @@ const Chatbox = () => {
     useEffect(() => {
         const newSocket = io(socketConfig.socket);
         setSocket(newSocket);
-
+    
+        // Join room when socket is connected
+        newSocket.on('connect', () => {
+            const room_id = window.location.pathname.split('/').pop();
+            newSocket.emit('join_room', { room_id });
+        });
+    
         return () => newSocket.close();
-    }, [setSocket]);
+    }, []);
 
     useEffect(() => {
         if (socket) {
@@ -33,11 +39,12 @@ const Chatbox = () => {
 
     const sendMessage = (e) => {
         e.preventDefault();
-        if (socket) {
+        if ((socket && socket.connected)) {
             const messageData = {
                 username: user.username,
                 message: message,
-                userImg: user.profile_picture
+                userImg: user.profile_picture,
+                room: window.location.pathname.split('/').pop()
             };
             socket.emit('chat_message', messageData);
             setMessage('');

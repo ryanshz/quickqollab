@@ -23,9 +23,10 @@ def handle_join_room(data):
     join_room(room_id)
     
     emit('room_joined', {'success': True, 'message': f'Joined room successfully', 'room_id': room_id}, room=room_id)
-    emit('room_update', {'message': 'A new user has joined the room.'}, room=room_id, broadcast=True)
+    emit('room_update', {'message': 'A new user has joined the room.'}, room=room_id)
     
 @socketio.on('chat_message')
 def handle_chat_message(message):
-    emit('chat_message', message, broadcast=True)
+    room_id=message.get('room')
+    emit('chat_message', message, room=room_id)
 
