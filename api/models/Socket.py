@@ -30,3 +30,7 @@ def handle_chat_message(message):
     room_id=message.get('room')
     emit('chat_message', message, room=room_id)
 
+@socketio.on('canvas_update')
+def handle_canvas_update(data):
+    room_id = data.get('room_id')
+    emit('canvas_update', data, room=room_id)

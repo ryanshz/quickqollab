@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { socketConfig } from '../../config/site-config';
 import { Stage, Layer } from 'react-konva';
@@ -7,7 +7,7 @@ import { createShape, updateShape } from './events/Shapes';
 import Shapes from './events/Shapes';
 import { useCanvas } from './context/CanvasContext';
 
-const socket = io(socketConfig.socket);
+// const socket = io(socketConfig.socket);
 
 const Whiteboard = () => {
 	const {
@@ -24,6 +24,37 @@ const Whiteboard = () => {
 	} = useCanvas();
 
 	const isDrawing = useRef(false);
+	const [socket, setSocket] = useState(null);
+
+	useEffect(() => {
+		const newSocket = io(socketConfig.socket);
+		setSocket(newSocket);
+	
+		return () => {
+			if (newSocket) {
+				newSocket.disconnect();
+			}
+		};
+	}, []);
+	
+	useEffect(() => {
+		if (socket) {
+			socket.on('connect', () => {
+				const room_id = window.location.pathname.split('/').pop();
+				socket.emit('join_room', { room_id });
+			});
+	
+			socket.on('canvas_update', ({ scribbles, shapes }) => {
+				setScribbles(scribbles);
+				setShapes(shapes);
+			});
+		}
+	}, [socket, setScribbles, setShapes]);
+
+	const emitCanvasUpdate = () => {
+		const room_id = window.location.pathname.split('/').pop();
+		socket.emit('canvas_update', { room_id, scribbles, shapes });
+	};
 
 	const handleMouseDown = (e) => {
 		isDrawing.current = true;
@@ -60,6 +91,7 @@ const Whiteboard = () => {
 	const handleMouseUp = () => {
 		isDrawing.current = false;
 		addToHistory(scribbles, shapes);
+		emitCanvasUpdate();
 	};
 
 	const undo = () => {
