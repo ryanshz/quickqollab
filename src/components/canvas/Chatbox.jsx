@@ -4,82 +4,95 @@ import { socketConfig } from '../../config/site-config';
 import { useAuth } from '../../middleware/AuthContext';
 
 const Chatbox = () => {
-    const { user } = useAuth();
-    const [socket, setSocket] = useState(null);
-    const [message, setMessage] = useState('');
-    const [chat, setChat] = useState([]);
-    const chatRef = useRef(null); // Reference to the chat container
+	const { user } = useAuth();
+	const [socket, setSocket] = useState(null);
+	const [message, setMessage] = useState('');
+	const [chat, setChat] = useState([]);
+	const chatRef = useRef(null);
 
-    useEffect(() => {
-        const newSocket = io(socketConfig.socket);
-        setSocket(newSocket);
-    
-        // Join room when socket is connected
-        newSocket.on('connect', () => {
-            const room_id = window.location.pathname.split('/').pop();
-            newSocket.emit('join_room', { room_id });
-        });
-    
-        return () => newSocket.close();
-    }, []);
+	useEffect(() => {
+		const newSocket = io(socketConfig.socket);
+		setSocket(newSocket);
 
-    useEffect(() => {
-        if (socket) {
-            socket.on('chat_message', (msg) => {
-                setChat((prevChat) => [...prevChat, msg]);
-            });
-        }
-    }, [socket]);
+		newSocket.on('connect', () => {
+			const room_id = window.location.pathname.split('/').pop();
+			newSocket.emit('join_room', { room_id });
+		});
 
-    useEffect(() => {
-        if (chatRef.current) {
-            chatRef.current.scrollTop = chatRef.current.scrollHeight;
-        }
-    }, [chat]);
+		newSocket.on('chat_message', (msg) => {
+			setChat((prevChat) => [...prevChat, msg]);
+		});
 
-    const sendMessage = (e) => {
-        e.preventDefault();
-        if ((socket && socket.connected)) {
-            const messageData = {
-                username: user.username,
-                message: message,
-                userImg: user.profile_picture,
-                room: window.location.pathname.split('/').pop()
-            };
-            socket.emit('chat_message', messageData);
-            setMessage('');
-        }
-    };
+		return () => {
+			newSocket.off('connect');
+			newSocket.off('chat_message');
+			newSocket.close();
+		};
+	}, []);
 
-    return (
-        <>
-            <div className='h-5/6 w-full flex flex-col p-3 border-2 border-white-1000 rounded-md' style={{ width: '400px', height: '600px' }}>
-                <div className='pl-2 pr-2 h-full w-full flex flex-col gap-3 overflow-auto' ref={chatRef}>
-                    <h1>Chat</h1>
-                    <ul>
-                        {chat.map((msg, index) => (
-                            <li key={index} className={msg.username === user.username ? 'chat chat-start' : 'chat chat-end'} style={{ maxWidth: '100%', overflowWrap: 'normal' }} >
-                                <div className={msg.username === user.username ? 'chat-bubble chat-start' : 'chat-bubble chat-end'}  >
-                                <img
-                                            src={msg.userImg ? `data:image/jpeg;base64,${msg.userImg}` : 'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg'}
-                                            alt='Profile Avatar'
-                                            style={{ width: '50px' }} />
-                                    <div >
-                                        {msg.username}:<br/>
-                                    </div>
-                                    {msg.message}
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <form className="w-full" onSubmit={sendMessage} style={{ alignSelf: 'flex-end' }}>
-                    <input className="w-full" type='text' value={message} onChange={(e) => setMessage(e.target.value)} />
-                    <button type='submit'>Send</button>
-                </form>
-            </div>
-        </>
-    );
+	useEffect(() => {
+		if (chatRef.current) {
+			chatRef.current.scrollTop = chatRef.current.scrollHeight;
+		}
+	}, [chat]);
+
+	const sendMessage = (e) => {
+		e.preventDefault();
+		if (socket && socket.connected && message.trim()) {
+			const messageData = {
+				username: user.username,
+				message: message,
+				userImg: user.profile_picture,
+				room: window.location.pathname.split('/').pop(),
+				time: new Date().toLocaleString(), // Time of sending the message
+			};
+			socket.emit('chat_message', messageData);
+			setMessage('');
+		}
+	};
+
+	return (
+		<div className='w-[32rem] h-[32rem] flex flex-col '>
+			<div className='flex-grow overflow-y-auto overflow-x-hidden p-4' ref={chatRef}>
+				{chat.map((msg, index) => (
+					<div key={index}>
+						{' '}
+						{/* Correct usage of the key prop */}
+						<div className={`chat ${msg.username === user.username ? ' chat-start' : 'chat-end'}`}>
+							<div className='chat-image avatar'>
+								<div className='w-10 rounded-full'>
+									<img
+										src={
+											msg.userImg
+												? `data:image/jpeg;base64,${msg.userImg}`
+												: 'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg'
+										}
+										alt='Profile Avatar'
+									/>
+								</div>
+							</div>
+							<div className='chat-header'>{msg.username}</div>
+							<div className='chat-bubble break-words'>{msg.message}</div>
+							<div className='chat-footer opacity-50'>{msg.time}</div>
+						</div>
+					</div>
+				))}
+			</div>
+			<div className='divider divider-primary'>Chat</div>
+			<form className='flex mt-auto' onSubmit={sendMessage}>
+				<input
+					placeholder='Type here'
+					className='input input-bordered flex-auto'
+					type='text'
+					value={message}
+					onChange={(e) => setMessage(e.target.value)}
+				/>
+				<button type='submit' className='btn btn-primary ml-2'>
+					Send
+				</button>
+			</form>
+		</div>
+	);
 };
 
 export default Chatbox;
