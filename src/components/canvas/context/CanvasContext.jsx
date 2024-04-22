@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
+import { socketConfig } from '../../../config/site-config';
 
 const CanvasContext = createContext(null);
 
 export const useCanvas = () => useContext(CanvasContext);
-const socket = io('http://127.0.0.1:5000/');
+const socket = io(socketConfig.socket);
 
 export const CanvasProvider = ({ children }) => {
 	const [currentTool, setCurrentTool] = useState('scribble');
@@ -70,24 +71,9 @@ export const CanvasProvider = ({ children }) => {
 		};
 	}, [roomId]);
 
-	// useEffect(() => {
-	// 	const newSocket = io(socketConfig.socket);
-	// 	setSocket(newSocket);
-	
-	// 	return () => {
-	// 		if (newSocket) {
-	// 			newSocket.disconnect();
-	// 		}
-	// 	};
-	// }, []);
-	
 	useEffect(() => {
 		if (socket) {
-			// socket.on('connect', () => {
-			// 	const room_id = window.location.pathname.split('/').pop();
-			// 	socket.emit('join_room', { room_id });
-			// });
-			socket.on('canvas_update', ({ scribbles, shapes, }) => {
+			socket.on('canvas_update', ({ scribbles, shapes }) => {
 				setScribbles(scribbles);
 				setShapes(shapes);
 			});
@@ -97,16 +83,14 @@ export const CanvasProvider = ({ children }) => {
 				setShapes([]);
 			});
 		}
-	}, [socket, setScribbles, setShapes]);
+	}, [setScribbles, setShapes]);
 
 	const emitCanvasClear = () => {
-		const room_id = window.location.pathname.split('/').pop();
-		socket.emit('canvas_clear', {room_id});
-	}
+		socket.emit('canvas_clear', { room_id: roomId });
+	};
 
 	const emitCanvasUpdate = () => {
-		const room_id = window.location.pathname.split('/').pop();
-		socket.emit('canvas_update', { room_id, scribbles, shapes });
+		socket.emit('canvas_update', { room_id: roomId, scribbles, shapes });
 	};
 
 	return (
