@@ -28,6 +28,7 @@ export const CanvasProvider = ({ children }) => {
 		newHistory.push({ scribbles: newScribbles, shapes: newShapes });
 		setHistory(newHistory);
 		setCurrentStep(newHistory.length - 1);
+		emitCanvasUpdate();
 	};
 
 	const undo = () => {
@@ -43,6 +44,7 @@ export const CanvasProvider = ({ children }) => {
 	const clearDrawing = () => {
 		setScribbles([]);
 		setShapes([]);
+		emitCanvasClear();
 	};
 
 	useEffect(() => {
@@ -67,6 +69,45 @@ export const CanvasProvider = ({ children }) => {
 			socket.off('room_update');
 		};
 	}, [roomId]);
+
+	// useEffect(() => {
+	// 	const newSocket = io(socketConfig.socket);
+	// 	setSocket(newSocket);
+	
+	// 	return () => {
+	// 		if (newSocket) {
+	// 			newSocket.disconnect();
+	// 		}
+	// 	};
+	// }, []);
+	
+	useEffect(() => {
+		if (socket) {
+			// socket.on('connect', () => {
+			// 	const room_id = window.location.pathname.split('/').pop();
+			// 	socket.emit('join_room', { room_id });
+			// });
+			socket.on('canvas_update', ({ scribbles, shapes, }) => {
+				setScribbles(scribbles);
+				setShapes(shapes);
+			});
+
+			socket.on('canvas_clear', () => {
+				setScribbles([]);
+				setShapes([]);
+			});
+		}
+	}, [socket, setScribbles, setShapes]);
+
+	const emitCanvasClear = () => {
+		const room_id = window.location.pathname.split('/').pop();
+		socket.emit('canvas_clear', {room_id});
+	}
+
+	const emitCanvasUpdate = () => {
+		const room_id = window.location.pathname.split('/').pop();
+		socket.emit('canvas_update', { room_id, scribbles, shapes });
+	};
 
 	return (
 		<CanvasContext.Provider
