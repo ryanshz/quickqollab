@@ -12,6 +12,7 @@ import Test from './pages/Test';
 import Rooms from './pages/Rooms';
 import { AuthProvider } from './middleware/AuthContext';
 import { ProtectedRoute } from './middleware/ProtectedRoute';
+import { AuthRedirect } from './middleware/AuthRedirect';
 
 function App() {
 	return (
@@ -39,8 +40,22 @@ function App() {
 									</ProtectedRoute>
 								}
 							/>
-							<Route path='/signup' element={<Signup />} />
-							<Route path='/login' element={<Login />} />
+							<Route 
+								path='/signup' 
+								element={
+									<AuthRedirect>
+										<Signup />
+									</AuthRedirect>
+								}
+							/>
+							<Route 
+								path='/login' 
+								element={ 
+									<AuthRedirect>
+										<Login /> 
+									</AuthRedirect>
+								} 
+							/>
 							<Route path='/test' element={<Test />} />
 							<Route
 								path='/rooms'
