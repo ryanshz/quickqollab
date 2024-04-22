@@ -25,7 +25,7 @@ function App() {
 						<Routes>
 							<Route path='/' element={<Index />} />
 							<Route
-								path='/canvas/:id'
+								path='/canvas/:roomId'
 								element={
 									<ProtectedRoute>
 										<Canvas />

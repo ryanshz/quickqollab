@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import SearchForm from './room/SearchForm';
 import Loading from './room/loading/Loading';
+import { io } from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 
+const socket = io('http://127.0.0.1:5000/');
 const RoomBox = () => {
 	const generateRandomOccupancy = () => Math.floor(Math.random() * 10) + 1;
 	const [rooms, setRooms] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [queryNotFound, setQueryNotFound] = useState(false);
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchRooms = async () => {
@@ -37,6 +42,11 @@ const RoomBox = () => {
 
 		fetchRooms();
 	}, []);
+
+	const handleJoinRoom = (roomId) => {
+		socket.emit('join_room', { room_id: roomId });
+		navigate(`/canvas/${roomId}`);
+	};
 
 	const handleSearch = async (query) => {
 		const encodedQuery = encodeURIComponent(query);
@@ -81,10 +91,10 @@ const RoomBox = () => {
 					<tbody>
 						{rooms.length > 0 ? (
 							rooms.map((room, index) => {
-								const randomOccupancy = generateRandomOccupancy(); 
+								const randomOccupancy = generateRandomOccupancy();
 								return (
 									<tr key={index} className='rounded-b-2xl'>
-										<th>{randomOccupancy}</th> 
+										<th>{randomOccupancy}</th>
 										<td>
 											<div className='flex items-center gap-3'>
 												<div className='avatar'>
@@ -108,7 +118,11 @@ const RoomBox = () => {
 											<h1 className=''>{room.title}</h1>
 										</td>
 										<th>
-											<button className='btn btn-sm rounded-md btn-success'>Join</button>
+											<button
+												className='btn btn-sm rounded-md btn-success'
+												onClick={() => handleJoinRoom(room.room_id)}>
+												Join
+											</button>
 										</th>
 									</tr>
 								);

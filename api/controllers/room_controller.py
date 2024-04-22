@@ -70,6 +70,9 @@ def search_rooms(query):
    
     return {"message": "No results found matching search criteria"}, 404
 
+def check_room(room_id):
+    return Room.query.filter_by(room_id=room_id).first()  
+
 # def join_room(room_id, client_id):
 #     try: 
 #         if status == 200:
