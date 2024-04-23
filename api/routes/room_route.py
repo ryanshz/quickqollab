@@ -1,5 +1,7 @@
 from flask import Blueprint, request, jsonify
 from controllers import room_controller
+from models.Room import Room
+from flask import session
 
 rooms_blueprint = Blueprint('room', __name__)
 
@@ -23,6 +25,27 @@ def create_room():
 def join_room():
     data = request.json()
     return 'message'
+
+@rooms_blueprint.delete('/delete/<int:room_id>')
+def delete_room(room_id):
+    try:
+        # Assuming you have the necessary imports and Room model defined
+        room = Room.query.get(room_id)
+        if not room:
+            return jsonify({'error': 'Room not found'}), 404
+        
+        # Check if the user is authorized to delete the room
+        # user_id = session.get('user_id')
+        # if room.host_id != user_id:
+        #     return jsonify({'error': 'You are not authorized to delete this room'}), 403
+        
+        # Delete the room
+        Room.delete_room(room_id)
+        
+        return jsonify({'message': 'Room deleted successfully'}), 200
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @rooms_blueprint.get('/all')
 def get_all_rooms():
