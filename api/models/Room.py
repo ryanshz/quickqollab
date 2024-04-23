@@ -60,6 +60,15 @@ class Room(db.Model):
         else:
             return {'error': 'room not found'}
         
+    def get_all_rooms():
+        from models.Client import Client
+        return db.session.query(
+            Room.room_id,
+            Room.title,
+            Client.username,
+            Client.profile_picture
+        ).join(Client, Room.host_id == Client.client_id).all()
+        
     def delete_room(room_id):
         try:
             room = Room.query.filter_by(room_id=room_id).first()

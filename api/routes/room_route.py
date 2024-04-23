@@ -47,11 +47,21 @@ def delete_room(room_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# @rooms_blueprint.route('/<int:room_id>', methods=['GET'])
-# def get_room(room_id):
-#     room = Room.query.get(room_id)
-#     if room:
-#         room_info = room.serialize()
-#         return jsonify(room_info), 200
-#     else:
-#         return jsonify({"Error": "Room not found."}), 404
+@rooms_blueprint.get('/all')
+def get_all_rooms():
+    response, status = room_controller.get_all_rooms()
+    return jsonify(response), status
+
+@rooms_blueprint.get('/search')
+def search_rooms():
+    query = request.args.get('query')
+    response, status = room_controller.search_rooms(query)
+    return jsonify(response), status
+
+@rooms_blueprint.get('/room_validate/<int:id>')
+def room_validation(id):
+    room = room_controller.check_room(room_id=id)
+    if room:
+        return jsonify({'success': True, 'message': 'Room exists', 'room_id': room.room_id, 'room_title': room.title}), 200
+    else:
+        return jsonify({'success': False, 'message': 'Room not found'}), 404
