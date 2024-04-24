@@ -4,45 +4,42 @@ import Loading from './room/loading/Loading';
 import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 import { socketConfig } from '../../config/site-config';
+import Refresh from './room/Refresh';
 
 const socket = io(socketConfig.socket);
 const RoomBox = () => {
 	const generateRandomOccupancy = () => Math.floor(Math.random() * 10) + 1;
 	const [rooms, setRooms] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [refresh, setRefresh] = useState(false);
 	const [queryNotFound, setQueryNotFound] = useState(false);
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const fetchRooms = async () => {
-			try {
-				const response = await fetch('http://localhost:5000/room/all', {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					credentials: 'include',
-				});
-
-				const data = await response.json();
-
-				if (response.ok) {
-					setRooms(data.rooms);
-				} else {
-					console.error('Failed to fetch rooms', data.message);
-				}
-			} catch (error) {
-				console.error('Error fetching rooms:', error);
-			} finally {
-				setTimeout(() => {
-					setLoading(false);
-				}, 500);
-			}
-		};
-
 		fetchRooms();
 	}, []);
+
+	const fetchRooms = async () => {
+		setLoading(true);
+		setRefresh(true);
+		try {
+			const response = await fetch('http://localhost:5000/room/all');
+			const data = await response.json();
+			if (response.ok) {
+				setRooms(data.rooms);
+			} else {
+				console.error('Failed to fetch rooms', data.message);
+			}
+		} catch (error) {
+			console.error('Error fetching rooms:', error);
+		} finally {
+			setTimeout(() => {
+				setLoading(false);
+				setRefresh(false);
+			}, 1100);
+		}
+	};
 
 	const handleJoinRoom = (roomId) => {
 		socket.emit('join_room', { room_id: roomId });
@@ -50,6 +47,7 @@ const RoomBox = () => {
 	};
 
 	const handleSearch = async (query) => {
+		setLoading(true);
 		const encodedQuery = encodeURIComponent(query);
 		try {
 			const response = await fetch(`http://localhost:5000/room/search?query=${encodedQuery}`, {
@@ -72,12 +70,17 @@ const RoomBox = () => {
 			}
 		} catch (error) {
 			console.error('Error fetching search results:', error);
+		} finally {
+			setTimeout(() => {
+				setLoading(false);
+			}, 500);
 		}
 	};
 	return (
-		<Loading isLoading={loading}>
-			<div>
+		<Loading isLoading={loading} isRefreshing={refresh}>
+			<div className='flex flex-row w-full'>
 				<SearchForm onSearch={handleSearch} />
+				<Refresh onSearch={fetchRooms}></Refresh>
 			</div>
 			<div className='h-full overflow-y-auto '>
 				<table className='table table-zebra table-pin-rows rounded-b-2xl'>
