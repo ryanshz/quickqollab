@@ -35,7 +35,7 @@ const Loading = ({ isLoading, children, numRows = 4, isRefreshing }) => {
 				<>
 					<div className='flex flex-row w-full'>
 						<div className='w-full'>
-							<label className='input input-bordered flex items-center gap-2 rounded-t-2xl'>
+							<label className='input input-bordered flex items-center gap-2 rounded-tl-2xl'>
 								<input type='text' className='grow' placeholder='Search for room' />
 								<button>
 									<Search size={24} />

@@ -12,7 +12,7 @@ const SearchForm = ({ onSearch }) => {
 	return (
 		<div className='w-full'>
 			<form onSubmit={handleSubmit}>
-				<label className='input input-bordered flex items-center gap-2 rounded-t-2xl'>
+				<label className='input input-bordered flex items-center gap-2 rounded-tl-2xl'>
 					<input
 						type='text'
 						className='grow'
