@@ -16,6 +16,8 @@ function Canvas() {
 	const [color, setColor] = useState('#FFFFFF');
 	const [currentTool, setCurrentTool] = useState('scribble');
 	const [room, setRoom] = useState(location.state ? location.state.roomData : null);
+	const [messageDisplayed, setMessageDisplayed] = useState(false);
+	
 
 	useEffect(() => {
 		// If room data is not in the state, fetch it
@@ -35,21 +37,26 @@ function Canvas() {
 		}
 	}, [roomId, room, navigate]);
 
-	// useEffect(() => {
-	// 	if (message) {
-	// 		toast.success(message, {
-	// 			position: 'top-center',
-	// 			autoClose: 5000,
-	// 			hideProgressBar: false,
-	// 			closeOnClick: true,
-	// 			pauseOnHover: true,
-	// 			draggable: true,
-	// 			progress: undefined,
-	// 			theme: 'dark',
-	// 			transition: Flip,
-	// 		});
-	// 	}
-	// }, [message]);
+	useEffect(() => {
+		if (room && !messageDisplayed && location.state) {
+			const { message } = location.state;
+			if (message) {
+				toast.success(message, {
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: 'dark',
+					transition: Flip,
+				});
+				setMessageDisplayed(true);
+			}
+		}
+	}, [room, messageDisplayed, location.state]);
+
 
 	return (
 		<main className='flex flex-row items-center justify-center bg-base-300'>
