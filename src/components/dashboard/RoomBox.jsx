@@ -3,8 +3,9 @@ import SearchForm from './room/SearchForm';
 import Loading from './room/loading/Loading';
 import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
+import { socketConfig } from '../../config/site-config';
 
-const socket = io('http://127.0.0.1:5000/');
+const socket = io(socketConfig.socket);
 const RoomBox = () => {
 	const generateRandomOccupancy = () => Math.floor(Math.random() * 10) + 1;
 	const [rooms, setRooms] = useState([]);
