@@ -66,6 +66,18 @@ const Navbar = () => {
 						</Link>
 					</section>
 					<section className='flex-none'>
+						{' '}
+						<label className='swap swap-rotate'>
+							<input
+								type='checkbox'
+								className='theme-controller'
+								value='corporate'
+								checked={pageThemeIsDark}
+								onChange={() => setThemeToDark(!pageThemeIsDark)}
+							/>
+							<Moon className='swap-off w-5 h-5' />
+							<Sun className='swap-on w-5 h-5' color='#ff8040' />
+						</label>
 						<ul className='menu menu-horizontal'>
 							<li>
 								<Link to='/login'>Sign in</Link>
@@ -75,19 +87,7 @@ const Navbar = () => {
 							</li>
 						</ul>
 					</section>
-					<section className='flex-none mr-28'>
-						<label className='swap swap-rotate'>
-							<input
-								type='checkbox'
-								className='theme-controller'
-								value='corporate'
-								checked={pageThemeIsDark}
-								onChange={() => setThemeToDark(!pageThemeIsDark)}
-							/>
-							<Moon className='swap-off w-10 h-10' />
-							<Sun className='swap-on w-10 h-10' color='#ff8040' />
-						</label>
-					</section>
+					<section className='flex-none mr-28'></section>
 				</nav>
 			)}
 		</div>
