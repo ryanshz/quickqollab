@@ -1,7 +1,7 @@
 import React from 'react';
-import SearchForm from '../SearchForm';
+import { RefreshCw, Search } from 'lucide-react';
 
-const Loading = ({ isLoading, children, numRows = 4 }) => {
+const Loading = ({ isLoading, children, numRows = 4, isRefreshing }) => {
 	const renderLoadingRow = () => (
 		<tr>
 			<th>
@@ -33,8 +33,30 @@ const Loading = ({ isLoading, children, numRows = 4 }) => {
 		<>
 			{isLoading && (
 				<>
-					<div>
-						<SearchForm />
+					<div className='flex flex-row w-full'>
+						<div className='w-full'>
+							<label className='input input-bordered flex items-center gap-2 rounded-tl-2xl'>
+								<input type='text' className='grow' placeholder='Search for room' />
+								<button>
+									<Search size={24} />
+								</button>
+							</label>
+						</div>
+						<div>
+							{isRefreshing ? (
+								<label className='input input-bordered flex items-center gap-2 rounded-tr-2xl'>
+									<button className='w-px[24] h-px[24]'>
+										<span className='loading loading-spinner'></span>
+									</button>
+								</label>
+							) : (
+								<label className='input input-bordered flex items-center gap-2 rounded-tr-2xl'>
+									<button className='w-px[24] h-px[24]'>
+										<RefreshCw size={24} />
+									</button>
+								</label>
+							)}
+						</div>
 					</div>
 					<div className='h-full overflow-y-auto '>
 						<table className='table table-zebra table-pin-rows rounded-b-2xl'>
