@@ -6,10 +6,11 @@ from utils.bcrypt import bcrypt
 from models.Room import Lobby
 import base64
 import uuid
+from sqlalchemy.dialects.postgresql import UUID
 
 class Client(db.Model):
     __tablename__ = 'client'
-    client_id = Column(String(36), primary_key=True, default=str(uuid.uuid4()))
+    client_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = Column(String(36), nullable=False, unique=True)
     email = Column(String(255), nullable=False, unique=True)
     password_hash = Column(String(255), nullable=False)
