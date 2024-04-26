@@ -65,6 +65,7 @@ class Room(db.Model):
         return db.session.query(
             Room.room_id,
             Room.title,
+            Room.host_id,
             Client.username,
             Client.profile_picture
         ).join(Client, Room.host_id == Client.client_id).all()

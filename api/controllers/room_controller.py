@@ -42,6 +42,7 @@ def get_all_rooms():
             "room_id": room.room_id,
             "title": room.title,
             "username": room.username,
+            "host_id": room.host_id,
             "profile_picture": base64.b64encode(room.profile_picture).decode('utf-8') 
             if room.profile_picture 
             else None

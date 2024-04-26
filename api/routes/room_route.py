@@ -35,9 +35,9 @@ def delete_room(room_id):
             return jsonify({'error': 'Room not found'}), 404
         
         # Check if the user is authorized to delete the room
-        # user_id = session.get('user_id')
-        # if room.host_id != user_id:
-        #     return jsonify({'error': 'You are not authorized to delete this room'}), 403
+        user_id = session.get('user_id')
+        if room.host_id != user_id:
+            return jsonify({'error': 'You are not authorized to delete this room'}), 403
         
         # Delete the room
         Room.delete_room(room_id)
