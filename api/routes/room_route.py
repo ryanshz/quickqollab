@@ -58,7 +58,7 @@ def search_rooms():
     response, status = room_controller.search_rooms(query)
     return jsonify(response), status
 
-@rooms_blueprint.get('/room_validate/<int:id>')
+@rooms_blueprint.get('/room_validate/<uuid:id>')
 def room_validation(id):
     room = room_controller.check_room(room_id=id)
     if room:

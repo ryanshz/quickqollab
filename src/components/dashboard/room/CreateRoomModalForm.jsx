@@ -77,7 +77,7 @@ const CreateRoomModalForm = () => {
 						navigate(`/canvas/${data.response.room_id}`, {
 							state: {
 								roomData: data.response,
-								message: 'Your room was successfully created!',
+								isNewRoom: true,
 							},
 						});
 					});

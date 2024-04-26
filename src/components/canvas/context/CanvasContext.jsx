@@ -6,13 +6,14 @@ import { socketConfig } from '../../../config/site-config';
 const CanvasContext = createContext(null);
 
 export const useCanvas = () => useContext(CanvasContext);
-const socket = io(socketConfig.socket);
+// const socket = io(socketConfig.socket);
 
 export const CanvasProvider = ({ children }) => {
 	const [currentTool, setCurrentTool] = useState('scribble');
 	const [scribbles, setScribbles] = useState([]);
 	const [shapes, setShapes] = useState([]);
 	const { roomId } = useParams();
+	const [socket, setSocket] = useState(null);
 
 	// History (undo - redo)
 	const [history, setHistory] = useState([]);
@@ -49,41 +50,87 @@ export const CanvasProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
-		// Join the room on component mount
-		socket.emit('join_room', { room_id: roomId });
-
-		// Listen for the room joined confirmation
-		socket.on('room_joined', (data) => {
-			if (data.success) {
-				console.log(data.message);
-			}
-		});
-
-		// Listen for updates in the room
-		socket.on('room_update', (data) => {
-			console.log(data.message);
-		});
-
-		// Cleanup on component unmount
+		const newSocket = io(socketConfig.socket);
+		setSocket(newSocket);
+		
 		return () => {
-			socket.off('room_joined');
-			socket.off('room_update');
+			if(newSocket) {
+		  		newSocket.disconnect();
+			}
 		};
-	}, [roomId]);
+	  }, []);
+
+	useEffect(() => {
+		// Join the room on component mount
+		if(socket) {
+			console.log("Component mounted");
+			socket.emit('join_room', { room_id: roomId });
+
+			// Listen for the room joined confirmation
+			// socket.on('room_joined', (data) => {
+			// 	if (data.success) {
+			// 		console.log(data.message);
+			// 	}
+			// });
+			const handleRoomJoined = (data) => {
+				if (data.success) {
+				  console.log(data.message);
+				}
+			  };
+			socket.on('room_joined', handleRoomJoined);
+
+			// Listen for updates in the room
+			// socket.on('room_update', (data) => {
+			// 	console.log(data.message);
+			// });
+			const handleRoomUpdate = (data) => {
+				console.log(data.message);
+			  };
+			socket.on('room_update', handleRoomUpdate);
+
+			// Cleanup on component unmount
+			return () => {
+				// socket.off('room_joined');
+				// socket.off('room_update');
+				socket.off('room_joined', handleRoomJoined);
+				socket.off('room_update', handleRoomUpdate);
+			};
+		
+		}
+	}, [socket, roomId]);
 
 	useEffect(() => {
 		if (socket) {
-			socket.on('canvas_update', ({ scribbles, shapes }) => {
+			console.log("Component Updated");
+			// socket.on('canvas_update', ({ scribbles, shapes }) => {
+			// 	setScribbles(scribbles);
+			// 	setShapes(shapes);
+			// });
+			const handleCanvasUpdate = ({ scribbles, shapes }) => {
 				setScribbles(scribbles);
 				setShapes(shapes);
-			});
+			  };
+			  socket.on('canvas_update', handleCanvasUpdate);
 
-			socket.on('canvas_clear', () => {
+			// socket.on('canvas_clear', () => {
+			// 	setScribbles([]);
+			// 	setShapes([]);
+			// });
+			const handleCanvasClear = () => {
 				setScribbles([]);
 				setShapes([]);
-			});
+			  };
+			socket.on('canvas_clear', handleCanvasClear);
+
+			return () => {
+				// socket.off('canvas_update');
+				// socket.off('canvas_clear');
+				socket.off('canvas_update', handleCanvasUpdate);
+        		socket.off('canvas_clear', handleCanvasClear);
+			  };
 		}
-	}, [setScribbles, setShapes]);
+	}, [socket]);
+	// }, [setScribbles, setShapes]);
 
 	const emitCanvasClear = () => {
 		socket.emit('canvas_clear', { room_id: roomId });
