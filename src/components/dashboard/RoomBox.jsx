@@ -90,6 +90,7 @@ const RoomBox = () => {
 							<th className='w-64'>Host</th>
 							<th className='w-58'>Room name</th>
 							<th className='w-24'>Available</th>
+							<th classname='w-20'>Delete Room</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -126,6 +127,12 @@ const RoomBox = () => {
 												className='btn btn-sm rounded-md btn-success'
 												onClick={() => handleJoinRoom(room.room_id)}>
 												Join
+											</button>
+										</th>
+										<th>
+											<button
+												className='btn btn-sm rounded-md bg-red-500 text-white'>
+												Delete
 											</button>
 										</th>
 									</tr>
