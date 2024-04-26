@@ -13,6 +13,7 @@ import Rooms from './pages/Rooms';
 import { AuthProvider } from './middleware/AuthContext';
 import { ProtectedRoute } from './middleware/ProtectedRoute';
 import { AuthRedirect } from './middleware/AuthRedirect';
+import NotFound404 from './pages/error/404';
 
 function App() {
 	return (
@@ -20,7 +21,6 @@ function App() {
 			<BrowserRouter>
 				<div className='flex flex-col min-h-screen scrollbar-hide'>
 					<Navbar />
-
 					<div className='flex-grow'>
 						<Routes>
 							<Route path='/' element={<Index />} />
@@ -65,6 +65,8 @@ function App() {
 									</ProtectedRoute>
 								}
 							/>
+							{/* 404 page */}
+							<Route path='*' element={<NotFound404 />} />
 						</Routes>
 					</div>
 					<Footer />
