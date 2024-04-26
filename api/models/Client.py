@@ -1,14 +1,16 @@
-from sqlalchemy import Column, Integer, String, DateTime, LargeBinary
+from sqlalchemy import Column, String, DateTime, LargeBinary
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from utils.sql_alchemy import db
 from utils.bcrypt import bcrypt
 from models.Room import Lobby
 import base64
+import uuid
+from sqlalchemy.dialects.postgresql import UUID
 
 class Client(db.Model):
     __tablename__ = 'client'
-    client_id = Column(Integer, primary_key=True)
+    client_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = Column(String(36), nullable=False, unique=True)
     email = Column(String(255), nullable=False, unique=True)
     password_hash = Column(String(255), nullable=False)
@@ -29,8 +31,8 @@ class Client(db.Model):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
+    @staticmethod
     def get_by_username(username):
-        # already deserialized
         client = Client.query.filter_by(username=username).first()
         profile_picture_data = None
         if client:
@@ -67,15 +69,15 @@ class Client(db.Model):
                 updated_fields['profile_picture'] = profile_picture
             if updated_fields:
                 db.session.commit()
-                return {'client_id': self.client_id, 'updated': updated_fields},200
+                return {'client_id': self.client_id, 'updated': updated_fields}, 200
             else:
                 return None, 200
         except Exception as e:
             db.session.rollback()
             return {"Error:": str(e)}, 500
         
+    @staticmethod
     def get_by_client_id(client_id):
-        # returns obj instance
         client = Client.query.filter_by(client_id=client_id).first()
         if client:
             return client

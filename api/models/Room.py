@@ -1,23 +1,25 @@
 from utils.sql_alchemy import db
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from utils.bcrypt import bcrypt
+import uuid
+from sqlalchemy.dialects.postgresql import UUID
 
 Lobby = db.Table('lobby',
     db.Column('id', db.Integer, primary_key=True),
-    db.Column('client_id', db.Integer, db.ForeignKey('client.client_id'), nullable=False),  
-    db.Column('room_id', db.Integer, db.ForeignKey('room.room_id'), nullable=False),  
+    db.Column('client_id', db.String(36), db.ForeignKey('client.client_id'), nullable=False),  
+    db.Column('room_id', db.String(36), db.ForeignKey('room.room_id'), nullable=False),  
     db.Column('join_date', db.DateTime, default=db.func.current_timestamp())
 )
 
 class Room(db.Model):
     __tablename__ = 'room'
-    room_id = Column(Integer, primary_key=True)
+    room_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     title = Column(String(100), nullable=False)
     password_hash = Column(String(255), nullable=True)
     date_created = Column(DateTime, default=datetime.utcnow)
-    host_id = db.Column(db.Integer, db.ForeignKey('client.client_id'), nullable=False)
+    host_id = db.Column(db.String(36), db.ForeignKey('client.client_id'), nullable=False)
     clients = db.relationship('Client', secondary=Lobby, back_populates='lobbies')
 
     def save(self, password):
@@ -44,10 +46,10 @@ class Room(db.Model):
             db.session.rollback()
             return {"Error:": str(e)}, 500
             
-            
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
+    @staticmethod
     def get_by_room_id(room_id):
         room = Room.query.filter_by(room_id=room_id).first()
         if room:
@@ -60,6 +62,7 @@ class Room(db.Model):
         else:
             return {'error': 'room not found'}
         
+    @staticmethod
     def get_all_rooms():
         from models.Client import Client
         return db.session.query(
@@ -69,6 +72,7 @@ class Room(db.Model):
             Client.profile_picture
         ).join(Client, Room.host_id == Client.client_id).all()
         
+    @staticmethod
     def delete_room(room_id):
         try:
             room = Room.query.filter_by(room_id=room_id).first()
@@ -81,4 +85,3 @@ class Room(db.Model):
         except Exception as e:
             db.session.rollback()
             return {"error": str(e)}, 500
-
