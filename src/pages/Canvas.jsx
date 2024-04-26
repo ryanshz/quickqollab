@@ -123,21 +123,18 @@ function Canvas() {
 	// }
 
 	return (
-		<main className='flex flex-row items-center justify-center bg-base-300'>
+		<main className='flex flex-row items-center justify-center bg-base-300 md:overflow-x-hidden overflow-y-hidden'>
 			<ToastContainer />
-			{false ? (
-				<div>{/* {Password Component Form here}*/}</div>
-			) : (
-				<CanvasProvider>
-					<div className='h-full w-full  bg-base-100'>
-						<Whiteboard penColor={color} currentTool={currentTool} />
-						<div className='flex flex-row justify-center '>
-							<Toolbox setColor={setColor} setCurrentTool={setCurrentTool} className='z-50'></Toolbox>
-							<></>
-						</div>
+
+			<CanvasProvider>
+				<div className='h-full w-full  bg-base-100'>
+					<Whiteboard penColor={color} currentTool={currentTool} />
+					<div className='flex flex-row justify-center '>
+						<Toolbox setColor={setColor} setCurrentTool={setCurrentTool} className='z-50'></Toolbox>
+						<></>
 					</div>
-				</CanvasProvider>
-			)}
+				</div>
+			</CanvasProvider>
 		</main>
 	);
 }

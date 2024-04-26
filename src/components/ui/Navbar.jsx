@@ -30,66 +30,44 @@ const Navbar = () => {
 
 	return (
 		<div>
-			{user ? (
-				<nav className='navbar bg-base-100 xl:pl-44 pl-4 xl:pr-14 pr-4'>
-					<section className='flex-1'>
-						<Link to='/'>
-							<img src={setLogoImage()} alt='logo' className='w-48' />
-						</Link>
-					</section>
-					<section className='flex-none mr-28'>
-						<ul className='menu menu-horizontal'>
-							<li>
-								<label className='swap swap-rotate'>
-									<input
-										type='checkbox'
-										className='theme-controller'
-										value='corporate'
-										checked={pageThemeIsDark}
-										onChange={() => setThemeToDark(!pageThemeIsDark)}
-									/>
-									<Moon className='swap-off w-5 h-5' />
-									<Sun className='swap-on w-5 h-5' color='#ff8040' />
-								</label>
-							</li>
+			<nav className='navbar bg-base-100 xl:pl-44 md:pl-24 pl-4 xl:pr-40 md:pr-24 '>
+				<section className='flex-1'>
+					<Link to='/'>
+						<img src={setLogoImage()} alt='logo' className='w-48' />
+					</Link>
+				</section>
+				<section className='flex-none '>
+					<ul className='menu menu-horizontal'>
+						<li>
+							<label className='swap swap-rotate'>
+								<input
+									type='checkbox'
+									className='theme-controller'
+									value='corporate'
+									checked={pageThemeIsDark}
+									onChange={() => setThemeToDark(!pageThemeIsDark)}
+								/>
+								<Moon className='swap-off w-5 h-5' />
+								<Sun className='swap-on w-5 h-5' color='#ff8040' />
+							</label>
+						</li>
+						{user ? (
 							<li>
 								<Link to='/dashboard'>Dashboard</Link>
 							</li>
-						</ul>
-					</section>
-				</nav>
-			) : (
-				<nav className='navbar bg-base-100 xl:pl-44 pl-4 xl:pr-14 pr-4'>
-					<section className='flex-1'>
-						<Link to='/'>
-							<img id='navbar-logo' src={setLogoImage()} alt='logo' className='w-48' />
-						</Link>
-					</section>
-					<section className='flex-none'>
-						{' '}
-						<label className='swap swap-rotate'>
-							<input
-								type='checkbox'
-								className='theme-controller'
-								value='corporate'
-								checked={pageThemeIsDark}
-								onChange={() => setThemeToDark(!pageThemeIsDark)}
-							/>
-							<Moon className='swap-off w-5 h-5' />
-							<Sun className='swap-on w-5 h-5' color='#ff8040' />
-						</label>
-						<ul className='menu menu-horizontal'>
-							<li>
-								<Link to='/login'>Sign in</Link>
-							</li>
-							<li>
-								<Link to='/signup'>Sign up</Link>
-							</li>
-						</ul>
-					</section>
-					<section className='flex-none mr-28'></section>
-				</nav>
-			)}
+						) : (
+							<>
+								<li>
+									<Link to='/login'>Sign in</Link>
+								</li>
+								<li>
+									<Link to='/signup'>Sign up</Link>
+								</li>
+							</>
+						)}
+					</ul>
+				</section>
+			</nav>
 		</div>
 	);
 };
