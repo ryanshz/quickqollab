@@ -4,7 +4,7 @@ import { TimeLineConfig } from '../../config/site-config';
 
 const FAQ = () => {
 	return (
-		<div className='w-screen h-screen py-12 px-36'>
+		<div className='w-fit h-fit xl:py-12 px-36'>
 			<ul className='timeline timeline-snap-icon max-md:timeline-compact timeline-vertical hover:cursor-default'>
 				{TimeLineConfig.item.map((item, index) => {
 					if (index % 2 === 0) {

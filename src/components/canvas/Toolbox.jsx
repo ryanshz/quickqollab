@@ -15,7 +15,7 @@ import {
 	PencilRuler,
 	Trash2,
 	RotateCcw,
-	MessageSquareMore
+	MessageSquareMore,
 } from 'lucide-react';
 
 const Toolbox = () => {
@@ -129,9 +129,11 @@ const Toolbox = () => {
 				</div>
 			</div>
 			{/* Chatbox */}
-			<div className="dropdown dropdown-top">
-				<div tabIndex={0} role="button" className="btn m-1"><MessageSquareMore /></div>
-				<ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-200">
+			<div className='dropdown dropdown-top md:dropdown-end '>
+				<div tabIndex={0} role='button' className='btn m-1'>
+					<MessageSquareMore />
+				</div>
+				<ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-200'>
 					<Chatbox />
 				</ul>
 			</div>

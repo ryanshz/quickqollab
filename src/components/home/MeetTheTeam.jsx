@@ -4,14 +4,14 @@ import { TeamConfig } from '../../config/site-config';
 const MeetTheTeam = () => {
 	return (
 		<div>
-			<section className='w-screen h-screen hover:cursor-default'>
+			<section className='w-fit h-fit hover:cursor-default xl:pt-0 md:pt-20'>
 				<div className='p-12 flex flex-col justify-center items-center w-full h-full'>
 					<div className='max-w-xl'>
 						<h2 className='text-3xl font-bold sm:text-4xl text-center'>{TeamConfig.title}</h2>
 						<p className='mt-4 text-secondary-content text-lg text-center'>{TeamConfig.description}</p>
 					</div>
 
-					<div className='m-4 grid grid-cols-3 grid-row-2 gap-8'>
+					<div className='m-4 grid xl:grid-cols-3 md:grid-cols-1 grid-row-2 gap-8'>
 						{TeamConfig.item.map((item, index) => {
 							if (index === 4) {
 								return (
@@ -45,7 +45,9 @@ const MeetTheTeam = () => {
 											</div>
 											<div className='flex flex-col justify-start w-3/5'>
 												<h1 className='font-bold text-3xl text-primary-content'>{item.name}</h1>
-												<h3 className='font-thin text-xl text-secondary-content'>{item.role}</h3>
+												<h3 className='font-thin text-xl text-secondary-content'>
+													{item.role}
+												</h3>
 												<p className='mt-1 text-sm text-tertairy-content'>{item.description}</p>
 											</div>
 										</div>

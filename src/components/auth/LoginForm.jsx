@@ -74,13 +74,13 @@ const LoginForm = () => {
 	};
 	return (
 		<div className='w-full h-full justify-center flex '>
-			<div className='w-2/3 h-full flex flex-col justify-center items-center p-8 border border-gray-800 rounded-xl gap-4 border-green-400/10 shadow-green-400/10 shadow-xl transition'>
+			<div className='w-2/3 h-full flex flex-col justify-center items-center p-8 border border-gray-800 rounded-xl gap-4 border-green-400/10 shadow-green-400/50 shadow-xl transition'>
 				<div className='w-full'>
 					<img className='rounded-xl ' src='/images/login/login.jpg' alt='' />
 				</div>
 				<div className='flex flex-col gap-2 items-start justify-start w-full'>
 					<h1 className='text-6xl font-bold text-primary-content'>Sign in</h1>
-					<p className='text-xl font-thin text-neutral-content pt-1'>
+					<p className='text-xl font-thin text-secondary-content pt-1'>
 						Keep it all together and you'll be fine.
 					</p>
 				</div>
