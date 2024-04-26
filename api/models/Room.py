@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from utils.bcrypt import bcrypt
 import uuid
+from sqlalchemy.dialects.postgresql import UUID
 
 Lobby = db.Table('lobby',
     db.Column('id', db.Integer, primary_key=True),
@@ -14,7 +15,7 @@ Lobby = db.Table('lobby',
 
 class Room(db.Model):
     __tablename__ = 'room'
-    room_id = Column(String(36), primary_key=True, default=str(uuid.uuid4()))
+    room_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     title = Column(String(100), nullable=False)
     password_hash = Column(String(255), nullable=True)
     date_created = Column(DateTime, default=datetime.utcnow)
