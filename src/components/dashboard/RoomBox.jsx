@@ -5,9 +5,11 @@ import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 import { socketConfig } from '../../config/site-config';
 import Refresh from './room/Refresh';
+import { useAuth } from '../../middleware/AuthContext'
 
 const socket = io(socketConfig.socket);
 const RoomBox = () => {
+	const { user } = useAuth();
 	const generateRandomOccupancy = () => Math.floor(Math.random() * 10) + 1;
 	const [rooms, setRooms] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -38,6 +40,24 @@ const RoomBox = () => {
 				setLoading(false);
 				setRefresh(false);
 			}, 1100);
+		}
+	};
+
+	const handleDeleteRoom = async (roomId) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/room/delete/${roomId}`, { 
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				credentials: 'include',
+			});
+			fetchRooms();
+			if(!response.ok) { 
+				console.error('Failed to delete room');
+			}
+		} catch (error) {
+			console.error('Error deleting room:', error);
 		}
 	};
 
@@ -90,6 +110,7 @@ const RoomBox = () => {
 							<th className='w-64'>Host</th>
 							<th className='w-58'>Room name</th>
 							<th className='w-24'>Available</th>
+							<th classname='w-20'>Delete Room</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -127,6 +148,19 @@ const RoomBox = () => {
 												onClick={() => handleJoinRoom(room.room_id)}>
 												Join
 											</button>
+										</th>
+										<th>
+										{user && room.host_id === user.client_id ?  (
+											<button
+												className='btn btn-sm rounded-md bg-red-500 text-white'
+												onClick={() => handleDeleteRoom(room.room_id)}>
+												Delete
+											</button>
+										) : (
+											<button className="btn btn-sm rounded-md" disabled="disabled">
+												Delete
+											</button>
+										)}
 										</th>
 									</tr>
 								);
