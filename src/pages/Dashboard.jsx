@@ -14,7 +14,7 @@ function Dashboard() {
 	return (
 		<div className='w-full h-full flex flex-col justify-center items-center overflow-y-auto scrollbar-hide'>
 			<ToastContainer />
-			<div className='grid grid-cols-4 gap-8 w-5/6 h-full p-8 auto-rows-[176px]'>
+			<div className='grid xl:grid-cols-4 grid-cols-2 gap-8 w-5/6 h-full p-8 auto-rows-[176px]'>
 				{/* {Box 1} */}
 				<div className='col-span-2 row-span-1 shadow-grid rounded-3xl bg-base-200 flex flex-col justify-center '>
 					<AvatarBox user={user}></AvatarBox>
@@ -32,7 +32,7 @@ function Dashboard() {
 					<SettingBox></SettingBox>
 				</div>
 				{/* {Box 6} */}
-				<div className='col-span-4 row-span-3 shadow-grid rounded-3xl bg-base-200 flex flex-col justify-center'>
+				<div className='col-span-2 xl:col-span-4 row-span-3 shadow-grid rounded-3xl bg-base-200 flex flex-col justify-center'>
 					<InfoBox></InfoBox>
 				</div>
 			</div>
