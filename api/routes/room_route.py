@@ -26,7 +26,7 @@ def join_room():
     data = request.json()
     return 'message'
 
-@rooms_blueprint.delete('/delete/<int:room_id>')
+@rooms_blueprint.delete('/delete/<uuid:room_id>')
 def delete_room(room_id):
     try:
         # Assuming you have the necessary imports and Room model defined

@@ -52,8 +52,7 @@ const RoomBox = () => {
 				},
 				credentials: 'include',
 			});
-			const data = await response.json();
-			console.log(data);
+			fetchRooms();
 			if(!response.ok) { 
 				console.error('Failed to delete room');
 			}
@@ -151,10 +150,14 @@ const RoomBox = () => {
 											</button>
 										</th>
 										<th>
-										{user && room.host_id === user.client_id &&  (
+										{user && room.host_id === user.client_id ?  (
 											<button
 												className='btn btn-sm rounded-md bg-red-500 text-white'
 												onClick={() => handleDeleteRoom(room.room_id)}>
+												Delete
+											</button>
+										) : (
+											<button className="btn btn-sm rounded-md" disabled="disabled">
 												Delete
 											</button>
 										)}
