@@ -39,3 +39,8 @@ def handle_canvas_update(data):
 def handle_canvas_clear(data):
     room_id = data.get('room_id')
     emit('canvas_clear', data, room=room_id)
+
+@socketio.on('toast_message')
+def handle_toast_message(data):
+    room_id = data.get('room_id')
+    emit('toast_message', data, room=room_id)

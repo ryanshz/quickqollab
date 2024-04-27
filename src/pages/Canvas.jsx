@@ -6,6 +6,8 @@ import PasswordForm from '../components/canvas/auth/PasswordForm';
 import { CanvasProvider } from '../components/canvas/context/CanvasContext';
 import { toast, Flip, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { socketConfig } from '../config/site-config';
+import io from 'socket.io-client';
 
 function Canvas() {
 	// const message = location.state.message;
@@ -18,24 +20,27 @@ function Canvas() {
 	// const [room, setRoom] = useState(location.state ? location.state.roomData : '');
 	const [room, setRoom] = useState(null);
 	const [toastDisplayed, setToastDisplayed] = useState(false);
+	const [socket, setSocket] = useState(false);
 
-	// useEffect(() => {
-	// 	// If room data is not in the state, fetch it
-		// if (!room) {
-		// 	fetch(`http://127.0.0.1:5000/room/room_validate/${roomId}`)
-		// 		.then((response) => response.json())
-		// 		.then((data) => {
-		// 			if (data.success) {
-		// 				setRoom(data);
-		// 				displayToastMessage(data);
-		// 			} else {
-		// 				navigate('/dashboard');
-		// 			}
-		// 		})
-		// 		.catch((error) => {
-		// 			console.log('Failed to fetch room details', error);
-		// 		});
-		// 	}, [roomId, room, navigate]);
+    useEffect(() => {
+		const newSocket = io(socketConfig.socket);
+		setSocket(newSocket);
+
+		newSocket.on('connect', () => {
+			const room_id = window.location.pathname.split('/').pop();
+			newSocket.emit('join_room', { room_id });
+		});
+
+        newSocket.on('toast_message', (data) => {
+            displayToastMessage(data);
+        });
+
+        return () => {
+            newSocket.off('connect');
+            newSocket.off('toast_message');
+			newSocket.close();
+		};
+	}, []);
 
 	const fetchRoomData = useCallback(() => {
 		if(!room) {
@@ -77,13 +82,17 @@ function Canvas() {
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
+                pauseOnFocusLoss: false,
                 draggable: true,
                 progress: undefined,
                 theme: 'dark',
                 transition: Flip,
             });
         }
-	}, [location.state]);
+        if (socket) {
+            socket.emit('toast_message', { room_title: data.room_title, room_id: data.room_id });
+        }
+	}, [location.state, socket]);
 
 	useEffect(() => {
         fetchRoomData();
@@ -94,34 +103,8 @@ function Canvas() {
             displayToastMessage(room);
             setToastDisplayed(true);
         }
-    }, [room, toastDisplayed, displayToastMessage]);
-
-	// if (room === '') {
-	// 	toast.success(`Joined Room: ${room.room_title}`, {
-	// 		position: 'top-center',
-	// 		autoClose: 5000,
-	// 		hideProgressBar: false,
-	// 		closeOnClick: true,
-	// 		pauseOnHover: true,
-	// 		draggable: true,
-	// 		progress: undefined,
-	// 		theme: 'dark',
-	// 		transition: Flip,
-	// 	});
-	// } else {
-	// 	toast.success(`Your room was successfully created!`, {
-	// 		position: 'top-center',
-	// 		autoClose: 5000,
-	// 		hideProgressBar: false,
-	// 		closeOnClick: true,
-	// 		pauseOnHover: true,
-	// 		draggable: true,
-	// 		progress: undefined,
-	// 		theme: 'dark',
-	// 		transition: Flip,
-	// 	});
-	// }
-
+    }, [room, toastDisplayed, displayToastMessage, socket]);
+    
 	return (
 		<main className='flex flex-row items-center justify-center bg-base-300 md:overflow-x-hidden overflow-y-hidden'>
 			<ToastContainer />

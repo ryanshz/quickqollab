@@ -66,12 +66,6 @@ export const CanvasProvider = ({ children }) => {
 			console.log("Component mounted");
 			socket.emit('join_room', { room_id: roomId });
 
-			// Listen for the room joined confirmation
-			// socket.on('room_joined', (data) => {
-			// 	if (data.success) {
-			// 		console.log(data.message);
-			// 	}
-			// });
 			const handleRoomJoined = (data) => {
 				if (data.success) {
 				  console.log(data.message);
@@ -79,10 +73,6 @@ export const CanvasProvider = ({ children }) => {
 			  };
 			socket.on('room_joined', handleRoomJoined);
 
-			// Listen for updates in the room
-			// socket.on('room_update', (data) => {
-			// 	console.log(data.message);
-			// });
 			const handleRoomUpdate = (data) => {
 				console.log(data.message);
 			  };
@@ -90,8 +80,6 @@ export const CanvasProvider = ({ children }) => {
 
 			// Cleanup on component unmount
 			return () => {
-				// socket.off('room_joined');
-				// socket.off('room_update');
 				socket.off('room_joined', handleRoomJoined);
 				socket.off('room_update', handleRoomUpdate);
 			};
@@ -102,20 +90,12 @@ export const CanvasProvider = ({ children }) => {
 	useEffect(() => {
 		if (socket) {
 			console.log("Component Updated");
-			// socket.on('canvas_update', ({ scribbles, shapes }) => {
-			// 	setScribbles(scribbles);
-			// 	setShapes(shapes);
-			// });
 			const handleCanvasUpdate = ({ scribbles, shapes }) => {
 				setScribbles(scribbles);
 				setShapes(shapes);
 			  };
 			  socket.on('canvas_update', handleCanvasUpdate);
 
-			// socket.on('canvas_clear', () => {
-			// 	setScribbles([]);
-			// 	setShapes([]);
-			// });
 			const handleCanvasClear = () => {
 				setScribbles([]);
 				setShapes([]);
@@ -123,14 +103,11 @@ export const CanvasProvider = ({ children }) => {
 			socket.on('canvas_clear', handleCanvasClear);
 
 			return () => {
-				// socket.off('canvas_update');
-				// socket.off('canvas_clear');
 				socket.off('canvas_update', handleCanvasUpdate);
         		socket.off('canvas_clear', handleCanvasClear);
 			  };
 		}
 	}, [socket]);
-	// }, [setScribbles, setShapes]);
 
 	const emitCanvasClear = () => {
 		socket.emit('canvas_clear', { room_id: roomId });
