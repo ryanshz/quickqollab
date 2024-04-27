@@ -4,7 +4,7 @@ import { useAuth } from '../../../middleware/AuthContext';
 import { toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const PasswordForm = () => {
+const PasswordForm = ({ title }) => {
 	const navigate = useNavigate();
 	const { logout } = useAuth();
 	const { login } = useAuth();
@@ -14,16 +14,16 @@ const PasswordForm = () => {
 	});
 
 	const resetForm = () => {
-        setErrors({
-            password: '',
-            authentication: '',
-        });
+		setErrors({
+			password: '',
+			authentication: '',
+		});
 		document.getElementById('password').value = '';
-    };
+	};
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		
+
 		setErrors({ ...errors, [name]: '' });
 	};
 
@@ -86,6 +86,9 @@ const PasswordForm = () => {
 
 	return (
 		<div>
+			<h3 className='font-bold text-lg'>
+				Room name: <span className='text-green-400'>{title}</span>
+			</h3>
 			<div className='modal-action flex flex-col justify-center'>
 				<form className='flex flex-col gap-4' method='dialog' onSubmit={handleSubmit}>
 					{errors.authentication && <p className='text-red-500'>{errors.authentication}</p>}
@@ -95,7 +98,7 @@ const PasswordForm = () => {
 							id='password'
 							name='password'
 							className='grow'
-							placeholder='Enter Room Password'
+							placeholder='Enter password'
 							onChange={handleChange}
 						/>
 						{errors.password && <p className='text-red-500'>{errors.password}</p>}

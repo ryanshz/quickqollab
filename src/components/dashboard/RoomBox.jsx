@@ -5,8 +5,7 @@ import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 import { socketConfig } from '../../config/site-config';
 import Refresh from './room/Refresh';
-import PasswordForm from './room/password';
-import SettingModalForm from './setting/SettingModalForm';
+import PasswordForm from './room/PasswordForm';
 
 const socket = io(socketConfig.socket);
 const RoomBox = () => {
@@ -129,8 +128,11 @@ const RoomBox = () => {
 												className='btn btn-sm rounded-md btn-success'
 												onClick={() => {
 													console.log('Password Hash:', room.password_hash);
-													if (room.password_hash !== null && room.password_hash !== undefined) {
-														setShowPasswordForm(true);
+													document.getElementById('create-password-modal').showModal();
+													if (
+														room.password_hash !== null &&
+														room.password_hash !== undefined
+													) {
 													} else {
 														// Join the room
 														handleJoinRoom(room.room_id);
@@ -138,6 +140,11 @@ const RoomBox = () => {
 												}}>
 												Join
 											</button>
+											<dialog id='create-password-modal' className='modal w-full h-full'>
+												<div className='modal-box'>
+													<PasswordForm title={room.title}></PasswordForm>
+												</div>
+											</dialog>
 											{showPasswordForm && (
 												<div className='modal-box'>
 													<PasswordForm />
