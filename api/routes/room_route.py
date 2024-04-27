@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from controllers import room_controller
 from models.Room import Room
 from flask import session
+from utils.bcrypt import bcrypt
 
 rooms_blueprint = Blueprint('room', __name__)
 
@@ -65,3 +66,11 @@ def room_validation(id):
         return jsonify({'success': True, 'message': 'Room exists', 'room_id': room.room_id, 'room_title': room.title}), 200
     else:
         return jsonify({'success': False, 'message': 'Room not found'}), 404
+    
+@rooms_blueprint.put('/verify_password')
+def password_validation():
+    data = request.get_json()
+    password= data.get('password')
+    pass
+    # if bcrypt.check_password_hash(password_hash, password):
+    #     return

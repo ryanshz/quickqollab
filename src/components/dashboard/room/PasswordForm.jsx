@@ -8,6 +8,10 @@ const PasswordForm = ({ title }) => {
 	const navigate = useNavigate();
 	const { logout } = useAuth();
 	const { login } = useAuth();
+	const [formData, setFormData] = useState({
+		password: ''
+	});
+
 	const [errors, setErrors] = useState({
 		password: '',
 		authentication: '',
@@ -23,7 +27,7 @@ const PasswordForm = ({ title }) => {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-
+		setFormData({ ...formData, password: value });
 		setErrors({ ...errors, [name]: '' });
 	};
 
@@ -54,7 +58,7 @@ const PasswordForm = ({ title }) => {
 				if (response.ok) {
 					login(data);
 					resetForm();
-					document.getElementById('create-setting-modal').close();
+					document.getElementById('modal-box').close();
 					toast.success('password is Successful', {
 						position: 'top-center',
 						autoClose: 5000,
