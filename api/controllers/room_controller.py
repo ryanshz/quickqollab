@@ -42,7 +42,8 @@ def get_all_rooms():
             "room_id": room.room_id,
             "title": room.title,
             "username": room.username,
-            "profile_picture": base64.b64encode(room.profile_picture).decode('utf-8') 
+            "profile_picture": base64.b64encode(room.profile_picture).decode('utf-8'),
+            "password_hash": room.password_hash 
             if room.profile_picture 
             else None
         } for room in rooms

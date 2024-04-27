@@ -66,7 +66,8 @@ class Room(db.Model):
             Room.room_id,
             Room.title,
             Client.username,
-            Client.profile_picture
+            Client.profile_picture,
+            Room.password_hash
         ).join(Client, Room.host_id == Client.client_id).all()
         
     def delete_room(room_id):
