@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rect, Circle } from 'react-konva';
+import { Rect, Circle, RegularPolygon } from 'react-konva';
 
 /**
  * Create a new shape
@@ -14,6 +14,15 @@ export const createShape = (type, pos, color) => {
 			return { type: 'rect', x: pos.x, y: pos.y, width: 0, height: 0, color };
 		case 'circle':
 			return { type: 'circle', x: pos.x, y: pos.y, radius: 0, color };
+		case 'triangle':
+			return {
+				type: 'triangle',
+				x: pos.x,
+				y: pos.y,
+				sides: 3,
+				radius: 0,
+				color,
+			};
 		default:
 			return {};
 	}
@@ -48,6 +57,11 @@ export const updateShape = (shapes, tool, pos) => {
 		case 'circle':
 			const radius = Math.sqrt(Math.pow(pos.x - lastShape.x, 1.8) + Math.pow(pos.y - lastShape.y, 1.8));
 			return shapes.slice(0, -1).concat({ ...lastShape, radius });
+		case 'triangle':
+			return shapes.slice(0, -1).concat({
+				...lastShape,
+				radius: Math.sqrt(Math.pow(pos.x - lastShape.x, 2) + Math.pow(pos.y - lastShape.y, 2)),
+			});
 		// Add more cases for other shapes
 		default:
 			return shapes;
@@ -59,15 +73,47 @@ export const updateShape = (shapes, tool, pos) => {
  * @param {*} shape Prop that contains properties. Checks on prop "type" to determine which condition to render.
  * @returns Corresponding element or else nothing.
  */
-const Shapes = ({ shape }) => {
+
+const Shapes = ({ shape, draggable, onDragEnd }) => {
+	const handleDragEnd = (e) => {
+		onDragEnd(shape, { x: e.target.x(), y: e.target.y() });
+	};
 	return (
 		<>
 			{/* Konva contains built-in classes such as Rect or Circle so be sure to look into what they have! */}
 			{shape.type === 'rect' && (
-				<Rect {...shape} stroke={shape.color} strokeWidth={4} lineCap='round' lineJoin='round' />
+				<Rect
+					{...shape}
+					stroke={shape.color}
+					strokeWidth={4}
+					lineCap='round'
+					lineJoin='round'
+					draggable={draggable}
+					onDragEnd={handleDragEnd}
+				/>
 			)}
 			{shape.type === 'circle' && (
-				<Circle {...shape} stroke={shape.color} strokeWidth={4} lineCap='round' lineJoin='round' />
+				<Circle
+					{...shape}
+					stroke={shape.color}
+					strokeWidth={4}
+					lineCap='round'
+					lineJoin='round'
+					draggable={draggable}
+					onDragEnd={handleDragEnd}
+				/>
+			)}
+			{shape.type === 'triangle' && (
+				<RegularPolygon
+					x={shape.x}
+					y={shape.y}
+					sides={3}
+					radius={shape.radius}
+					stroke={shape.color}
+					strokeWidth={4}
+					draggable={draggable}
+					onDragEnd={handleDragEnd}
+				/>
 			)}
 		</>
 	);
