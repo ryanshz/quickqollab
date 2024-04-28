@@ -111,6 +111,7 @@ export const CanvasProvider = ({ children }) => {
 				undo,
 				addToHistory,
 				clearDrawing,
+				emitCanvasUpdate,
 			}}>
 			{children}
 		</CanvasContext.Provider>
