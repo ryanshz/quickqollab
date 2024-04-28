@@ -9,7 +9,7 @@ const NotFound404 = () => {
 				<p className='text-2xl font-bold tracking-tight text-primary-content sm:text-4xl '>Uh-oh!</p>
 				<p className='px-4 text-neutral'>We can't find that page. 😔</p>
 				<div className='rounded-2xl'>
-					<ReactPlayer url='https://www.youtube.com/watch?v=h2Gw01Gl40o' playing={true} />
+					<ReactPlayer url='https://youtu.be/DfEnIFV2-mc?si=hs2NZRXHCSzSCaTc&t=10' playing={true} />
 				</div>
 				<a
 					href='/'

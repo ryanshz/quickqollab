@@ -8,10 +8,12 @@ import { toast, Flip, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { socketConfig } from '../config/site-config';
 import io from 'socket.io-client';
+import { useAuth } from '../middleware/AuthContext'
 
 function Canvas() {
 	const { roomId } = useParams();
 	const navigate = useNavigate();
+    const { user } = useAuth();
 
 	const [color, setColor] = useState('#FFFFFF');
 	const [currentTool, setCurrentTool] = useState('scribble');
@@ -39,7 +41,7 @@ function Canvas() {
 			newSocket.close();
 		};
 	}, []);
-
+    
 	const fetchRoomData = useCallback(() => {
 		if(!room) {
         fetch(`http://127.0.0.1:5000/room/room_validate/${roomId}`)
@@ -47,6 +49,7 @@ function Canvas() {
             .then((data) => {
                 if (data.success) {
                     setRoom(data);
+                    setRoom({ ...data, username: user.username });
                 } else {
                     navigate('/dashboard');
                 }
@@ -64,6 +67,7 @@ function Canvas() {
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
+            pauseOnFocusLoss: false,
             draggable: true,
             progress: undefined,
             theme: 'dark',
@@ -71,7 +75,7 @@ function Canvas() {
         });
 
         if(socket) {
-            socket.emit('toast_message', {room_title: data.room_title, room_id: data.room_id, user: data.username});
+            socket.emit('toast_message', {room_title: data.room_title, room_id: data.room_id, username: data.username});
         }
 
     }, [socket]);

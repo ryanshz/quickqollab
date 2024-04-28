@@ -8,7 +8,6 @@ import Dashboard from './pages/Dashboard';
 import Footer from './components/ui/Footer';
 import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
-import Test from './pages/Test';
 import Rooms from './pages/Rooms';
 import { AuthProvider } from './middleware/AuthContext';
 import { ProtectedRoute } from './middleware/ProtectedRoute';
@@ -56,7 +55,6 @@ function App() {
 									</AuthRedirect>
 								}
 							/>
-							<Route path='/test' element={<Test />} />
 							<Route
 								path='/rooms'
 								element={
