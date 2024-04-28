@@ -6,7 +6,8 @@ import Shapes from './events/Shapes';
 import { useCanvas } from './context/CanvasContext';
 
 const Whiteboard = () => {
-	const { currentTool, penColor, scribbles, setScribbles, shapes, setShapes, addToHistory } = useCanvas();
+	const { currentTool, penColor, scribbles, setScribbles, shapes, setShapes, addToHistory, emitCanvasUpdate } =
+		useCanvas();
 
 	const isDrawing = useRef(false);
 
@@ -47,6 +48,24 @@ const Whiteboard = () => {
 		addToHistory(scribbles, shapes);
 	};
 
+	const handleShapeDragEnd = (shape, newPos) => {
+		const updatedShapes = shapes.map((s) => {
+			if (s === shape) {
+				// Check if the shape is still draggable
+				if (s.draggable) {
+					// If draggable, update its position
+					return { ...s, ...newPos };
+				} else {
+					// If not draggable, keep its position unchanged
+					return s;
+				}
+			}
+			return s;
+		});
+		setShapes(updatedShapes);
+		emitCanvasUpdate();
+	};
+
 	return (
 		<Stage
 			width={window.innerWidth - 20}
@@ -61,7 +80,12 @@ const Whiteboard = () => {
 				))}
 				{/* For shapes, you will need to visit components/canvas/events/Shapes to add additional obj. */}
 				{shapes.map((shape, i) => (
-					<Shapes key={i} shape={shape} />
+					<Shapes
+						key={i}
+						shape={shape}
+						draggable={currentTool === 'draggable'}
+						onDragEnd={handleShapeDragEnd}
+					/>
 				))}
 			</Layer>
 		</Stage>
