@@ -44,7 +44,7 @@ const Toolbox = () => {
 						</button>
 					</li>
 					<li className='tooltip tooltip-left' data-tip='Grab'>
-						<button onClick={() => setCurrentTool('grab')}>
+						<button onClick={() => setCurrentTool('draggable')}>
 							<Grab />
 						</button>
 					</li>
@@ -61,7 +61,7 @@ const Toolbox = () => {
 				</div>
 				<ul tabIndex='0' className='dropdown-content z-[1] menu p-2 w-1/5'>
 					<li className='tooltip tooltip-left' data-tip='Triangle'>
-						<button onClick={() => setCurrentTool('Triangle')}>
+						<button onClick={() => setCurrentTool('triangle')}>
 							<Triangle />
 						</button>
 					</li>
