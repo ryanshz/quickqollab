@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from controllers import room_controller
 from models.Room import Room
 from flask import session
+from uuid import UUID
 
 rooms_blueprint = Blueprint('room', __name__)
 
@@ -58,8 +59,13 @@ def search_rooms():
     response, status = room_controller.search_rooms(query)
     return jsonify(response), status
 
-@rooms_blueprint.get('/room_validate/<int:id>')
+@rooms_blueprint.get('/room_validate/<path:id>')
 def room_validation(id):
+    try:
+        uuid_obj = UUID(id, version=4) 
+    except ValueError:
+       return jsonify({'success': False, 'message': 'Room not found'}), 404  
+
     room = room_controller.check_room(room_id=id)
     if room:
         return jsonify({'success': True, 'message': 'Room exists', 'room_id': room.room_id, 'room_title': room.title}), 200

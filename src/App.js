@@ -8,7 +8,6 @@ import Dashboard from './pages/Dashboard';
 import Footer from './components/ui/Footer';
 import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
-import Test from './pages/Test';
 import Rooms from './pages/Rooms';
 import { AuthProvider } from './middleware/AuthContext';
 import { ProtectedRoute } from './middleware/ProtectedRoute';
@@ -40,23 +39,22 @@ function App() {
 									</ProtectedRoute>
 								}
 							/>
-							<Route 
-								path='/signup' 
+							<Route
+								path='/signup'
 								element={
 									<AuthRedirect>
 										<Signup />
 									</AuthRedirect>
 								}
 							/>
-							<Route 
-								path='/login' 
-								element={ 
+							<Route
+								path='/login'
+								element={
 									<AuthRedirect>
-										<Login /> 
+										<Login />
 									</AuthRedirect>
-								} 
+								}
 							/>
-							<Route path='/test' element={<Test />} />
 							<Route
 								path='/rooms'
 								element={
