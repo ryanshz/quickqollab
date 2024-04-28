@@ -10,14 +10,11 @@ import { socketConfig } from '../config/site-config';
 import io from 'socket.io-client';
 
 function Canvas() {
-	// const message = location.state.message;
-	const location = useLocation();
 	const { roomId } = useParams();
 	const navigate = useNavigate();
 
 	const [color, setColor] = useState('#FFFFFF');
 	const [currentTool, setCurrentTool] = useState('scribble');
-	// const [room, setRoom] = useState(location.state ? location.state.roomData : '');
 	const [room, setRoom] = useState(null);
 	const [toastDisplayed, setToastDisplayed] = useState(false);
 	const [socket, setSocket] = useState(false);
@@ -32,6 +29,7 @@ function Canvas() {
 		});
 
         newSocket.on('toast_message', (data) => {
+            console.log(data);
             displayToastMessage(data);
         });
 
@@ -49,7 +47,6 @@ function Canvas() {
             .then((data) => {
                 if (data.success) {
                     setRoom(data);
-                    // displayToastMessage(data);
                 } else {
                     navigate('/dashboard');
                 }
@@ -60,39 +57,25 @@ function Canvas() {
 		}
     }, [roomId,room, navigate]);
 
-	const displayToastMessage = useCallback((data) => {
-        if (location.state && location.state.isNewRoom) {
-            // If it's a new room, show the "successfully created" message
-            toast.success(`Your room was successfully created!`, {
-                position: 'top-center',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'dark',
-                transition: Flip,
-            });
-        } else {
-            // If it's joining an existing room, show the joined room message
-            toast.success(`Joined Room: ${data.room_title}`, {
-                position: 'top-center',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                pauseOnFocusLoss: false,
-                draggable: true,
-                progress: undefined,
-                theme: 'dark',
-                transition: Flip,
-            });
+    const displayToastMessage = useCallback((data) => {
+        toast.success(`${data.username} has joined room: ${data.room_title}`, {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+            transition: Flip,
+        });
+
+        if(socket) {
+            socket.emit('toast_message', {room_title: data.room_title, room_id: data.room_id, user: data.username});
         }
-        if (socket) {
-            socket.emit('toast_message', { room_title: data.room_title, room_id: data.room_id });
-        }
-	}, [location.state, socket]);
+
+    }, [socket]);
+
 
 	useEffect(() => {
         fetchRoomData();

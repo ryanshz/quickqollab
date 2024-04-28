@@ -43,4 +43,5 @@ def handle_canvas_clear(data):
 @socketio.on('toast_message')
 def handle_toast_message(data):
     room_id = data.get('room_id')
-    emit('toast_message', data, room=room_id)
+    username = data.get('username')
+    emit('toast_message', data, room=room_id, username=username)
