@@ -14,7 +14,7 @@ const RoomBox = () => {
 	const [loading, setLoading] = useState(true);
 	const [refresh, setRefresh] = useState(false);
 	const [queryNotFound, setQueryNotFound] = useState(false);
-	const [showPasswordForm, setShowPasswordForm] = useState(false);
+	const [selectedRoom, setSelectedRoom] = useState(null);
 
 	const navigate = useNavigate();
 
@@ -128,11 +128,13 @@ const RoomBox = () => {
 												className='btn btn-sm rounded-md btn-success'
 												onClick={() => {
 													console.log('Password Hash:', room.password_hash);
-													document.getElementById('create-password-modal').showModal();
+
 													if (
 														room.password_hash !== null &&
 														room.password_hash !== undefined
 													) {
+														setSelectedRoom({ roomID: room.room_id, title: room.title });
+														document.getElementById('create-password-modal').showModal();
 													} else {
 														// Join the room
 														handleJoinRoom(room.room_id);
@@ -140,16 +142,11 @@ const RoomBox = () => {
 												}}>
 												Join
 											</button>
-											<dialog id='create-password-modal' className='modal w-full h-full'>
-												<div className='modal-box'>
-													<PasswordForm title={room.title}></PasswordForm>
-												</div>
-											</dialog>
-											{showPasswordForm && (
+											{/* {showPasswordForm && (
 												<div className='modal-box'>
 													<PasswordForm />
 												</div>
-											)}
+											)} */}
 										</th>
 									</tr>
 								);
@@ -188,6 +185,11 @@ const RoomBox = () => {
 					</tbody>
 				</table>
 			</div>
+			<dialog id='create-password-modal' className='modal w-full h-full'>
+				<div className='modal-box'>
+					{selectedRoom && <PasswordForm title={selectedRoom.title} roomID={selectedRoom.roomID} />}
+				</div>
+			</dialog>
 		</Loading>
 	);
 };

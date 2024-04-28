@@ -4,30 +4,33 @@ import { useAuth } from '../../../middleware/AuthContext';
 import { toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const PasswordForm = ({ title }) => {
+const PasswordForm = ({ title, roomID }) => {
 	const navigate = useNavigate();
-	const { logout } = useAuth();
-	const { login } = useAuth();
 	const [formData, setFormData] = useState({
-		password: ''
+		roompassword: '',
+		room_id: roomID,
+		authentication: '',
 	});
 
 	const [errors, setErrors] = useState({
-		password: '',
+		roompassword: '',
 		authentication: '',
 	});
 
 	const resetForm = () => {
 		setErrors({
-			password: '',
+			roompassword: '',
 			authentication: '',
 		});
-		document.getElementById('password').value = '';
+		document.getElementById('roompassword').value = '';
 	};
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setFormData({ ...formData, password: value });
+		console.log(name)
+		console.log(value)
+		console.log(roomID)
+		setFormData({ ...formData, [name]: value });
 		setErrors({ ...errors, [name]: '' });
 	};
 
@@ -35,31 +38,38 @@ const PasswordForm = ({ title }) => {
 		e.preventDefault();
 		const errorsCopy = { ...errors };
 
-		if (!errors.password.trim()) {
-			errorsCopy.password = 'Password is required';
+		if (!errors.roompassword.trim()) {
+			errorsCopy.roompassword = 'Password is required';
 		}
 
 		errorsCopy.authentication = '';
 		setErrors(errorsCopy);
 
+		if (formData.roompassword.trim() && !/^[a-zA-Z0-9!?$#]+$/.test(formData.password)) {
+			errorsCopy.roompassword = 'Please enter only letters, numbers, and these special characters: !, ?, $, #';
+		} else {
+			errorsCopy.roompassword = '';
+		}
+
+		console.log(formData.roompassword)
+
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('http://127.0.0.1:5000/auth/update', {
-					method: 'PUT',
+				const response = await fetch('http://127.0.0.1:5000/room/verify_password', {
+					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
 					},
 					credentials: 'include',
-					body: JSON.stringify({ password: errors.password }),
+					body: JSON.stringify(formData),
 				});
 
 				const data = await response.json();
 
 				if (response.ok) {
-					login(data);
-					resetForm();
-					document.getElementById('modal-box').close();
-					toast.success('password is Successful', {
+					document.getElementById('create-password-modal').close();
+					navigate(`/canvas/${data.room_id}`);
+					toast.success('Password is Successful', {
 						position: 'top-center',
 						autoClose: 5000,
 						hideProgressBar: false,
@@ -99,13 +109,13 @@ const PasswordForm = ({ title }) => {
 					<label className='input input-bordered flex items-center gap-2'>
 						<input
 							type='password'
-							id='password'
-							name='password'
+							id='roompassword'
+							name='roompassword'
 							className='grow'
-							placeholder='Enter password'
+							placeholder='Enter Password'
 							onChange={handleChange}
 						/>
-						{errors.password && <p className='text-red-500'>{errors.password}</p>}
+						{errors.roompassword && <p className='text-red-500'>{errors.roompassword}</p>}
 					</label>
 					<div className='flex flex-row justify-between'>
 						<button className='btn'>Submit</button>

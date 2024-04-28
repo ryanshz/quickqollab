@@ -67,10 +67,18 @@ def room_validation(id):
     else:
         return jsonify({'success': False, 'message': 'Room not found'}), 404
     
-@rooms_blueprint.put('/verify_password')
+@rooms_blueprint.post('/verify_password')
 def password_validation():
     data = request.get_json()
-    password= data.get('password')
-    pass
-    # if bcrypt.check_password_hash(password_hash, password):
-    #     return
+    password = data.get('roompassword')
+    room_id=data.get('room_id')
+    room = Room.get_by_room_id(room_id)
+    hashed_password = room['password_hash']
+    print(hashed_password)
+    
+    if bcrypt.check_password_hash(hashed_password, password):
+        print('made it here')
+        return jsonify({'success': True, 'message': 'Password matches', 'room_id': room_id}), 200
+    else:
+        print('made it here 2')
+        return jsonify({'success': False, 'message': 'Password Does Not Match'}), 409

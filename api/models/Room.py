@@ -56,6 +56,7 @@ class Room(db.Model):
                 'title': room.title,
                 'date_created': room.date_created,
                 'host_id': room.host_id, # client_id of host
+                'password_hash': room.password_hash
             }
         else:
             return {'error': 'room not found'}
