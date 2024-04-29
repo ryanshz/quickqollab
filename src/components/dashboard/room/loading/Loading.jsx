@@ -1,7 +1,7 @@
 import React from 'react';
 import { RefreshCw, Search } from 'lucide-react';
 
-const Loading = ({ isLoading, children, numRows = 5, isRefreshing }) => {
+const Loading = ({ isLoading, children, numRows = 4, isRefreshing }) => {
 	const renderLoadingRow = () => (
 		<tr>
 			<th>
