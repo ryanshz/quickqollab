@@ -52,7 +52,7 @@ const Chatbox = () => {
 	};
 
 	return (
-		<div className='w-[32rem] h-[32rem] flex flex-col '>
+		<div className=' w-[27rem] h-[27rem] flex flex-col '>
 			<div className='flex-grow overflow-y-auto overflow-x-hidden p-4' ref={chatRef}>
 				{chat.map((msg, index) => (
 					<div key={index}>

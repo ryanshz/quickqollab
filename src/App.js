@@ -8,11 +8,11 @@ import Dashboard from './pages/Dashboard';
 import Footer from './components/ui/Footer';
 import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
-import Test from './pages/Test';
 import Rooms from './pages/Rooms';
 import { AuthProvider } from './middleware/AuthContext';
 import { ProtectedRoute } from './middleware/ProtectedRoute';
 import { AuthRedirect } from './middleware/AuthRedirect';
+import NotFound404 from './pages/error/404';
 
 function App() {
 	return (
@@ -20,7 +20,6 @@ function App() {
 			<BrowserRouter>
 				<div className='flex flex-col min-h-screen scrollbar-hide'>
 					<Navbar />
-
 					<div className='flex-grow'>
 						<Routes>
 							<Route path='/' element={<Index />} />
@@ -40,23 +39,22 @@ function App() {
 									</ProtectedRoute>
 								}
 							/>
-							<Route 
-								path='/signup' 
+							<Route
+								path='/signup'
 								element={
 									<AuthRedirect>
 										<Signup />
 									</AuthRedirect>
 								}
 							/>
-							<Route 
-								path='/login' 
-								element={ 
+							<Route
+								path='/login'
+								element={
 									<AuthRedirect>
-										<Login /> 
+										<Login />
 									</AuthRedirect>
-								} 
+								}
 							/>
-							<Route path='/test' element={<Test />} />
 							<Route
 								path='/rooms'
 								element={
@@ -65,6 +63,8 @@ function App() {
 									</ProtectedRoute>
 								}
 							/>
+							{/* 404 page */}
+							<Route path='*' element={<NotFound404 />} />
 						</Routes>
 					</div>
 					<Footer />

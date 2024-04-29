@@ -9,7 +9,7 @@ const Hero = () => {
 	const { user } = useAuth();
 	let CTARoute = user ? '/dashboard' : '/signup';
 	return (
-		<div className='w-screen h-screen'>
+		<div className='w-screen h-fit'>
 			<section className='hover:cursor-default'>
 				<div className='mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16'>
 					<div className='mx-auto max-w-lg text-center hover:cursor-default'>

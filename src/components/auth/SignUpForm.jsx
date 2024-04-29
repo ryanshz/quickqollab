@@ -84,7 +84,7 @@ const SignUpForm = () => {
 		}
 	};
 	return (
-		<div className='w-full h-full justify-center flex flex-row border border-gray-800 rounded-xl gap-4 border-green-400/10 shadow-green-400/10 shadow-xl transition'>
+		<div className='w-full h-full justify-center flex flex-row border border-gray-800 rounded-xl gap-4 border-green-400/10 shadow-green-400/50 shadow-xl transition'>
 			<div className='w-1/3'>
 				<img
 					src='https://images.unsplash.com/photo-1610043238036-7309f1cc52d8?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'

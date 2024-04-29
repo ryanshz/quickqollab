@@ -3,6 +3,7 @@ from controllers import room_controller
 from models.Room import Room
 from flask import session
 from utils.bcrypt import bcrypt
+from uuid import UUID
 
 rooms_blueprint = Blueprint('room', __name__)
 
@@ -27,7 +28,7 @@ def join_room():
     data = request.json()
     return 'message'
 
-@rooms_blueprint.delete('/delete/<int:room_id>')
+@rooms_blueprint.delete('/delete/<uuid:room_id>')
 def delete_room(room_id):
     try:
         # Assuming you have the necessary imports and Room model defined
@@ -36,9 +37,9 @@ def delete_room(room_id):
             return jsonify({'error': 'Room not found'}), 404
         
         # Check if the user is authorized to delete the room
-        # user_id = session.get('user_id')
-        # if room.host_id != user_id:
-        #     return jsonify({'error': 'You are not authorized to delete this room'}), 403
+        user_id = session.get('user_id')
+        if room.host_id != user_id:
+            return jsonify({'error': 'You are not authorized to delete this room'}), 403
         
         # Delete the room
         Room.delete_room(room_id)
@@ -59,8 +60,13 @@ def search_rooms():
     response, status = room_controller.search_rooms(query)
     return jsonify(response), status
 
-@rooms_blueprint.get('/room_validate/<int:id>')
+@rooms_blueprint.get('/room_validate/<path:id>')
 def room_validation(id):
+    try:
+        uuid_obj = UUID(id, version=4) 
+    except ValueError:
+       return jsonify({'success': False, 'message': 'Room not found'}), 404  
+
     room = room_controller.check_room(room_id=id)
     if room:
         return jsonify({'success': True, 'message': 'Room exists', 'room_id': room.room_id, 'room_title': room.title}), 200

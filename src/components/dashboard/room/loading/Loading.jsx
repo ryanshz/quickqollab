@@ -1,7 +1,7 @@
 import React from 'react';
 import { RefreshCw, Search } from 'lucide-react';
 
-const Loading = ({ isLoading, children, numRows = 4, isRefreshing }) => {
+const Loading = ({ isLoading, children, numRows = 5, isRefreshing }) => {
 	const renderLoadingRow = () => (
 		<tr>
 			<th>
@@ -24,6 +24,9 @@ const Loading = ({ isLoading, children, numRows = 4, isRefreshing }) => {
 			<td className=''>
 				<div className='skeleton h-4 w-full'></div>
 			</td>
+			<th>
+				<div className='skeleton h-4 w-full'></div>
+			</th>
 			<th>
 				<div className='skeleton h-4 w-full'></div>
 			</th>
@@ -66,6 +69,7 @@ const Loading = ({ isLoading, children, numRows = 4, isRefreshing }) => {
 									<th className='w-64'>Host</th>
 									<th className='w-58'>Room name</th>
 									<th className='w-24'>Available</th>
+									<th className='w-20'>Delete Room</th>
 								</tr>
 							</thead>
 							<tbody>
