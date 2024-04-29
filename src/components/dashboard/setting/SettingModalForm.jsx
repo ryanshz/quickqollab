@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../middleware/AuthContext';
 import { toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { api } from '../../../config/tunnel';
 
 const SettingModalForm = () => {
 	const navigate = useNavigate();
@@ -24,23 +25,23 @@ const SettingModalForm = () => {
 	});
 
 	const resetForm = () => {
-        setFormData({
-            username: '',
-            password: '',
-            email: '',
+		setFormData({
+			username: '',
+			password: '',
+			email: '',
 			profile_picture: null,
-        });
-        setErrors({
-            username: '',
-            password: '',
-            email: '',
-            authentication: '',
-        });
+		});
+		setErrors({
+			username: '',
+			password: '',
+			email: '',
+			authentication: '',
+		});
 		document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('email').value = '';
+		document.getElementById('password').value = '';
+		document.getElementById('email').value = '';
 		document.getElementById('profile_picture').value = '';
-    };
+	};
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -52,10 +53,9 @@ const SettingModalForm = () => {
 		const file = e.target.files[0];
 		if (!file.type.startsWith('image/')) {
 			setErrors({ ...errors, profile_picture: 'Unsupported file type, please select an image file.' });
-			setFormData({ ...formData, profile_picture: null }); 
+			setFormData({ ...formData, profile_picture: null });
 			return;
-		}
-		else {
+		} else {
 			setErrors({ ...errors, profile_picture: '' });
 		}
 		const reader = new FileReader();
@@ -65,8 +65,7 @@ const SettingModalForm = () => {
 		};
 		reader.readAsDataURL(file);
 	};
-	
-	
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const errorsCopy = { ...errors };
@@ -94,7 +93,12 @@ const SettingModalForm = () => {
 			errorsCopy.email = '';
 		}
 
-		if (!formData.username.trim() && !formData.password.trim() && !formData.email.trim() && !formData.profile_picture) {
+		if (
+			!formData.username.trim() &&
+			!formData.password.trim() &&
+			!formData.email.trim() &&
+			!formData.profile_picture
+		) {
 			errorsCopy.username = 'At least one field is required';
 			errorsCopy.password = 'At least one field is required';
 			errorsCopy.email = 'At least one field is required';
@@ -106,7 +110,7 @@ const SettingModalForm = () => {
 		console.log(JSON.stringify(formData));
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('http://127.0.0.1:5000/auth/update', {
+				const response = await fetch(`${api.flask_api}/auth/update`, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json',
@@ -150,7 +154,7 @@ const SettingModalForm = () => {
 	const handleLogout = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await fetch('http://127.0.0.1:5000/auth/logout', {
+			const response = await fetch(`${api.flask_api}/auth/logout`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
@@ -216,12 +220,14 @@ const SettingModalForm = () => {
 						{errors.email && <p className='text-red-500'>{errors.email}</p>}
 					</label>
 					<label>
-						<input type='file' 
-						id='profile_picture'
-						name='profile_picture'
-						onChange={handleFileChange}
-						className='file-input file-input-bordered w-full ' 
-						accept='image/*'/>
+						<input
+							type='file'
+							id='profile_picture'
+							name='profile_picture'
+							onChange={handleFileChange}
+							className='file-input file-input-bordered w-full '
+							accept='image/*'
+						/>
 						{errors.profile_picture && <p className='text-red-500'>{errors.profile_picture}</p>}
 					</label>
 					<div className='flex flex-row justify-between'>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../middleware/AuthContext';
 import { ArrowUpAZ, UsersRound, Mail } from 'lucide-react';
+import { api } from '../../config/tunnel';
 
 const SignUpForm = () => {
 	const navigate = useNavigate();
@@ -55,7 +56,7 @@ const SignUpForm = () => {
 
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('http://127.0.0.1:5000/auth/signup', {
+				const response = await fetch(`${api.flask_api}/auth/signup`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

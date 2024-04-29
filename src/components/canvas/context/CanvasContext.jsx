@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { socketConfig } from '../../../config/site-config';
+import { api } from '../../../config/tunnel';
 
 const CanvasContext = createContext(null);
 
 export const useCanvas = () => useContext(CanvasContext);
-const socket = io(socketConfig.socket);
+const socket = io(api.flask_api);
 
 export const CanvasProvider = ({ children }) => {
 	const [currentTool, setCurrentTool] = useState('scribble');

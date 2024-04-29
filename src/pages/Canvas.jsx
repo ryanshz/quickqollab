@@ -6,6 +6,7 @@ import PasswordForm from '../components/canvas/auth/PasswordForm';
 import { CanvasProvider } from '../components/canvas/context/CanvasContext';
 import { toast, Flip, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { api } from '../config/tunnel';
 
 function Canvas() {
 	// const message = location.state.message;
@@ -20,7 +21,7 @@ function Canvas() {
 	useEffect(() => {
 		// If room data is not in the state, fetch it
 		if (!room) {
-			fetch(`http://127.0.0.1:5000/room/room_validate/${roomId}`)
+			fetch(`${api.flask_api}/${roomId}`)
 				.then((response) => response.json())
 				.then((data) => {
 					if (data.success) {

@@ -3,11 +3,11 @@ import SearchForm from './room/SearchForm';
 import Loading from './room/loading/Loading';
 import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-import { socketConfig } from '../../config/site-config';
+import { api } from '../../config/tunnel';
 import Refresh from './room/Refresh';
-import { useAuth } from '../../middleware/AuthContext'
+import { useAuth } from '../../middleware/AuthContext';
 
-const socket = io(socketConfig.socket);
+const socket = io(api.flask_api);
 const RoomBox = () => {
 	const { user } = useAuth();
 	const generateRandomOccupancy = () => Math.floor(Math.random() * 10) + 1;
@@ -26,7 +26,7 @@ const RoomBox = () => {
 		setLoading(true);
 		setRefresh(true);
 		try {
-			const response = await fetch('http://localhost:5000/room/all');
+			const response = await fetch(`${api.flask_api}/room/all`);
 			const data = await response.json();
 			if (response.ok) {
 				setRooms(data.rooms);
@@ -45,7 +45,7 @@ const RoomBox = () => {
 
 	const handleDeleteRoom = async (roomId) => {
 		try {
-			const response = await fetch(`http://127.0.0.1:5000/room/delete/${roomId}`, { 
+			const response = await fetch(`${api.flask_api}/room/delete/${roomId}`, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ const RoomBox = () => {
 				credentials: 'include',
 			});
 			fetchRooms();
-			if(!response.ok) { 
+			if (!response.ok) {
 				console.error('Failed to delete room');
 			}
 		} catch (error) {
@@ -70,7 +70,7 @@ const RoomBox = () => {
 		setLoading(true);
 		const encodedQuery = encodeURIComponent(query);
 		try {
-			const response = await fetch(`http://localhost:5000/room/search?query=${encodedQuery}`, {
+			const response = await fetch(`${api.flask_api}/room/search?query=${encodedQuery}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
@@ -150,17 +150,17 @@ const RoomBox = () => {
 											</button>
 										</th>
 										<th>
-										{user && room.host_id === user.client_id ?  (
-											<button
-												className='btn btn-sm rounded-md bg-red-500 text-white'
-												onClick={() => handleDeleteRoom(room.room_id)}>
-												Delete
-											</button>
-										) : (
-											<button className="btn btn-sm rounded-md" disabled="disabled">
-												Delete
-											</button>
-										)}
+											{user && room.host_id === user.client_id ? (
+												<button
+													className='btn btn-sm rounded-md bg-red-500 text-white'
+													onClick={() => handleDeleteRoom(room.room_id)}>
+													Delete
+												</button>
+											) : (
+												<button className='btn btn-sm rounded-md' disabled='disabled'>
+													Delete
+												</button>
+											)}
 										</th>
 									</tr>
 								);

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { socketConfig } from '../../../config/site-config';
+import { api } from '../../../config/tunnel';
 
-const socket = io(socketConfig.socket);
+const socket = io(api.flask_api);
 
 const CreateRoomModalForm = () => {
 	const navigate = useNavigate();
@@ -60,7 +60,7 @@ const CreateRoomModalForm = () => {
 
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('http://127.0.0.1:5000/room/new', {
+				const response = await fetch(`${api.flask_api}/room/new`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

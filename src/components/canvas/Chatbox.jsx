@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
-import { socketConfig } from '../../config/site-config';
+import { api } from '../../config/tunnel';
 import { useAuth } from '../../middleware/AuthContext';
 
 const Chatbox = () => {
@@ -11,7 +11,7 @@ const Chatbox = () => {
 	const chatRef = useRef(null);
 
 	useEffect(() => {
-		const newSocket = io(socketConfig.socket);
+		const newSocket = io(api.flask_api);
 		setSocket(newSocket);
 
 		newSocket.on('connect', () => {
