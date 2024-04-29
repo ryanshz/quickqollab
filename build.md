@@ -19,11 +19,9 @@ _Below are instructions for setting up a local database, which is required for F
 #### 3. Fill in the required information (you should have created a username and password upon installation of Datagrip). <br>
 <img src="https://github.com/ryanshz/quickqollab/assets/58790036/169e11ef-e4a7-4690-abac-bcc6eb1e387b" width="600" height="400">  <br>
 #### 4. Within the project directory `/api`, visit the `schema.sample.sql` and copy everything [CTRL + C or CMD + C] inside.  <br>
-<img src="https://github.com/ryanshz/quickqollab/assets/74262047/22681a30-37e5-476d-b66b-3e1b2881a0d8" width="600" height="400"> <br>
+<img src="https://github.com/ryanshz/quickqollab/assets/58790036/48fc3a64-df42-4faf-9f51-2ef3b2ac0fae" width="600" height="400"> <br>
 #### 5. Insert into the console and click the green play button.  <br>
-<img src="https://github.com/ryanshz/quickqollab/assets/74262047/bdc2e8ec-da98-461e-b4df-07af4fa61844" width="600" height="400"> <br>
-#### * Be sure to click this statement here.  <br>
-<img src="https://github.com/ryanshz/quickqollab/assets/74262047/f1d6d073-b5e6-453d-9570-2d6c493d5029" width="600" height="400"><br>
+<img src="https://github.com/ryanshz/quickqollab/assets/58790036/cabc9b20-35e7-4b3b-88e3-3831ea0defa2" width="600" height="400"> <br>
 #### 6. Create a `.env` file using the sample template from `.env.sample` within the `/api` directory. Secret key can be anything, for simplicity, use "abc" <br>
 <img src="https://github.com/ryanshz/quickqollab/assets/74262047/a14c33af-439c-4548-a5ba-efd0317dc51f" width="600" height="400"> <br>
 
@@ -46,7 +44,7 @@ _Assuming you are at the root of the project directory._
    sh ./setup.sh // Works the same
    ```
    ![setup](https://github.com/ryanshz/quickqollab/assets/58790036/73e34f0e-9cf8-48cf-b59b-9dca3f9530b5)
-3. Run `startup.sh` to start the project for now on. (Assuming you completed first-time setup).
+3. Run `startup.sh` to start the project again for now on. (Assuming you completed first-time setup).
    ```sh
    bash ./startup.sh
    ```
