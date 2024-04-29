@@ -153,12 +153,9 @@ const RoomBox = () => {
 												onClick={() => {
 													console.log('Password Hash:', room.password_hash);
 
-													if (
-														user.client_id == room.host_id
-													) { 
+													if (user.client_id === room.host_id) {
 														handleJoinRoom(room.room_id);
-													}
-													else if (
+													} else if (
 														room.password_hash !== null &&
 														room.password_hash !== undefined
 													) {

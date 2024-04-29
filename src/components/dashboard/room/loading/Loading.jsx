@@ -68,8 +68,8 @@ const Loading = ({ isLoading, children, numRows = 4, isRefreshing }) => {
 									<th className='w-8'># of users</th>
 									<th className='w-64'>Host</th>
 									<th className='w-58'>Room name</th>
-									<th className='w-24'>Available</th>
-									<th className='w-20'>Delete Room</th>
+									<th className=''>Available</th>
+									<th className=''>Delete Room</th>
 								</tr>
 							</thead>
 							<tbody>
