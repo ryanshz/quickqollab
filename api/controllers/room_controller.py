@@ -43,10 +43,10 @@ def get_all_rooms():
             "title": room.title,
             "username": room.username,
             "host_id": room.host_id,
-            "profile_picture": base64.b64encode(room.profile_picture).decode('utf-8'),
-            "password_hash": room.password_hash 
+            "profile_picture": base64.b64encode(room.profile_picture).decode('utf-8') 
             if room.profile_picture 
-            else None
+            else None,
+            "password_hash": room.password_hash 
         } for room in rooms
     ]
     return {"rooms": room_list}, 200
