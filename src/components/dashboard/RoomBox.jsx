@@ -5,6 +5,7 @@ import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 import { socketConfig } from '../../config/site-config';
 import Refresh from './room/Refresh';
+import PasswordForm from './room/PasswordForm';
 import { useAuth } from '../../middleware/AuthContext';
 
 const socket = io(socketConfig.socket);
@@ -15,6 +16,7 @@ const RoomBox = () => {
 	const [loading, setLoading] = useState(true);
 	const [refresh, setRefresh] = useState(false);
 	const [queryNotFound, setQueryNotFound] = useState(false);
+	const [selectedRoom, setSelectedRoom] = useState(null);
 
 	const navigate = useNavigate();
 
@@ -25,6 +27,7 @@ const RoomBox = () => {
 	const fetchRooms = async () => {
 		setLoading(true);
 		setRefresh(true);
+		console.log(user);
 		try {
 			const response = await fetch('http://localhost:5000/room/all');
 			const data = await response.json();
@@ -147,7 +150,25 @@ const RoomBox = () => {
 										<th>
 											<button
 												className='btn btn-sm rounded-md btn-success'
-												onClick={() => handleJoinRoom(room.room_id)}>
+												onClick={() => {
+													console.log('Password Hash:', room.password_hash);
+
+													if (
+														user.client_id == room.host_id
+													) { 
+														handleJoinRoom(room.room_id);
+													}
+													else if (
+														room.password_hash !== null &&
+														room.password_hash !== undefined
+													) {
+														setSelectedRoom({ roomID: room.room_id, title: room.title });
+														document.getElementById('create-password-modal').showModal();
+													} else {
+														// Join the room
+														handleJoinRoom(room.room_id);
+													}
+												}}>
 												Join
 											</button>
 										</th>
@@ -201,6 +222,11 @@ const RoomBox = () => {
 					</tbody>
 				</table>
 			</div>
+			<dialog id='create-password-modal' className='modal w-full h-full'>
+				<div className='modal-box'>
+					{selectedRoom && <PasswordForm title={selectedRoom.title} roomID={selectedRoom.roomID} />}
+				</div>
+			</dialog>
 		</Loading>
 	);
 };

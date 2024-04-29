@@ -58,6 +58,7 @@ class Room(db.Model):
                 'title': room.title,
                 'date_created': room.date_created,
                 'host_id': room.host_id, # client_id of host
+                'password_hash': room.password_hash
             }
         else:
             return {'error': 'room not found'}
@@ -70,7 +71,8 @@ class Room(db.Model):
             Room.title,
             Room.host_id,
             Client.username,
-            Client.profile_picture
+            Client.profile_picture,
+            Room.password_hash
         ).join(Client, Room.host_id == Client.client_id).all()
         
     @staticmethod
