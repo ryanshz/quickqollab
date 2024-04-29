@@ -5,7 +5,7 @@ import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 import { socketConfig } from '../../config/site-config';
 import Refresh from './room/Refresh';
-import { useAuth } from '../../middleware/AuthContext'
+import { useAuth } from '../../middleware/AuthContext';
 
 const socket = io(socketConfig.socket);
 const RoomBox = () => {
@@ -45,7 +45,7 @@ const RoomBox = () => {
 
 	const handleDeleteRoom = async (roomId) => {
 		try {
-			const response = await fetch(`http://127.0.0.1:5000/room/delete/${roomId}`, { 
+			const response = await fetch(`http://127.0.0.1:5000/room/delete/${roomId}`, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ const RoomBox = () => {
 				credentials: 'include',
 			});
 			fetchRooms();
-			if(!response.ok) { 
+			if (!response.ok) {
 				console.error('Failed to delete room');
 			}
 		} catch (error) {
@@ -62,7 +62,7 @@ const RoomBox = () => {
 	};
 
 	const handleJoinRoom = (roomId) => {
-		socket.emit('join_room', { room_id: roomId }); 
+		socket.emit('join_room', { room_id: roomId });
 		// console.log(user.username);
 		socket.emit('toast_message', user.username);
 		navigate(`/canvas/${roomId}`);
@@ -152,24 +152,24 @@ const RoomBox = () => {
 											</button>
 										</th>
 										<th>
-										{user && room.host_id === user.client_id ?  (
-											<button
-												className='btn btn-sm rounded-md bg-red-500 text-white'
-												onClick={() => handleDeleteRoom(room.room_id)}>
-												Delete
-											</button>
-										) : (
-											<button className="btn btn-sm rounded-md" disabled="disabled">
-												Delete
-											</button>
-										)}
+											{user && room.host_id === user.client_id ? (
+												<button
+													className='btn btn-sm rounded-md bg-red-500 text-white'
+													onClick={() => handleDeleteRoom(room.room_id)}>
+													Delete
+												</button>
+											) : (
+												<button className='btn btn-sm rounded-md' disabled='disabled'>
+													Delete
+												</button>
+											)}
 										</th>
 									</tr>
 								);
 							})
 						) : queryNotFound ? (
 							<tr>
-								<td colSpan='4' rowSpan='4' className='text-center'>
+								<td colSpan='5' rowSpan='5' className='text-center'>
 									<div className='flex flex-col items-center justify-center h-full'>
 										<div className='w-1/2 h-1/2 pt-5'>
 											<img
@@ -184,7 +184,7 @@ const RoomBox = () => {
 							</tr>
 						) : (
 							<tr>
-								<td colSpan='4' rowSpan='4' className='text-center'>
+								<td colSpan='5' rowSpan='5' className='text-center'>
 									<div className='flex flex-col items-center justify-center h-full'>
 										<div className='w-1/2 h-1/2 pt-5'>
 											<img
