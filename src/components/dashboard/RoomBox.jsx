@@ -27,6 +27,7 @@ const RoomBox = () => {
 	const fetchRooms = async () => {
 		setLoading(true);
 		setRefresh(true);
+		console.log(user);
 		try {
 			const response = await fetch('http://localhost:5000/room/all');
 			const data = await response.json();
@@ -153,6 +154,11 @@ const RoomBox = () => {
 													console.log('Password Hash:', room.password_hash);
 
 													if (
+														user.client_id == room.host_id
+													) { 
+														handleJoinRoom(room.room_id);
+													}
+													else if (
 														room.password_hash !== null &&
 														room.password_hash !== undefined
 													) {
@@ -165,24 +171,6 @@ const RoomBox = () => {
 												}}>
 												Join
 											</button>
-											{/* {showPasswordForm && (
-												<div className='modal-box'>
-													<PasswordForm />
-												</div>
-											)} */}
-										</th>
-										<th>
-										{user && room.host_id === user.client_id ?  (
-											<button
-												className='btn btn-sm rounded-md bg-red-500 text-white'
-												onClick={() => handleDeleteRoom(room.room_id)}>
-												Delete
-											</button>
-										) : (
-											<button className="btn btn-sm rounded-md" disabled="disabled">
-												Delete
-											</button>
-										)}
 										</th>
 										<th>
 										{user && room.host_id === user.client_id ?  (
