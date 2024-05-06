@@ -16,7 +16,8 @@ RUN npm run build
 
 # Install serve to serve the app on port 3000
 RUN npm install -g serve
+
+ENV PORT=3000
 CMD ["npm", "start"]
 
-# Make port 3000 available outside this container
-EXPOSE 3000
+
