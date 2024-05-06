@@ -60,7 +60,7 @@ const CreateRoomModalForm = () => {
 
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('http://127.0.0.1:5000/room/new', {
+				const response = await fetch('/room/new', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

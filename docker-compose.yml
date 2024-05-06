@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+    db:
+        image: postgres
+        volumes:
+            - ./data/db:/var/lib/postgresql/data
+            - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+        environment:
+            POSTGRES_DB: quickqollab_db
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: abc
+        ports:
+            - '5432:5432'
+
+    api:
+        build: ./api
+        ports:
+            - '5000:5000'
+        depends_on:
+            - db
+        environment:
+            DB_USER: postgres
+            DB_PASS: abc
+            DB_HOST: db
+            DB_PORT: 5432
+            DB_NAME: quickqollab_db
+            FLASK_APP: app.py
+            FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
+        volumes:
+            - ./api:/app
+
+    frontend:
+        build: .
+        volumes:
+            - .:/app
+            - ./public:/app/public
+        ports:
+            - '3000:3000'
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        depends_on:
+            - api

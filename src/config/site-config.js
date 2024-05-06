@@ -54,35 +54,35 @@ const TeamInfoGridItem = [
 		role: 'Developer & Scrum Manager',
 		description:
 			'Brandon leads our team with a focus on clear communication and project milestones, ensuring that our development efforts are aligned and on track. His strategic planning and coding expertise drive our project forward.',
-		picture: '/team pics/Brandon.png',
+		picture: '/team/Brandon.png',
 	},
 	{
 		name: 'Carlos Garcia Alavez',
 		role: 'Developer',
 		description:
 			'Carlos excels in the backend, where he architects robust solutions and ensures our systems are scalable and efficient. His commitment to code quality and performance makes him an invaluable asset to our backend development.',
-		picture: '/team pics/Carlos.jpg',
+		picture: '/team/Carlos.jpg',
 	},
 	{
 		name: 'Damon Nitsavong',
 		role: 'Developer',
 		description:
 			"Damon is a steadfast developer who contributes significantly to our project's progress. His attention to detail and ability to tackle development challenges head-on make him a reliable force in our coding endeavors.",
-		picture: '/team pics/Damon.jpg',
+		picture: '/team/Damon.jpg',
 	},
 	{
 		name: 'Phillip Chang',
 		role: 'Developer',
 		description:
 			'Phillip has played a crucial role in developing our whiteboard and canvas functionalities, turning complex requirements into intuitive features. His innovative approach to problem-solving enhances our application’s interactive capabilities.',
-		picture: '/team pics/Phillip.png',
+		picture: '/team/Phillip.png',
 	},
 	{
 		name: 'Ryan Shultz',
 		role: 'Developer & Project Manager',
 		description:
 			'Ryan combines his development skills with project management to keep our team focused and efficient. His work on the whiteboard and canvas features has been instrumental in providing a seamless user experience.',
-		picture: '/team pics/Ryan.gif',
+		picture: '/team/Ryan.gif',
 	},
 ];
 

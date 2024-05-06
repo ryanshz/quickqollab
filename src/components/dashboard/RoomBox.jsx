@@ -29,7 +29,7 @@ const RoomBox = () => {
 		setRefresh(true);
 		console.log(user);
 		try {
-			const response = await fetch('http://localhost:5000/room/all');
+			const response = await fetch('/room/all');
 			const data = await response.json();
 			if (response.ok) {
 				setRooms(data.rooms);
@@ -48,7 +48,7 @@ const RoomBox = () => {
 
 	const handleDeleteRoom = async (roomId) => {
 		try {
-			const response = await fetch(`http://127.0.0.1:5000/room/delete/${roomId}`, {
+			const response = await fetch(`/room/delete/${roomId}`, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ const RoomBox = () => {
 		setLoading(true);
 		const encodedQuery = encodeURIComponent(query);
 		try {
-			const response = await fetch(`http://localhost:5000/room/search?query=${encodedQuery}`, {
+			const response = await fetch(`/room/search?query=${encodedQuery}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',

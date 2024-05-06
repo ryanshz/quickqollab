@@ -55,7 +55,7 @@ const SignUpForm = () => {
 
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('http://127.0.0.1:5000/auth/signup', {
+				const response = await fetch('/auth/signup', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

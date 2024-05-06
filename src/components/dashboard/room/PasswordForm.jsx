@@ -27,9 +27,9 @@ const PasswordForm = ({ title, roomID }) => {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		console.log(name)
-		console.log(value)
-		console.log(roomID)
+		console.log(name);
+		console.log(value);
+		console.log(roomID);
 		setFormData({ ...formData, [name]: value });
 		setErrors({ ...errors, [name]: '' });
 	};
@@ -51,11 +51,11 @@ const PasswordForm = ({ title, roomID }) => {
 			errorsCopy.roompassword = '';
 		}
 
-		console.log(formData.roompassword)
+		console.log(formData.roompassword);
 
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('http://127.0.0.1:5000/room/verify_password', {
+				const response = await fetch('/room/verify_password', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
