@@ -26,7 +26,7 @@
 	},
 	"scripts": {
 		"start-react": "react-scripts start",
-		"start": "npm run start-react",
+		"start": "npm run start-react --disableHostCheck=true",
 		"build": "react-scripts build"
 	},
 	"eslintConfig": {
