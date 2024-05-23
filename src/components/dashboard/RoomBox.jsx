@@ -7,6 +7,7 @@ import { socketConfig } from '../../config/site-config';
 import Refresh from './room/Refresh';
 import PasswordForm from './room/PasswordForm';
 import { useAuth } from '../../middleware/AuthContext';
+import { api } from '../../config/site-config';
 
 const socket = io(socketConfig.socket);
 const RoomBox = () => {
@@ -29,7 +30,7 @@ const RoomBox = () => {
 		setRefresh(true);
 		console.log(user);
 		try {
-			const response = await fetch('/room/all');
+			const response = await fetch(`${api}/room/all`);
 			const data = await response.json();
 			if (response.ok) {
 				setRooms(data.rooms);
@@ -48,7 +49,7 @@ const RoomBox = () => {
 
 	const handleDeleteRoom = async (roomId) => {
 		try {
-			const response = await fetch(`/room/delete/${roomId}`, {
+			const response = await fetch(`${api}/room/delete/${roomId}`, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json',
@@ -75,7 +76,7 @@ const RoomBox = () => {
 		setLoading(true);
 		const encodedQuery = encodeURIComponent(query);
 		try {
-			const response = await fetch(`/room/search?query=${encodedQuery}`, {
+			const response = await fetch(`${api}/room/search?query=${encodedQuery}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',

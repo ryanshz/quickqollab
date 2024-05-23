@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { socketConfig } from '../../../config/site-config';
+import { api } from '../../../config/site-config';
 
 const socket = io(socketConfig.socket);
 
@@ -60,7 +61,7 @@ const CreateRoomModalForm = () => {
 
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('/room/new', {
+				const response = await fetch(`${api}/room/new`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

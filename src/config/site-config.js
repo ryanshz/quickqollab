@@ -1,5 +1,9 @@
 export const socketConfig = {
-	socket: 'http://127.0.0.1:5000/',
+	socket: 'http://backend:5000/',
+};
+
+export const api = {
+	api: 'http://backend:5000',
 };
 
 const HeroGridItem = [

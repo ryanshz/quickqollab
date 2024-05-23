@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../middleware/AuthContext';
 import { toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { api } from '../../../config/site-config';
 
 const PasswordForm = ({ title, roomID }) => {
 	const navigate = useNavigate();
@@ -55,7 +56,7 @@ const PasswordForm = ({ title, roomID }) => {
 
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('/room/verify_password', {
+				const response = await fetch(`${api}/room/verify_password`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

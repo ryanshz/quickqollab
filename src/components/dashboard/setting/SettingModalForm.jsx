@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../middleware/AuthContext';
 import { toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { api } from '../../../config/site-config';
 
 const SettingModalForm = () => {
 	const navigate = useNavigate();
@@ -108,7 +109,7 @@ const SettingModalForm = () => {
 		setErrors(errorsCopy);
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('/auth/update', {
+				const response = await fetch(`${api}/auth/update`, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json',
@@ -152,7 +153,7 @@ const SettingModalForm = () => {
 	const handleLogout = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await fetch('/auth/logout', {
+			const response = await fetch(`${api}/auth/logout`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',

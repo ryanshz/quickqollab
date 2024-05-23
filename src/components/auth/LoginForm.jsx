@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../middleware/AuthContext';
 import { ArrowUpAZ, UsersRound } from 'lucide-react';
+import { api } from '../../config/site-config';
 
 const LoginForm = () => {
 	const navigate = useNavigate();
@@ -47,7 +48,7 @@ const LoginForm = () => {
 
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('/auth/login', {
+				const response = await fetch(`${api}/auth/login`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

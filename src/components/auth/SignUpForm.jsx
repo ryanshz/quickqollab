@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../middleware/AuthContext';
 import { ArrowUpAZ, UsersRound, Mail } from 'lucide-react';
-
+import { api } from '../../config/site-config';
 const SignUpForm = () => {
 	const navigate = useNavigate();
 	const { login } = useAuth();
@@ -55,7 +55,7 @@ const SignUpForm = () => {
 
 		if (Object.values(errorsCopy).every((error) => !error)) {
 			try {
-				const response = await fetch('/auth/signup', {
+				const response = await fetch(`${api}/auth/signup`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
