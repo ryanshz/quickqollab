@@ -15,7 +15,7 @@ class Client(db.Model):
     email = Column(String(255), nullable=False, unique=True)
     password_hash = Column(String(255), nullable=False)
     date_created = Column(DateTime, default=datetime.utcnow)
-    lobbies = db.relationship('Room', secondary=Lobby, back_populates='clients')
+    lobbies = db.relationship('Room', secondary='lobby', back_populates='clients')
     profile_picture = Column(LargeBinary)
 
     def save(self, password):

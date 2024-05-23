@@ -1,5 +1,5 @@
 # Use an official Node runtime as a parent image
-FROM node:16
+FROM node:18-alpine
 
 # Set the working directory in the container
 WORKDIR /app
@@ -11,13 +11,8 @@ RUN npm install
 # Copy the rest of your app's source code
 COPY . .
 
-# Build the React application
-RUN npm run build
+# Expose port 3000
+EXPOSE 3000
 
-# Install serve to serve the app on port 3000
-RUN npm install -g serve
-
-ENV PORT=3000
+# Command to run the React application
 CMD ["npm", "start"]
-
-

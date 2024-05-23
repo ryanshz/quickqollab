@@ -1,42 +1,52 @@
 version: '3.8'
-services:
-    db:
-        image: postgres
-        volumes:
-            - ./data/db:/var/lib/postgresql/data
-            - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-        environment:
-            POSTGRES_DB: quickqollab_db
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: abc
-        ports:
-            - '5432:5432'
 
-    api:
-        build: ./api
+services:
+    frontend:
+        build:
+            context: .
+        ports:
+            - '3000:3000'
+        networks:
+            - app-network
+
+    backend:
+        build:
+            context: ./api
         ports:
             - '5000:5000'
         depends_on:
-            - db
+            - postgres
+        networks:
+            - app-network
         environment:
+            FLASK_SECRET_KEY: cheese
             DB_USER: postgres
             DB_PASS: abc
-            DB_HOST: db
+            DB_HOST: postgres
             DB_PORT: 5432
-            DB_NAME: quickqollab_db
-            FLASK_APP: app.py
-            FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
-        volumes:
-            - ./api:/app
-
-    frontend:
-        build: .
-        volumes:
-            - .:/app
-            - ./public:/app/public
+            DB_NAME: rep_db
+        command:
+            - /bin/sh
+            - -c
+            - |
+                gunicorn -k eventlet --bind 0.0.0.0:5000 app:app
+    postgres:
+        image: postgres:15-alpine
         ports:
-            - '3000:3000'
+            - '5432:5432'
         environment:
-            - CHOKIDAR_USEPOLLING=true
-        depends_on:
-            - api
+            POSTGRES_DB: rep_db
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: abc
+            POSTGRES_HOST_AUTH_METHOD: trust
+        networks:
+            - app-network
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    postgres_data:

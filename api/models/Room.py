@@ -8,8 +8,8 @@ from sqlalchemy.dialects.postgresql import UUID
 
 Lobby = db.Table('lobby',
     db.Column('id', db.Integer, primary_key=True),
-    db.Column('client_id', db.String(36), db.ForeignKey('client.client_id'), nullable=False),  
-    db.Column('room_id', db.String(36), db.ForeignKey('room.room_id'), nullable=False),  
+    db.Column('client_id', UUID(as_uuid=True), db.ForeignKey('client.client_id'), nullable=False),
+    db.Column('room_id', UUID(as_uuid=True), db.ForeignKey('room.room_id'), nullable=False),
     db.Column('join_date', db.DateTime, default=db.func.current_timestamp())
 )
 
@@ -19,7 +19,7 @@ class Room(db.Model):
     title = Column(String(100), nullable=False)
     password_hash = Column(String(255), nullable=True)
     date_created = Column(DateTime, default=datetime.utcnow)
-    host_id = db.Column(db.String(36), db.ForeignKey('client.client_id'), nullable=False)
+    host_id = db.Column(UUID(as_uuid=True), db.ForeignKey('client.client_id'), nullable=False)
     clients = db.relationship('Client', secondary=Lobby, back_populates='lobbies')
 
     def save(self, password):
