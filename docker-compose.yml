@@ -8,6 +8,9 @@ services:
             - '3000:3000'
         networks:
             - app-network
+        environment:
+            - HOST=0.0.0.0
+            - CHOKIDAR_USEPOLLING=true
 
     backend:
         build:
