@@ -25,11 +25,9 @@ services:
             DB_HOST: postgres
             DB_PORT: 5432
             DB_NAME: rep_db
-        command:
-            - /bin/sh
-            - -c
-            - |
-                gunicorn -k eventlet --bind 0.0.0.0:5000 app:app
+        entrypoint: ['/app/entrypoint.sh']
+        command: ['gunicorn', '-k', 'eventlet', '--bind', '0.0.0.0:5000', 'app:app']
+
     postgres:
         image: postgres:15-alpine
         ports:
