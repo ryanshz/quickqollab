@@ -11,8 +11,8 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-QuickQollab allows teams to access a simple website and collaborate in an online whiteboard environment. The whiteboard will update as people write and discuss their ideas in real-time.
+**This is our Final Senior Capstone Project (ITSC 4155 | Spring 2024).** <br/>
+quickqollab allows teams to access a simple website and collaborate in an online whiteboard environment. The whiteboard will update as people write and discuss their ideas in real time.
 
 ### Built With
 
@@ -27,12 +27,29 @@ QuickQollab allows teams to access a simple website and collaborate in an online
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
-
 ![image](https://github.com/ryanshz/quickqollab/assets/58790036/0704400d-f10f-429e-afe6-29ac3ba457a2)
 
-## Screenshots
-![image](https://github.com/ryanshz/quickqollab/assets/58790036/352f6374-20db-4c5a-9f37-043521edef04)
+### Breakdown
+* When we began our project, most of us needed to gain relevant experience in developing a full-fledged web application. We had no experience developing `React.js` and building a consumable API with `Flask`. Now, we have managed and successfully met our goal!
+* The software methodologies used was a crude version of Agile with weekly sprints managed under Brandon.
+  * Weekly sprint meetings (Monday & Thursday at 9:00 pm EST).
+  * Used Github Projects for managing and assigning user stories till completion.
+  * Releases are made after a successful milestone or before a deadline.
+  * Peer programming only occurs when necessary.
+* Mistakes:
+  * Not using Docker - Our local development wasn't standardized. As a result, some team members ran into issues running their projects in their local environment.
+    * Untraceable errors and compiling issues arise.
+    * If we had docker, we could standardize our local development and avoid hearing the usual phrase "This works on my computer though".
+  * Concurrently NPM package - To have `Flask` & `React.js` run simultaneously, we needed to set up this npm library.
+    * It worked fine, but we could have used Docker to containerize our application easily.
+      * This also includes our database, meaning that in one image we will have three containers that run consecutively and can still communicate with one another.
+  * Konva.js - With the whiteboard mechanic, we decided to use the standard `canvas.js`.
+    * It was not heavily abstracted and we spent lots of time setting up the whiteboard and the socket mechanic.
+    * `Konva.js` is a framework built around `canvas.js`, allowing us to implement a working prototype quickly.
 
+## Screenshots
+[Watch the demo on YouTube](https://www.youtube.com/watch?v=J53p7FxwRv8)
+![Screenshot 2024-06-05 103844](https://github.com/ryanshz/quickqollab/assets/58790036/7c8f4b9c-cdbe-40f0-a3a7-a70e351ca9ea)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
