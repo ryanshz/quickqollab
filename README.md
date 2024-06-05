@@ -49,8 +49,11 @@ quickqollab allows teams to access a simple website and collaborate in an online
     * `Konva.js` is a framework built around `canvas.js`, allowing us to implement a working prototype quickly.
   * Lack of comments & proper code documentation - We're beginners and we're learning as we develop our project.
     * A lack of documentation and comments meant that each developer had to read lots of source code to gain a better context.
-    * Our meetings are usually an hour long, and most of the time we discuss and try to resolve our misunderstandings or address user story issues.
-    * Though, the process would have been rudimentary if everything had been documented beforehand to reduce the weight of uncertainty. 
+    * Our meetings are usually an hour long, and we discuss and try to resolve our misunderstandings or address user story issues.
+    * Though, the process would have been rudimentary if everything had been documented beforehand to reduce the weight of uncertainty.
+* Project structure:
+  * Our project is set up initially with `React.js` where the `src` folder contains most of the `.jsx` files & other react components. `Flask` file systems are under the `api` folder.
+  * For streamlining development and setup workflows, we created two `bash sh` scripts. One for initial project setup & the other for routinely starting our project for development. All **instructions** are located in the `build.md`.
 
 ## Screenshots
 [Watch the demo on YouTube](https://www.youtube.com/watch?v=J53p7FxwRv8)
