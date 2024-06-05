@@ -30,7 +30,7 @@ quickqollab allows teams to access a simple website and collaborate in an online
 ![image](https://github.com/ryanshz/quickqollab/assets/58790036/0704400d-f10f-429e-afe6-29ac3ba457a2)
 
 ### Breakdown
-* When we began our project, most of us needed to gain relevant experience in developing a full-fledged web application. We had no experience developing `React.js` and building a consumable API with `Flask`. Now, we have managed and successfully met our goal!
+* When we began our project, most of us needed to gain relevant experience in developing a full-fledged web application. We had no experience developing `React.js` and building a consumable API with `Flask`. Now here we are! We managed and successfully met our goal!
 * The software methodologies used was a crude version of Agile with weekly sprints managed under Brandon.
   * Weekly sprint meetings (Monday & Thursday at 9:00 pm EST).
   * Used Github Projects for managing and assigning user stories till completion.
@@ -43,9 +43,14 @@ quickqollab allows teams to access a simple website and collaborate in an online
   * Concurrently NPM package - To have `Flask` & `React.js` run simultaneously, we needed to set up this npm library.
     * It worked fine, but we could have used Docker to containerize our application easily.
       * This also includes our database, meaning that in one image we will have three containers that run consecutively and can still communicate with one another.
+      * This approach would prevent everyone from installing `PostgreSQL` & a database IDE on their computer since the database would be containerized either way.
   * Konva.js - With the whiteboard mechanic, we decided to use the standard `canvas.js`.
     * It was not heavily abstracted and we spent lots of time setting up the whiteboard and the socket mechanic.
     * `Konva.js` is a framework built around `canvas.js`, allowing us to implement a working prototype quickly.
+  * Lack of comments & proper code documentation - We're beginners and we're learning as we develop our project.
+    * A lack of documentation and comments meant that each developer had to read lots of source code to gain a better context.
+    * Our meetings are usually an hour long, and most of the time we discuss and try to resolve our misunderstandings or address user story issues.
+    * Though, the process would have been rudimentary if everything had been documented beforehand to reduce the weight of uncertainty. 
 
 ## Screenshots
 [Watch the demo on YouTube](https://www.youtube.com/watch?v=J53p7FxwRv8)
