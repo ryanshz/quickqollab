@@ -54,6 +54,23 @@ quickqollab allows teams to access a simple website and collaborate in an online
 * Project structure:
   * Our project is set up initially with `React.js` where the `src` folder contains most of the `.jsx` files & other react components. `Flask` file systems are under the `api` folder.
   * For streamlining development and setup workflows, we created two `bash sh` scripts. One for initial project setup & the other for routinely starting our project for development. All **instructions** are located in the `build.md`.
+  * `public` folder holds our pictures, videos, and other related media.
+  * Within our `src` folder:
+    * `components` holds the building block for each page.
+    * `config` contains static data (which are not utilized anymore due to mitigation to the database).
+    * `middleware` handles our authentication context - Protected routes, Redirects, & session storage (stored locally in the browser or client-side).
+    * `pages` are the main component (parent). All of the building blocks from the `component` folder correspond under the parent component tree (pages).
+  * Within our `api` folder:
+    * We used the MVC architecture (Model View Controller). The view was not required because we wanted to send a JSON payload to `React.js` to consume.
+    * Dependency injection design is implemented to prevent having other object instances with a different configuration to prevent unexpected behavior in our API.
+      * Libraries such as `bcrypt`, `sqlalchemy`, `cors`, & `socketio` are initialized within `app.py` only once.
+        * This approach ensures reusability by referencing an instance externally instead of creating another object again.
+    * Blueprints are used to modularize our routing which comes with Flask.
+    * Model serves as the interface to our tables in our database.
+    * Controller has all the main business logic that is a callback to the corresponding routes.
+    * No tests were written (not enough time to implement).
+    * `utils` contains classes that instantiate an object (sqlalchemy, bcrypt).
+
 
 ## Screenshots
 [Watch the demo on YouTube](https://www.youtube.com/watch?v=J53p7FxwRv8)
