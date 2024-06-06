@@ -70,7 +70,12 @@ quickqollab allows teams to access a simple website and collaborate in an online
     * Controller has all the main business logic that is a callback to the corresponding routes.
     * No tests were written (not enough time to implement).
     * `utils` contains classes that instantiate an object (sqlalchemy, bcrypt).
+* General Architecture and Design mechanic:
+![Untitled Diagram](https://github.com/ryanshz/quickqollab/assets/58790036/0f5a5e5b-1ee9-45e0-97ba-c88698e201dc)
+![Untitled Diagram(1)](https://github.com/ryanshz/quickqollab/assets/58790036/d340219d-cd2d-4b26-9421-cc4219e8ff73)
 
+
+  
 
 ## Screenshots
 [Watch the demo on YouTube](https://www.youtube.com/watch?v=J53p7FxwRv8)
