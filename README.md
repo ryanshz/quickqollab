@@ -3,7 +3,7 @@
 <div align="center">
   
     
-![logo](https://github.com/ryanshz/project4/assets/58790036/1e1f5a87-fe43-4cd9-8736-6a3a18d0ec3c)
+![logo](https://github-production-user-asset-6210df.s3.amazonaws.com/58790036/307171631-1e1f5a87-fe43-4cd9-8736-6a3a18d0ec3c.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241112%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241112T185427Z&X-Amz-Expires=300&X-Amz-Signature=b25ca840938e43f8a13e2d12515aa95019c4cfcfceaa19e3cda4dddc4d10ce45&X-Amz-SignedHeaders=host)
   </a>
   <h3 align="center">Collaborative Online Whiteboard</h3>
 </div>
