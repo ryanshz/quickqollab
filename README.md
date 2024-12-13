@@ -3,7 +3,7 @@
 <div align="center">
   
     
-![logo](https://github-production-user-asset-6210df.s3.amazonaws.com/58790036/307171631-1e1f5a87-fe43-4cd9-8736-6a3a18d0ec3c.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241112%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241112T185427Z&X-Amz-Expires=300&X-Amz-Signature=b25ca840938e43f8a13e2d12515aa95019c4cfcfceaa19e3cda4dddc4d10ce45&X-Amz-SignedHeaders=host)
+![logo](https://i.imgur.com/XMBkZ9E.png)
   </a>
   <h3 align="center">Collaborative Online Whiteboard</h3>
 </div>
@@ -12,7 +12,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 **This is our Final Senior Capstone Project (ITSC 4155 | Spring 2024).** <br/>
-quickqollab allows teams to access a simple website and collaborate in an online whiteboard environment. The whiteboard will update as people write and discuss their ideas in real time.
+quickqollab allows teams to access a simple website and collaborate in an online whiteboard environment. The whiteboard will update as people write and discuss their ideas in real-time.
 
 ### Built With
 
@@ -29,15 +29,17 @@ quickqollab allows teams to access a simple website and collaborate in an online
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![image](https://github.com/ryanshz/quickqollab/assets/58790036/0704400d-f10f-429e-afe6-29ac3ba457a2)
 
+### Youtube Video
+[Click here to watch a video demo on YouTube](https://www.youtube.com/watch?v=J53p7FxwRv8)
+
 ### Breakdown
-* When we began our project, most of us needed to gain relevant experience in developing a full-fledged web application. We had no experience developing `React.js` and building a consumable API with `Flask`. Now here we are! We managed and successfully met our goal!
-* The software methodologies used was a crude version of Agile with weekly sprints managed under Brandon.
+* The software methodologies used were a crude version of Agile with weekly sprints managed by Brandon.
   * Weekly sprint meetings (Monday & Thursday at 9:00 pm EST).
   * Used Github Projects for managing and assigning user stories till completion.
   * Releases are made after a successful milestone or before a deadline.
   * Peer programming only occurs when necessary.
 * Mistakes:
-  * Not using Docker - Our local development wasn't standardized. As a result, some team members ran into issues running their projects in their local environment.
+  * Not using Docker - Our local development wasn't standardized. As a result, some team members encountered issues running their projects in their local environment.
     * Untraceable errors and compiling issues arise.
     * If we had docker, we could standardize our local development and avoid hearing the usual phrase "This works on my computer though".
   * Concurrently NPM package - To have `Flask` & `React.js` run simultaneously, we needed to set up this npm library.
@@ -45,7 +47,7 @@ quickqollab allows teams to access a simple website and collaborate in an online
       * This also includes our database, meaning that in one image we will have three containers that run consecutively and can still communicate with one another.
       * This approach would prevent everyone from installing `PostgreSQL` & a database IDE on their computer since the database would be containerized either way.
   * Konva.js - With the whiteboard mechanic, we decided to use the standard `canvas.js`.
-    * It was not heavily abstracted and we spent lots of time setting up the whiteboard and the socket mechanic.
+    * It was not heavily abstracted, and we spent a lot of time setting up the whiteboard and the socket mechanic.
     * `Konva.js` is a framework built around `canvas.js`, allowing us to implement a working prototype quickly.
   * Lack of comments & proper code documentation - We're beginners and we're learning as we develop our project.
     * A lack of documentation and comments meant that each developer had to read lots of source code to gain a better context.
@@ -70,7 +72,7 @@ quickqollab allows teams to access a simple website and collaborate in an online
     * Controller has all the main business logic that is a callback to the corresponding routes.
     * No tests were written (not enough time to implement).
     * `utils` contains classes that instantiate an object (sqlalchemy, bcrypt).
-* General Architecture and Design mechanic:
+* General Architecture and Design mechanics:
 ![Untitled Diagram](https://github.com/ryanshz/quickqollab/assets/58790036/0f5a5e5b-1ee9-45e0-97ba-c88698e201dc)
 ![Untitled Diagram(1)](https://github.com/ryanshz/quickqollab/assets/58790036/d340219d-cd2d-4b26-9421-cc4219e8ff73)
 
@@ -78,7 +80,6 @@ quickqollab allows teams to access a simple website and collaborate in an online
   
 
 ## Screenshots
-[Watch the demo on YouTube](https://www.youtube.com/watch?v=J53p7FxwRv8)
 ![Screenshot 2024-06-05 103844](https://github.com/ryanshz/quickqollab/assets/58790036/7c8f4b9c-cdbe-40f0-a3a7-a70e351ca9ea)
 
 
@@ -99,12 +100,12 @@ quickqollab allows teams to access a simple website and collaborate in an online
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-![809959355772305418](https://github-production-user-asset-6210df.s3.amazonaws.com/58790036/307178289-de9aba98-6313-4e27-8434-f33ed5d5dc59.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241112%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241112T185607Z&X-Amz-Expires=300&X-Amz-Signature=b99dcf9bb140fd43a1c5f04294eb84263239b0c8552aed3df13ebbbaf145ad70&X-Amz-SignedHeaders=host)
-![809959355772305418](https://github-production-user-asset-6210df.s3.amazonaws.com/58790036/307178289-de9aba98-6313-4e27-8434-f33ed5d5dc59.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241112%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241112T185607Z&X-Amz-Expires=300&X-Amz-Signature=b99dcf9bb140fd43a1c5f04294eb84263239b0c8552aed3df13ebbbaf145ad70&X-Amz-SignedHeaders=host)
-![809959355772305418](https://github-production-user-asset-6210df.s3.amazonaws.com/58790036/307178289-de9aba98-6313-4e27-8434-f33ed5d5dc59.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241112%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241112T185607Z&X-Amz-Expires=300&X-Amz-Signature=b99dcf9bb140fd43a1c5f04294eb84263239b0c8552aed3df13ebbbaf145ad70&X-Amz-SignedHeaders=host)
-![809959355772305418](https://github-production-user-asset-6210df.s3.amazonaws.com/58790036/307178289-de9aba98-6313-4e27-8434-f33ed5d5dc59.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241112%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241112T185607Z&X-Amz-Expires=300&X-Amz-Signature=b99dcf9bb140fd43a1c5f04294eb84263239b0c8552aed3df13ebbbaf145ad70&X-Amz-SignedHeaders=host)
-![809959355772305418](https://github-production-user-asset-6210df.s3.amazonaws.com/58790036/307178289-de9aba98-6313-4e27-8434-f33ed5d5dc59.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241112%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241112T185607Z&X-Amz-Expires=300&X-Amz-Signature=b99dcf9bb140fd43a1c5f04294eb84263239b0c8552aed3df13ebbbaf145ad70&X-Amz-SignedHeaders=host)
-![809959355772305418](https://github-production-user-asset-6210df.s3.amazonaws.com/58790036/307178289-de9aba98-6313-4e27-8434-f33ed5d5dc59.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241112%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241112T185607Z&X-Amz-Expires=300&X-Amz-Signature=b99dcf9bb140fd43a1c5f04294eb84263239b0c8552aed3df13ebbbaf145ad70&X-Amz-SignedHeaders=host)
-![809959355772305418](https://github-production-user-asset-6210df.s3.amazonaws.com/58790036/307178289-de9aba98-6313-4e27-8434-f33ed5d5dc59.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241112%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241112T185607Z&X-Amz-Expires=300&X-Amz-Signature=b99dcf9bb140fd43a1c5f04294eb84263239b0c8552aed3df13ebbbaf145ad70&X-Amz-SignedHeaders=host)
-![809959355772305418](https://github-production-user-asset-6210df.s3.amazonaws.com/58790036/307178289-de9aba98-6313-4e27-8434-f33ed5d5dc59.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241112%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241112T185607Z&X-Amz-Expires=300&X-Amz-Signature=b99dcf9bb140fd43a1c5f04294eb84263239b0c8552aed3df13ebbbaf145ad70&X-Amz-SignedHeaders=host)
+![809959355772305418](https://i.imgur.com/8gMl1O2.png)
+![809959355772305418](https://i.imgur.com/8gMl1O2.png)
+![809959355772305418](https://i.imgur.com/8gMl1O2.png)
+![809959355772305418](https://i.imgur.com/8gMl1O2.png)
+![809959355772305418](https://i.imgur.com/8gMl1O2.png)
+![809959355772305418](https://i.imgur.com/8gMl1O2.png)
+![809959355772305418](https://i.imgur.com/8gMl1O2.png)
+
 
