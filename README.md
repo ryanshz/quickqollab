@@ -81,7 +81,8 @@ quickqollab allows teams to access a simple website and collaborate in an online
 
 ## Screenshots
 ![Screenshot 2024-06-05 103844](https://github.com/ryanshz/quickqollab/assets/58790036/7c8f4b9c-cdbe-40f0-a3a7-a70e351ca9ea)
-
+![Screenshot 2024-06-05 103844](https://i.imgur.com/DSG9ie3.gif)
+![Screenshot 2024-06-05 103844](https://i.imgur.com/zfDnU25.gif)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [product-screenshot]: images/screenshot.png
